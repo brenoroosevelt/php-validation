@@ -8,6 +8,9 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 
+/**
+ * Composite
+ */
 final class ValidationSet implements Validation
 {
     use GuardTrait,
