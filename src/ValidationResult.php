@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation;
 
 class ValidationResult implements Result
 {
+    /** @var string[] */
     private array $errors = [];
 
     public function add(string ...$errors): self
