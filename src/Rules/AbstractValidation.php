@@ -7,7 +7,6 @@ use BrenoRoosevelt\Validation\BelongsToFieldTrait;
 use BrenoRoosevelt\Validation\GuardTrait;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
-use BrenoRoosevelt\Validation\ValidationResult;
 
 abstract class AbstractValidation implements Validation
 {
@@ -23,7 +22,8 @@ abstract class AbstractValidation implements Validation
 
     public function validate($input, array $context = []): Result
     {
-        return $this->isValid($input, $context) ? new ValidationResult : (new ValidationResult)->add($this->message);
+        $result = $this->newEmptyValidationResult();
+        return $this->isValid($input, $context) ? $result: $result->add($this->message);
     }
 
     abstract protected function isValid($input, array $context = []): bool;

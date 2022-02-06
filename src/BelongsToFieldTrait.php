@@ -22,4 +22,9 @@ trait BelongsToFieldTrait
     {
         return $this->field !== null;
     }
+
+    private function newEmptyValidationResult(): ValidationResult|ValidationResultByField
+    {
+        return $this->belongsToField() ? new ValidationResultByField($this->getField()) : new ValidationResult;
+    }
 }

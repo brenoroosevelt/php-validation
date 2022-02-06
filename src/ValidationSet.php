@@ -29,7 +29,7 @@ final class ValidationSet implements Validation
 
     public function validate($input, array $context = []): ValidationResult|ValidationResultByField
     {
-        $violations = $this->belongsToField() ? new ValidationResultByField($this->getField()) : new ValidationResult;
+        $violations = $this->newEmptyValidationResult();
         foreach ($this->rules as $constraint) {
             $violations->add(...$constraint->validate($input, $context)->getErrors());
         }
