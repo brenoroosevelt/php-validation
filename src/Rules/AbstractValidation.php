@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules;
 
-use BrenoRoosevelt\Validation\BelongsToField;
+use BrenoRoosevelt\Validation\MaybeBelongsToField;
 use BrenoRoosevelt\Validation\Guard;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
@@ -11,7 +11,7 @@ use BrenoRoosevelt\Validation\Validation;
 abstract class AbstractValidation implements Validation
 {
     use Guard,
-        BelongsToField;
+        MaybeBelongsToField;
 
     protected string $message;
 
