@@ -46,7 +46,7 @@ final class Validator
         return $this;
     }
 
-    public function validate(array $data = []): ValidationResultSet
+    public function validate(array $data): ValidationResultSet
     {
         $validationResultSet = new ValidationResultSet();
         foreach ($this->ruleSets as $ruleSet) {
