@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use BrenoRoosevelt\Validation\MaybeBelongsToField;
-use BrenoRoosevelt\Validation\Guard;
+use BrenoRoosevelt\Validation\GuardForValidation;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
 
 abstract class AbstractValidation implements Validation
 {
-    use Guard,
+    use GuardForValidation,
         MaybeBelongsToField;
 
     protected string $message;

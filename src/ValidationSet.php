@@ -14,7 +14,7 @@ use ReflectionProperty;
  */
 final class ValidationSet implements Validation
 {
-    use Guard,
+    use GuardForValidation,
         MaybeBelongsToField;
 
     /** @var Validation[] */
