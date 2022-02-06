@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\NotRequired;
 use InvalidArgumentException;
 use ReflectionException;
 

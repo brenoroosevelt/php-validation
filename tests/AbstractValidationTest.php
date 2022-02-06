@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 use PHPUnit\Framework\TestCase;
 
 class AbstractValidationTest extends TestCase

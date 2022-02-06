@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation;
+namespace BrenoRoosevelt\Validation\Rules;
 
+use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 use Closure;
 
 class CallableRule extends AbstractValidation

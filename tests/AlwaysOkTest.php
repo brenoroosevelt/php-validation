@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\AlwaysOk;
+use BrenoRoosevelt\Validation\Rules\AlwaysOk;
 use PHPUnit\Framework\TestCase;
 
 class AlwaysOkTest extends TestCase

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\AlwaysOk;
-use BrenoRoosevelt\Validation\NotRequired;
+use BrenoRoosevelt\Validation\Rules\AlwaysOk;
+use BrenoRoosevelt\Validation\Rules\NotRequired;
 use PHPUnit\Framework\TestCase;
 
 class NotRequiredTestTest extends TestCase
