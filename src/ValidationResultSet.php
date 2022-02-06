@@ -9,11 +9,11 @@ namespace BrenoRoosevelt\Validation;
 class ValidationResultSet implements Result
 {
     /** @var ValidationResult[] */
-    private array $errorResults = [];
+    private array $validationResults = [];
 
     public function add(ValidationResult ...$errorResult): self
     {
-        array_push($this->errorResults, ...$errorResult);
+        array_push($this->validationResults, ...$errorResult);
         return $this;
     }
 
@@ -22,7 +22,7 @@ class ValidationResultSet implements Result
      */
     public function isOk(): bool
     {
-        foreach ($this->errorResults as $violation) {
+        foreach ($this->validationResults as $violation) {
             if (!$violation->isOk()) {
                 return false;
             }
@@ -37,15 +37,20 @@ class ValidationResultSet implements Result
     public function getErrors(): array
     {
         $errors = [];
-        foreach ($this->errorResults as $violation) {
+        foreach ($this->validationResults as $violation) {
             array_push($errors, ...$violation->getErrors());
         }
 
         return $errors;
     }
 
-    public function errorResults(): array
+    public function validationResults(): array
     {
-        return $this->errorResults;
+        return $this->validationResults;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->validationResults);
     }
 }

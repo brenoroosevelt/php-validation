@@ -27,7 +27,7 @@ class ValidationException extends Exception
     {
         return
             $this->violations instanceof ValidationResultSet ?
-                $this->violations->errorResults() :
+                $this->violations->validationResults() :
                 [$this->violations];
     }
 
