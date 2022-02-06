@@ -10,31 +10,15 @@ use ReflectionProperty;
 
 final class ValidationSet implements Validation
 {
-    use GuardTrait;
+    use GuardTrait,
+        BelongsToFieldTrait;
 
     /** @var Validation[] */
     private array $rules;
-    private ?string $field = null;
 
     public static function new(): self
     {
         return new self;
-    }
-
-    public function getField(): ?string
-    {
-        return $this->field;
-    }
-
-    public function setField(?string $field): self
-    {
-        $this->field = $field;
-        return $this;
-    }
-
-    public function belongsToField(): bool
-    {
-        return $this->field !== null;
     }
 
     public function add(Validation ...$rules): self

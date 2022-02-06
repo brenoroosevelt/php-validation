@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules;
 
+use BrenoRoosevelt\Validation\BelongsToFieldTrait;
 use BrenoRoosevelt\Validation\GuardTrait;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
@@ -10,7 +11,9 @@ use BrenoRoosevelt\Validation\ValidationResult;
 
 abstract class AbstractValidation implements Validation
 {
-    use GuardTrait;
+    use GuardTrait,
+        BelongsToFieldTrait;
+
     protected string $message;
 
     public function __construct(?string $message = null)
