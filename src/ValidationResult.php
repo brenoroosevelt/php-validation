@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+
+namespace BrenoRoosevelt\Validation;
+
+class ValidationResult implements Result
+{
+    private array $errors = [];
+
+    public function add(string ...$errors): self
+    {
+        array_push($this->errors, ...$errors);
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isOk(): bool
+    {
+        return empty($this->errors);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+}
