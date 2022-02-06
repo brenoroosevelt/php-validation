@@ -13,7 +13,7 @@ class ValidationResult implements Result
         return new self;
     }
 
-    public function add(string ...$errors): self
+    public function error(string ...$errors): self
     {
         array_push($this->errors, ...$errors);
         return $this;

@@ -18,7 +18,7 @@ class GuardTraiTest extends TestCase
         $validation = new class implements Validation {
             use GuardForValidation;
             public function validate($input, array $context = []): Result {
-                return (new ValidationResult)->add('error');
+                return (new ValidationResult)->error('error');
             }
         };
 

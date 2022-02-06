@@ -23,7 +23,7 @@ abstract class AbstractValidation implements Validation
     public function validate($input, array $context = []): Result
     {
         $result = $this->newEmptyValidationResult();
-        return $this->isValid($input, $context) ? $result: $result->add($this->message);
+        return $this->isValid($input, $context) ? $result: $result->error($this->message);
     }
 
     abstract protected function isValid($input, array $context = []): bool;

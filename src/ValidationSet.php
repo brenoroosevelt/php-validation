@@ -35,7 +35,7 @@ final class ValidationSet implements Validation
     {
         $violations = $this->newEmptyValidationResult();
         foreach ($this->rules as $constraint) {
-            $violations->add(...$constraint->validate($input, $context)->getErrors());
+            $violations->error(...$constraint->validate($input, $context)->getErrors());
         }
 
         return $violations;
