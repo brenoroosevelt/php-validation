@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\NotEmpty;
+
 class ValidationResultByField extends ValidationResult implements ResultByField
 {
     private string $field;
 
     public function __construct(string $field)
     {
+        (new NotEmpty)->validateOrFail($field);
         $this->field = $field;
     }
 
