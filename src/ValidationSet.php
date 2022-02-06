@@ -41,7 +41,7 @@ final class ValidationSet implements Validation
         return $violations;
     }
 
-    public function hasNotRequired(): bool
+    public function isNotRequired(): bool
     {
         foreach ($this->rules as $rule) {
             if ($rule instanceof NotRequired) {
