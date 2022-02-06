@@ -35,7 +35,7 @@ class ValidationException extends Exception
     {
         $messages = [];
         foreach ($this->violations() as $violation) {
-            $fieldName = $violation instanceof ValidationResultByField ? $violation->getField() : '_error';
+            $fieldName = $violation instanceof ResultByField ? $violation->getField() : '_error';
             foreach ($violation->getErrors() as $errorForField) {
                 $messages[] = "\t - `$fieldName`: $errorForField";
             }
