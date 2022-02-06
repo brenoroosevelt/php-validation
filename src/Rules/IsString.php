@@ -6,10 +6,10 @@ namespace BrenoRoosevelt\Validation\Rules;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotNull extends AbstractValidation
+class IsString extends AbstractValidation
 {
     protected function isValid($input, array $context = []): bool
     {
-        return !is_null($input);
+        return is_string($input);
     }
 }
