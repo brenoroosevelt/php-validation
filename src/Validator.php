@@ -7,7 +7,7 @@ use BrenoRoosevelt\Validation\Rules\NotRequired;
 use InvalidArgumentException;
 use ReflectionException;
 
-final class Validator implements Validation
+final class Validator
 {
     use GuardTrait;
 
@@ -46,20 +46,16 @@ final class Validator implements Validation
         return $this;
     }
 
-    public function validate($input, array $context = []): ValidationResultSet
+    public function validate(array $data = []): ValidationResultSet
     {
-        if (!is_array($input)) {
-            throw new InvalidArgumentException('Expected array input');
-        }
-
         $validationResultSet = new ValidationResultSet();
         foreach ($this->ruleSets as $ruleSet) {
             $field = $ruleSet->getField();
-            if ($ruleSet->hasNotRequired() && !array_key_exists($field, $input)) {
+            if ($ruleSet->hasNotRequired() && !array_key_exists($field, $data)) {
                 continue;
             }
 
-            $result = $ruleSet->validate($input[$field] ?? null, $context);
+            $result = $ruleSet->validate($data[$field] ?? null, $data);
             if (!$result->isOk()) {
                 $validationResultSet->add($result);
             }
