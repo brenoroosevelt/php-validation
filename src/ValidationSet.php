@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
@@ -38,6 +39,17 @@ final class ValidationSet implements Validation
         }
 
         return $violations;
+    }
+
+    public function hasNotRequired(): bool
+    {
+        foreach ($this->rules as $rule) {
+            if ($rule instanceof NotRequired) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isEmpty(): bool

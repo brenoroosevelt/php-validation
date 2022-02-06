@@ -49,37 +49,23 @@ final class Validator implements Validation
     public function validate($input, array $context = []): ValidationResultSet
     {
         if (!is_array($input)) {
-            throw new InvalidArgumentException('array expected');
+            throw new InvalidArgumentException('Expected array input');
         }
 
-        $violationSet = new ValidationResultSet();
+        $validationResultSet = new ValidationResultSet();
         foreach ($this->ruleSets as $ruleSet) {
             $field = $ruleSet->getField();
-            if (!$this->isRequired($field) && !array_key_exists($field, $input)) {
+            if ($ruleSet->hasNotRequired() && !array_key_exists($field, $input)) {
                 continue;
             }
 
-            $violation = $ruleSet->validate($input[$field] ?? null, $context);
-            $violationSet->add($violation);
-        }
-
-        return $violationSet;
-    }
-
-    public function isRequired(string $field): bool
-    {
-        $ruleSet = $this->ruleSet($field);
-        if ($ruleSet->isEmpty()) {
-            return false;
-        }
-
-        foreach ($ruleSet->rules() as $rule) {
-            if ($rule instanceof NotRequired) {
-                return false;
+            $result = $ruleSet->validate($input[$field] ?? null, $context);
+            if (!$result->isOk()) {
+                $validationResultSet->add($result);
             }
         }
 
-        return true;
+        return $validationResultSet;
     }
 
     /**
