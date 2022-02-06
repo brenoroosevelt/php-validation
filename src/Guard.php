@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-trait GuardTrait
+trait Guard
 {
     public function validateOrFail($input, array $context = [], string $message = 'Validation errors'): void
     {

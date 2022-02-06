@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules;
 
-use BrenoRoosevelt\Validation\BelongsToFieldTrait;
-use BrenoRoosevelt\Validation\GuardTrait;
+use BrenoRoosevelt\Validation\BelongsToField;
+use BrenoRoosevelt\Validation\Guard;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
 
 abstract class AbstractValidation implements Validation
 {
-    use GuardTrait,
-        BelongsToFieldTrait;
+    use Guard,
+        BelongsToField;
 
     protected string $message;
 

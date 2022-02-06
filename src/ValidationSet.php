@@ -14,8 +14,8 @@ use ReflectionProperty;
  */
 final class ValidationSet implements Validation
 {
-    use GuardTrait,
-        BelongsToFieldTrait;
+    use Guard,
+        BelongsToField;
 
     /** @var Validation[] */
     private array $rules;

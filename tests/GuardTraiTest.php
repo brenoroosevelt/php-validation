@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\GuardTrait;
+use BrenoRoosevelt\Validation\Guard;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
 use BrenoRoosevelt\Validation\ValidationException;
@@ -16,7 +16,7 @@ class GuardTraiTest extends TestCase
     public function shouldThrowValidationErrors(): void
     {
         $validation = new class implements Validation {
-            use GuardTrait;
+            use Guard;
             public function validate($input, array $context = []): Result {
                 return (new ValidationResult)->add('error');
             }
@@ -31,7 +31,7 @@ class GuardTraiTest extends TestCase
     {
         try {
             $validation = new class {
-                use GuardTrait;
+                use Guard;
             };
             $validation->validateOrFail(null);
         } catch (\Throwable $exception) {
