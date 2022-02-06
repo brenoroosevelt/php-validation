@@ -8,6 +8,11 @@ class ValidationResult implements Result
     /** @var string[] */
     private array $errors = [];
 
+    public static function everythingIsOk(): self
+    {
+        return new self;
+    }
+
     public function add(string ...$errors): self
     {
         array_push($this->errors, ...$errors);

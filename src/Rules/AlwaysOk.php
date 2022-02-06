@@ -13,6 +13,6 @@ class AlwaysOk implements Validation
 {
     public function validate($input, array $context = []): Result
     {
-        return new ValidationResult;
+        return ValidationResult::everythingIsOk();
     }
 }

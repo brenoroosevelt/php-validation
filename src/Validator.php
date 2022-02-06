@@ -66,7 +66,7 @@ final class Validator
      * @return void
      * @throws ValidationException
      */
-    public function validateOrFail(array $data= [], ?string $message = null)
+    public function validateOrFail(array $data = [], ?string $message = null)
     {
         $result = $this->validate($data);
         if (!$result->isOk()) {
