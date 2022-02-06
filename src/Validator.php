@@ -3,14 +3,10 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Rules\NotRequired;
-use InvalidArgumentException;
 use ReflectionException;
 
 final class Validator
 {
-    use GuardTrait;
-
     /** @var ValidationSet[] */
     private array $ruleSets;
 
@@ -46,7 +42,7 @@ final class Validator
         return $this;
     }
 
-    public function validate(array $data): ValidationResultSet
+    public function validate(array $data = []): ValidationResultSet
     {
         $validationResultSet = new ValidationResultSet();
         foreach ($this->ruleSets as $ruleSet) {
@@ -62,6 +58,20 @@ final class Validator
         }
 
         return $validationResultSet;
+    }
+
+    /**
+     * @param array $data
+     * @param ?string $message
+     * @return void
+     * @throws ValidationException
+     */
+    public function validateOrFail(array $data= [], ?string $message = null)
+    {
+        $result = $this->validate($data);
+        if (!$result->isOk()) {
+            throw new ValidationException($result, $message);
+        }
     }
 
     /**

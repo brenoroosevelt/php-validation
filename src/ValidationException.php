@@ -12,7 +12,7 @@ class ValidationException extends Exception
 
     public function __construct(
         ValidationResultSet|ValidationResult $violations,
-        $message = null,
+        ?string $message = null,
         $code = 422,
         Throwable $previous = null
     ) {
