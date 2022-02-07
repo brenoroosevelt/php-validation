@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules\Comparison;
+namespace BrenoRoosevelt\Validation\Rules\Number;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
