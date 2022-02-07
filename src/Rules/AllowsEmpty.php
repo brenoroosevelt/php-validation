@@ -9,8 +9,15 @@ use BrenoRoosevelt\Validation\Validation;
 use BrenoRoosevelt\Validation\ValidationResult;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class AllowsEmpty implements Validation
+final class AllowsEmpty implements Validation
 {
+    private static ?self $instance = null;
+
+    public static function instance(): self
+    {
+        return self::$instance ?? self::$instance = new self;
+    }
+
     public function validate(mixed $input, array $context = []): Result
     {
         return ValidationResult::everythingIsOk();

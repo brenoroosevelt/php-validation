@@ -118,17 +118,17 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
 
     public function setNotRequired(): self
     {
-        return $this->add(new NotRequired);
+        return $this->add(NotRequired::instance());
     }
 
     public function setAllowsEmpty(): self
     {
-        return $this->add(new AllowsEmpty);
+        return $this->add(AllowsEmpty::instance());
     }
 
     public function setAllowsNull(): self
     {
-        return $this->add(new AllowsNull);
+        return $this->add(AllowsNull::instance());
     }
 
     public function isEmpty(): bool
