@@ -3,19 +3,12 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
-use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
 
-#[Attribute(Attribute::TARGET_PROPERTY)]
-class DigitoVerificador extends AbstractValidation
+abstract class DigitoVerificador extends AbstractValidation
 {
-    const CALC_MOD11 = 'mod11';
-    const CALC_MOD10 = 'mod10';
-
-    public function __construct(
-        private string $calc = self::CALC_MOD11,
-        ?string $message = 'Dígito verificador inválido'
-    ) {
+    public function __construct(?string $message = 'Dígito verificador inválido')
+    {
         parent::__construct($message);
     }
 
@@ -24,7 +17,7 @@ class DigitoVerificador extends AbstractValidation
         $numbers = preg_replace('/\D/', '', (string) $input);
         $number = substr($numbers, 0, -1);
         $digit = (int) substr($numbers, -1);
-        return $digit === ($this->calc === self::CALC_MOD11 ? self::mod11($number) : self::mod10($number));
+        return $digit === $this->getDigit($number);
     }
 
     public static function mod11($input): int
@@ -53,4 +46,6 @@ class DigitoVerificador extends AbstractValidation
 
         return 10 - ($sum % 10);
     }
+
+    abstract protected function getDigit($number): int;
 }
