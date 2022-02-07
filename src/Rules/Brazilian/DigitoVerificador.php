@@ -32,7 +32,7 @@ class DigitoVerificador extends AbstractValidation
         $number = substr($stringInput, 0, -1);
         $digit = (int) substr($stringInput, -1);
         return
-            $digit === match($this->algorithm) {
+            $digit === match ($this->algorithm) {
                 self::MOD11 => self::mod11($number),
                 self::MOD10 => self::mod10($number),
                 default => throw new InvalidArgumentException('Algoritmo de cálculo de dígito inválido')
