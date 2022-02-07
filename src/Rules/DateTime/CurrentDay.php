@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class IsToday extends AbstractValidation
+class CurrentDay extends AbstractValidation
 {
     const TODAY_FORMAT = 'Y-m-d';
 
