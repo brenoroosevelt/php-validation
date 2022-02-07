@@ -118,13 +118,14 @@ class ValidationSet implements Validation
      */
     public static function fromReflectionProperty(ReflectionProperty $property): self
     {
-        $ruleSet = new self;
-        $ruleSet->rules = array_map(
-            fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $property->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
-        );
-        $ruleSet->setField($property->getName());
-        return $ruleSet;
+        return
+            ValidationSet::forField(
+                $property->getName(),
+                ...array_map(
+                    fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
+                    $property->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
+                )
+            );
     }
 
     /** @return Validation[] */
