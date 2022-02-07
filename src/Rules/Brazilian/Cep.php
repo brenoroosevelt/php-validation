@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Brazilian;
+namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
