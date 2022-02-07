@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\Rules\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractValidation;
 use DateTimeImmutable;
 use Throwable;
 

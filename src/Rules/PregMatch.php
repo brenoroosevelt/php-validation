@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
+use BrenoRoosevelt\Validation\AbstractValidation;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]

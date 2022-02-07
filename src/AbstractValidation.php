@@ -1,12 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules;
-
-use BrenoRoosevelt\Validation\MaybeBelongsToField;
-use BrenoRoosevelt\Validation\GuardForValidation;
-use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\Validation;
+namespace BrenoRoosevelt\Validation;
 
 /**
  * helper class to create single message validations
@@ -32,10 +27,20 @@ abstract class AbstractValidation implements Validation
         return $this->evaluate($input, $context) ? $result: $result->error($this->message);
     }
 
-    public function isValid($input, array $context = []): bool
+    /**
+     * @param mixed $input
+     * @param array $context
+     * @return bool
+     */
+    public function isValid(mixed $input, array $context = []): bool
     {
         return $this->validate($input, $context)->isOk();
     }
 
-    abstract protected function evaluate($input, array $context = []): bool;
+    /**
+     * @param mixed $input
+     * @param array $context
+     * @return bool
+     */
+    abstract protected function evaluate(mixed $input, array $context = []): bool;
 }
