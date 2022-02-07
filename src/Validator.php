@@ -68,15 +68,15 @@ final class Validator
     public function validateObject(object $object): ValidationResultSet
     {
         $data = [];
-        foreach ((new ReflectionClass($object))->getProperties() as $property) {
+        $class = new ReflectionClass($object);
+        foreach ($class->getProperties() as $property) {
             $data[$property->getName()] = $property->getValue($object);
         }
 
         $result = Validator::fromProperties($object)->validate($data);
 
-        $methodRules = ValidationSet::fromMethods($object);
-        foreach ($methodRules as $methodName => $ruleSet) {
-            $method = new ReflectionMethod($object, $methodName);
+        foreach ($class->getMethods() as $method) {
+            $ruleSet = ValidationSet::fromReflectionMethod($method);
             $value = $method->invoke($method->isStatic() ? null : $object);
             $methodResult = $ruleSet->validate($value);
             if (!$methodResult->isOk()) {
