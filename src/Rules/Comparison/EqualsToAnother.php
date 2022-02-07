@@ -7,7 +7,7 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class EqualOther extends AbstractValidation
+class EqualsToAnother extends AbstractValidation
 {
     const MESSAGE = 'The value should be equals to `%s`';
 

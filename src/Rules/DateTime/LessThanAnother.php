@@ -10,11 +10,11 @@ use DateTimeInterface;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class GreaterThanOther extends AbstractValidation
+class LessThanAnother extends AbstractValidation
 {
     public function __construct(private string $other, ?string $message = null)
     {
-        parent::__construct($message ?? sprintf('The date/time should be greater than %s', $this->other));
+        parent::__construct($message ?? sprintf('The date/time should be less than %s', $this->other));
     }
 
     protected function evaluate($input, array $context = []): bool
@@ -26,7 +26,7 @@ class GreaterThanOther extends AbstractValidation
                     new DateTimeImmutable($input);
 
             return array_key_exists($this->other, $context)
-                && $datetime > (new DateTimeImmutable($context[$this->other]));
+                && $datetime < (new DateTimeImmutable($context[$this->other]));
         } catch (Throwable) {
             return false;
         }
