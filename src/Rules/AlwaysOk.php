@@ -7,8 +7,15 @@ use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
 use BrenoRoosevelt\Validation\ValidationResult;
 
-class AlwaysOk implements Validation
+final class AlwaysOk implements Validation
 {
+    private static ?self $instance = null;
+
+    public static function instance(): self
+    {
+        return self::$instance ?? self::$instance = new self;
+    }
+
     public function validate(mixed $input, array $context = []): Result
     {
         return ValidationResult::everythingIsOk();
