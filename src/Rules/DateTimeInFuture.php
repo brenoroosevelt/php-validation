@@ -32,7 +32,7 @@ class DateTimeInFuture extends AbstractValidation
                     $input :
                     new DateTimeImmutable($input);
 
-            return $datetime < $this->now;
+            return $datetime > $this->now;
         } catch (Throwable) {
             return false;
         }
