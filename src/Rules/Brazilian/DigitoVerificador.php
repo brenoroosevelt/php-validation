@@ -21,7 +21,7 @@ class DigitoVerificador extends AbstractValidation
     {
         try {
             $stringInput = (string) $input;
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
             return false;
         }
 

@@ -61,8 +61,8 @@ class ValidationSet implements Validation
             return $violations;
         }
 
-        foreach ($this->rules as $constraint) {
-            $violations = $violations->error(...$constraint->validate($input, $context)->getErrors());
+        foreach ($this->rules as $rule) {
+            $violations = $violations->error(...$rule->validate($input, $context)->getErrors());
         }
 
         return $violations;
