@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
+use BrenoRoosevelt\Validation\Rules\Document;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cep extends Document
@@ -16,11 +17,6 @@ class Cep extends Document
     public function isValidDocument(string $input): bool
     {
         return $this->validateNumbersWithCorrectLength($input);
-    }
-
-    public function adjustZeroPadding(string $input): string
-    {
-        return $input;
     }
 
     public function maskPattern(): string

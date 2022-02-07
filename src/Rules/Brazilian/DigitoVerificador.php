@@ -47,5 +47,17 @@ abstract class DigitoVerificador extends AbstractValidation
         return 10 - ($sum % 10);
     }
 
+    public static function checkCpfCnpjDigits(string $document): bool
+    {
+        $document = preg_replace('/\D/', '', $document);
+        $number = substr($document, 0, -2);
+        $digits = substr($document, -2);
+
+        $digit1 = DigitoVerificador::mod11($number);
+        $digit2 = DigitoVerificador::mod11($number . $digit1);
+
+        return $digits === ($digit1 . $digit2);
+    }
+
     abstract protected function getDigit($number): int;
 }

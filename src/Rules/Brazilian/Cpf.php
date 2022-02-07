@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
+use BrenoRoosevelt\Validation\Rules\Document;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cpf extends Document
@@ -19,7 +20,7 @@ class Cpf extends Document
             return false;
         }
 
-        return $this->validateCpfCnpjDigits($input);
+        return DigitoVerificador::checkCpfCnpjDigits($input);
     }
 
     public function maskPattern(): string
@@ -30,5 +31,10 @@ class Cpf extends Document
     public function unmaskedLength(): int
     {
         return 11;
+    }
+
+    public function adjustZeroPadding(string $input): string
+    {
+        return str_pad($input, $this->unmaskedLength(), '0', STR_PAD_LEFT);
     }
 }
