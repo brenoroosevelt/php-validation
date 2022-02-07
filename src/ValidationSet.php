@@ -62,13 +62,13 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
 
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
     {
-        $violations = $this->newEmptyValidationResult();
+        $violations = $empty = $this->newEmptyValidationResult();
         if (null === $input && $this->allowsNull()) {
-            return $violations;
+            return $empty;
         }
 
         if (empty($input) && $this->allowsEmpty()) {
-            return $violations;
+            return $empty;
         }
 
         foreach ($this->rules as $rule) {
