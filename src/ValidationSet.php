@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -69,10 +70,30 @@ class ValidationSet implements Validation
         return true;
     }
 
+    public function allowsEmpty(): bool
+    {
+        foreach ($this->rules as $rule) {
+            if ($rule instanceof AllowsEmpty) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function notRequired(): self
     {
         if ($this->isRequired()) {
             $this->rules[] = new NotRequired;
+        }
+
+        return $this;
+    }
+
+    public function setAllowsEmpty(): self
+    {
+        if (!$this->allowsEmpty()) {
+            $this->rules[] = new AllowsEmpty;
         }
 
         return $this;

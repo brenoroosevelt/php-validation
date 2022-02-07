@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\Validation;
 use BrenoRoosevelt\Validation\ValidationResult;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotRequired implements Validation
+class AllowsEmpty implements Validation
 {
     public function validate(mixed $input, array $context = []): Result
     {

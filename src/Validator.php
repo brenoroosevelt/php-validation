@@ -52,7 +52,12 @@ final class Validator
                 continue;
             }
 
-            $result = $ruleSet->validate($data[$field] ?? null, $data);
+            $value = $data[$field] ?? null;
+            if ($ruleSet->allowsEmpty() && empty($value)) {
+                continue;
+            }
+
+            $result = $ruleSet->validate($value, $data);
             if (!$result->isOk()) {
                 $validationResultSet = $validationResultSet->add($result);
             }
