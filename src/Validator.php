@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use ReflectionClass;
 use ReflectionException;
+use ReflectionMethod;
 
 final class Validator
 {
@@ -58,6 +60,31 @@ final class Validator
         }
 
         return $validationResultSet;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function validateObject(object $object): ValidationResultSet
+    {
+        $data = [];
+        $properties = (new ReflectionClass($object))->getProperties();
+        foreach ($properties as $property) {
+            $data[$property->getName()] = $property->getValue($object);
+        }
+
+        $result = Validator::fromProperties($object)->validate($data);
+
+        $methodRules = ValidationSet::fromMethods($object);
+        foreach ($methodRules as $methodName => $ruleSet) {
+            $value = (new ReflectionMethod($object, $methodName))->invoke($object);
+            $methodResult = $ruleSet->validate($value);
+            if (!$methodResult->isOk()) {
+                $result = $result->add($methodResult);
+            }
+        }
+
+        return $result;
     }
 
     /**

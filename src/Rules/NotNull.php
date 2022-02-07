@@ -6,7 +6,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
 
-#[Attribute(Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
 class NotNull extends AbstractValidation
 {
     protected function evaluate($input, array $context = []): bool

@@ -7,6 +7,7 @@ use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionMethod;
 use ReflectionProperty;
 
 /**
@@ -85,7 +86,7 @@ class ValidationSet implements Validation
     /**
      * @param string|object $objectOrClass
      * @param int|null $filter filter properties, ex: ReflectionProperty::IS_PUBLIC|ReflectionProperty::IS_PRIVATE
-     * @return array
+     * @return ValidationSet[]
      * @throws ReflectionException if the class does not exist
      */
     public static function fromProperties(string|object $objectOrClass, ?int $filter = null): array
@@ -93,6 +94,22 @@ class ValidationSet implements Validation
         $ruleSets = [];
         foreach ((new ReflectionClass($objectOrClass))->getProperties($filter) as $property) {
             $ruleSets[$property->getName()] = ValidationSet::fromReflectionProperty($property);
+        }
+
+        return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
+    }
+
+    /**
+     * @param string|object $objectOrClass
+     * @param int|null $filter
+     * @return ValidationSet[]
+     * @throws ReflectionException
+     */
+    public static function fromMethods(string|object $objectOrClass, ?int $filter = null): array
+    {
+        $ruleSets = [];
+        foreach ((new ReflectionClass($objectOrClass))->getMethods($filter) as $method) {
+            $ruleSets[$method->getName()] = ValidationSet::fromReflectionMethod($method);
         }
 
         return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
@@ -109,6 +126,11 @@ class ValidationSet implements Validation
         return self::fromReflectionProperty(new ReflectionProperty($objectOrClass, $property));
     }
 
+    public static function fromMethod(string|object $objectOrClass, string $method): self
+    {
+        return self::fromReflectionMethod(new ReflectionMethod($objectOrClass, $method));
+    }
+
     /**
      * @param ReflectionProperty $property
      * @return static
@@ -121,6 +143,21 @@ class ValidationSet implements Validation
                 ...array_map(
                     fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
                     $property->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
+                )
+            );
+    }
+
+    /**
+     * @param ReflectionMethod $method
+     * @return static
+     */
+    public static function fromReflectionMethod(ReflectionMethod $method): self
+    {
+        return
+            ValidationSet::withRules(
+                ...array_map(
+                    fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
+                    $method->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
                 )
             );
     }
