@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
+use Composer\DependencyResolver\RuleSet;
 use Countable;
 use IteratorAggregate;
 use ReflectionAttribute;
@@ -44,10 +45,16 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
         return new self(null, $validation, ...$rules);
     }
 
-    public function add(Validation ...$rules): self
+    public function add(Validation | ValidationSet ...$rules): self
     {
         foreach ($rules as $rule) {
-            $this->rules->attach($rule);
+            if ($rule instanceof Validation) {
+                $this->rules->attach($rule);
+            }
+
+            if ($rule instanceof ValidationSet) {
+                $this->add(...$rule->toArray());
+            }
         }
 
         return $this;

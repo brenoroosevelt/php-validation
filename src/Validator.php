@@ -29,17 +29,7 @@ final class Validator
 
     public function field(string $field, Validation|ValidationSet ...$rules): self
     {
-        $ruleset = $this->ruleSet($field);
-        foreach ($rules as $rule) {
-            if ($rule instanceof Validation) {
-                $ruleset->add($rule);
-            }
-
-            if ($rule instanceof ValidationSet) {
-                $ruleset->add(...$rule->toArray());
-            }
-        }
-
+        $this->ruleSet($field)->add(...$rules);
         return $this;
     }
 
