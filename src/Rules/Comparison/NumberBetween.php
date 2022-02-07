@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractValidation;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class NumberBetween extends AbstractValidation
 {
-    const MESSAGE = 'The value should be between `%s` and `%s` (%s including the boundaries)';
+    const MESSAGE = 'The value should be between `%s` and `%s` (%sincluding the boundaries)';
 
     public function __construct(
         private int|float $min,
@@ -23,7 +23,7 @@ class NumberBetween extends AbstractValidation
                 self::MESSAGE,
                 $this->min,
                 $this->max,
-                !$this->boundaries ? 'not' : ''
+                !$this->boundaries ? 'not ' : ''
             );
         parent::__construct($message);
     }
