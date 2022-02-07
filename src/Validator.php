@@ -48,7 +48,7 @@ final class Validator
         $validationResultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $ruleSet) {
             $field = $ruleSet->getField();
-            if (!$this->shouldValidate($ruleSet, $field, $data)) {
+            if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {
                 continue;
             }
 
@@ -59,24 +59,6 @@ final class Validator
         }
 
         return $validationResultSet;
-    }
-
-    private function shouldValidate(ValidationSet $ruleSet, string $field, array $data): bool
-    {
-        if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {
-            return false;
-        }
-
-        $notNull = $notEmpty = 1;
-        if ($ruleSet->allowsNull() && null === $data[$field] ?? $notNull) {
-            return false;
-        }
-
-        if ($ruleSet->allowsEmpty() && empty($data[$field] ?? $notEmpty)) {
-            return false;
-        }
-
-        return true;
     }
 
     public function only(string ...$fields): self

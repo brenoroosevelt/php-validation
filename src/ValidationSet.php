@@ -53,6 +53,14 @@ class ValidationSet implements Validation
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
     {
         $violations = $this->newEmptyValidationResult();
+        if (null === $input && $this->allowsNull()) {
+            return $violations;
+        }
+
+        if (empty($input) && $this->allowsEmpty()) {
+            return $violations;
+        }
+
         foreach ($this->rules as $constraint) {
             $violations = $violations->error(...$constraint->validate($input, $context)->getErrors());
         }
