@@ -26,6 +26,6 @@ class Cep extends Document
 
     public function unmaskedLength(): int
     {
-        return 9;
+        return 8;
     }
 }

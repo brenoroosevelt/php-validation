@@ -4,10 +4,14 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use BrenoRoosevelt\Validation\AbstractValidation;
+use InvalidArgumentException;
 
-abstract class DigitoVerificador extends AbstractValidation
+class DigitoVerificador extends AbstractValidation
 {
-    public function __construct(?string $message = 'Dígito verificador inválido')
+    const CALC_MOD11 = 0;
+    const CALC_MOD10 = 1;
+
+    public function __construct(private int $algorithm = self::CALC_MOD11, ?string $message = 'Dígito verificador inválido')
     {
         parent::__construct($message);
     }
@@ -17,7 +21,12 @@ abstract class DigitoVerificador extends AbstractValidation
         $numbers = preg_replace('/\D/', '', (string) $input);
         $number = substr($numbers, 0, -1);
         $digit = (int) substr($numbers, -1);
-        return $digit === $this->getDigit($number);
+        return
+            $digit === match($this->algorithm) {
+                self::CALC_MOD11 => self::mod11($number),
+                self::CALC_MOD10 => self::mod10($number),
+                default => throw new InvalidArgumentException('Algoritmo de cálculo de dígito inválido')
+            };
     }
 
     public static function mod11($input): int
@@ -58,6 +67,4 @@ abstract class DigitoVerificador extends AbstractValidation
 
         return $digits === ($digit1 . $digit2);
     }
-
-    abstract protected function getDigit($number): int;
 }
