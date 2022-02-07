@@ -8,13 +8,13 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsInstanceOf extends AbstractValidation
 {
-    public function __construct(private string $pattern, ?string $message = null)
+    public function __construct(private string $class, ?string $message = null)
     {
         parent::__construct($message);
     }
 
     protected function isValid($input, array $context = []): bool
     {
-        return $input instanceof $this->pattern;
+        return $input instanceof $this->class;
     }
 }

@@ -8,13 +8,13 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsType extends AbstractValidation
 {
-    public function __construct(private string $pattern, ?string $message = null)
+    public function __construct(private string $type, ?string $message = null)
     {
-        parent::__construct($message ?? sprintf('Invalid type: %s', $this->pattern));
+        parent::__construct($message ?? sprintf('Invalid type: %s', $this->type));
     }
 
     protected function isValid($input, array $context = []): bool
     {
-        return gettype($input) === $this->pattern;
+        return gettype($input) === $this->type;
     }
 }
