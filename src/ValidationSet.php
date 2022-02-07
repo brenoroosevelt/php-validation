@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
+use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -89,6 +90,21 @@ class ValidationSet implements Validation
         return false;
     }
 
+    public function allowsNull(): bool
+    {
+        if ($this->isEmpty()) {
+            return true;
+        }
+
+        foreach ($this->rules as $rule) {
+            if ($rule instanceof AllowsNull) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function setNotRequired(): self
     {
         if ($this->isRequired()) {
@@ -102,6 +118,15 @@ class ValidationSet implements Validation
     {
         if (!$this->allowsEmpty()) {
             $this->rules[] = new AllowsEmpty;
+        }
+
+        return $this;
+    }
+
+    public function setAllowsNull(): self
+    {
+        if (!$this->allowsNull()) {
+            $this->rules[] = new AllowsNull;
         }
 
         return $this;

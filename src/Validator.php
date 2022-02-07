@@ -67,8 +67,12 @@ final class Validator
             return false;
         }
 
-        $value = $data[$field] ?? null;
-        if ($ruleSet->allowsEmpty() && empty($value)) {
+        $notNull = $notEmpty = 1;
+        if ($ruleSet->allowsNull() && null === $data[$field] ?? $notNull) {
+            return false;
+        }
+
+        if ($ruleSet->allowsEmpty() && empty($data[$field] ?? $notEmpty)) {
             return false;
         }
 
