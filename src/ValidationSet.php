@@ -64,7 +64,7 @@ class ValidationSet implements Validation
         if ($this->isEmpty()) {
             return false;
         }
-        
+
         foreach ($this->rules as $rule) {
             if ($rule instanceof NotRequired) {
                 return false;
@@ -76,6 +76,10 @@ class ValidationSet implements Validation
 
     public function allowsEmpty(): bool
     {
+        if ($this->isEmpty()) {
+            return true;
+        }
+
         foreach ($this->rules as $rule) {
             if ($rule instanceof AllowsEmpty) {
                 return true;
