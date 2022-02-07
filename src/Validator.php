@@ -68,8 +68,7 @@ final class Validator
     public function validateObject(object $object): ValidationResultSet
     {
         $data = [];
-        $properties = (new ReflectionClass($object))->getProperties();
-        foreach ($properties as $property) {
+        foreach ((new ReflectionClass($object))->getProperties() as $property) {
             $data[$property->getName()] = $property->getValue($object);
         }
 
