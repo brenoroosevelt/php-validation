@@ -23,7 +23,7 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
 
     private SplObjectStorage $rules;
 
-    final public function __construct(?string $field = null, Validation ...$rules)
+    final public function __construct(?string $field = null, Validation|ValidationSet ...$rules)
     {
         $this->rules = new SplObjectStorage();
         $this->setField($field);
@@ -35,17 +35,17 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
         return new self;
     }
 
-    public static function forField(string $field, Validation ...$rules): self
+    public static function forField(string $field, Validation|ValidationSet ...$rules): self
     {
         return new self($field, ...$rules);
     }
 
-    public static function withRules(Validation $validation, Validation ...$rules): self
+    public static function withRules(Validation|ValidationSet $validation, Validation|ValidationSet ...$rules): self
     {
         return new self(null, $validation, ...$rules);
     }
 
-    public function add(Validation | ValidationSet ...$rules): self
+    public function add(Validation|ValidationSet ...$rules): self
     {
         foreach ($rules as $rule) {
             if ($rule instanceof Validation) {
