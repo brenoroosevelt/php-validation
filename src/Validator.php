@@ -36,13 +36,13 @@ final class Validator
     public function validate(array $data = []): ValidationResultSet
     {
         $validationResultSet = new ValidationResultSet;
-        foreach ($this->ruleSets as $ruleSet) {
-            $field = $ruleSet->getField();
-            if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {
+        foreach ($this->ruleSets as $fieldRuleSet) {
+            $field = $fieldRuleSet->getField();
+            if (!$fieldRuleSet->isRequired() && !array_key_exists($field, $data)) {
                 continue;
             }
 
-            $result = $ruleSet->validate($data[$field] ?? null, $data);
+            $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             if (!$result->isOk()) {
                 $validationResultSet = $validationResultSet->add($result);
             }
