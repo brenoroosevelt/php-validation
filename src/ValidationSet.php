@@ -61,6 +61,10 @@ class ValidationSet implements Validation
 
     public function isRequired(): bool
     {
+        if ($this->isEmpty()) {
+            return false;
+        }
+        
         foreach ($this->rules as $rule) {
             if ($rule instanceof NotRequired) {
                 return false;
