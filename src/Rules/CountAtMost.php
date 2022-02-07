@@ -23,10 +23,6 @@ class CountAtMost extends AbstractValidation
             return count($input) <= $this->count;
         }
 
-        if ($input instanceof Traversable) {
-            return iterator_count($input) <= $this->count;
-        }
-
         if (is_iterable($input)) {
             $count = 0;
             foreach ($input as $v) {
