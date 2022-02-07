@@ -8,7 +8,7 @@ use Throwable;
 
 class ValidationException extends Exception
 {
-    private Result $violations;
+    private ValidationResultSet|ValidationResult $violations;
 
     public function __construct(
         ValidationResultSet|ValidationResult $violations,
