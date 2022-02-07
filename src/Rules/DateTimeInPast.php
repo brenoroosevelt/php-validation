@@ -11,7 +11,7 @@ use Throwable;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class DateTimeInPast extends AbstractValidation
 {
-    private DateTimeInterface $now;
+    private ?DateTimeInterface $now = null;
 
     public function __construct(?string $message = 'The date/time should be in the past')
     {
@@ -24,6 +24,11 @@ class DateTimeInPast extends AbstractValidation
         $this->now = $now;
     }
 
+    public function getNow(): DateTimeInterface
+    {
+        return $this->now instanceof DateTimeInterface ? $this->now : new DateTimeImmutable();
+    }
+
     protected function isValid($input, array $context = []): bool
     {
         try {
@@ -32,7 +37,7 @@ class DateTimeInPast extends AbstractValidation
                     $input :
                     new DateTimeImmutable($input);
 
-            return $datetime < $this->now;
+            return $datetime < $this->getNow();
         } catch (Throwable) {
             return false;
         }
