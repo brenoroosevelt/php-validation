@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\NotEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -12,7 +13,7 @@ use ReflectionProperty;
 /**
  * Composite
  */
-final class ValidationSet implements Validation
+class ValidationSet implements Validation
 {
     use GuardForValidation,
         MaybeBelongsToField;
@@ -20,9 +21,27 @@ final class ValidationSet implements Validation
     /** @var Validation[] */
     private array $rules;
 
-    public static function new(): self
+    final public function __construct(?string $field = null, Validation ...$rules)
+    {
+        $this->field = $field;
+        $this->rules = $rules;
+    }
+
+    public static function empty(): self
     {
         return new self;
+    }
+
+    /** @throws ValidationException */
+    public static function forField(string $field, Validation ...$rules): self
+    {
+        (new NotEmpty('Field cannot be left empty'))->validateOrFail($field);
+        return new self($field, ...$rules);
+    }
+
+    public static function withRules(Validation $validation, Validation ...$rules): self
+    {
+        return new self(null, $validation, ...$rules);
     }
 
     public function add(Validation ...$rules): self
