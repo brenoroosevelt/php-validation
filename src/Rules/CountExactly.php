@@ -8,7 +8,7 @@ use BrenoRoosevelt\Validation\AbstractValidation;
 use Traversable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Count extends AbstractValidation
+class CountExactly extends AbstractValidation
 {
     const MESSAGE = 'Expected count is: %s';
 
