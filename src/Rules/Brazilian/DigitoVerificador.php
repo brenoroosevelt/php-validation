@@ -8,10 +8,10 @@ use InvalidArgumentException;
 
 class DigitoVerificador extends AbstractValidation
 {
-    const CALC_MOD11 = 0;
-    const CALC_MOD10 = 1;
+    const MOD11 = 0;
+    const MOD10 = 1;
 
-    public function __construct(private int $algorithm = self::CALC_MOD11, ?string $message = 'Dígito verificador inválido')
+    public function __construct(private int $algorithm = self::MOD11, ?string $message = 'Dígito verificador inválido')
     {
         parent::__construct($message);
     }
@@ -23,8 +23,8 @@ class DigitoVerificador extends AbstractValidation
         $digit = (int) substr($numbers, -1);
         return
             $digit === match($this->algorithm) {
-                self::CALC_MOD11 => self::mod11($number),
-                self::CALC_MOD10 => self::mod10($number),
+                self::MOD11 => self::mod11($number),
+                self::MOD10 => self::mod10($number),
                 default => throw new InvalidArgumentException('Algoritmo de cálculo de dígito inválido')
             };
     }
