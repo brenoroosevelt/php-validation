@@ -36,7 +36,7 @@ final class Validator
             }
 
             if ($rule instanceof ValidationSet) {
-                $ruleset->add(...$rule->rules());
+                $ruleset->add(...$rule->toArray());
             }
         }
 

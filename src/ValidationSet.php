@@ -6,27 +6,27 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
+use Countable;
+use IteratorAggregate;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
+use SplObjectStorage;
 
-/**
- * Composite
- */
-class ValidationSet implements Validation
+class ValidationSet implements Validation, IteratorAggregate, Countable
 {
     use GuardForValidation,
         MaybeBelongsToField;
 
-    /** @var Validation[] */
-    private array $rules;
+    private SplObjectStorage $rules;
 
     final public function __construct(?string $field = null, Validation ...$rules)
     {
+        $this->rules = new SplObjectStorage();
         $this->setField($field);
-        $this->rules = $rules;
+        $this->add(...$rules);
     }
 
     public static function empty(): self
@@ -46,7 +46,10 @@ class ValidationSet implements Validation
 
     public function add(Validation ...$rules): self
     {
-        array_push($this->rules, ...$rules);
+        foreach ($rules as $rule) {
+            $this->rules->attach($rule);
+        }
+
         return $this;
     }
 
@@ -115,34 +118,22 @@ class ValidationSet implements Validation
 
     public function setNotRequired(): self
     {
-        if ($this->isRequired()) {
-            $this->rules[] = new NotRequired;
-        }
-
-        return $this;
+        return $this->add(new NotRequired);
     }
 
     public function setAllowsEmpty(): self
     {
-        if (!$this->allowsEmpty()) {
-            $this->rules[] = new AllowsEmpty;
-        }
-
-        return $this;
+        return $this->add(new AllowsEmpty);
     }
 
     public function setAllowsNull(): self
     {
-        if (!$this->allowsNull()) {
-            $this->rules[] = new AllowsNull;
-        }
-
-        return $this;
+        return $this->add(new AllowsNull);
     }
 
     public function isEmpty(): bool
     {
-        return empty($this->rules);
+        return $this->rules->count() === 0;
     }
 
     /**
@@ -225,8 +216,18 @@ class ValidationSet implements Validation
     }
 
     /** @return Validation[] */
-    public function rules(): array
+    public function toArray(): array
     {
-        return $this->rules;
+        return iterator_to_array($this->rules);
+    }
+
+    public function getIterator(): SplObjectStorage
+    {
+        return clone $this->rules;
+    }
+
+    public function count(): int
+    {
+        return $this->rules->count();
     }
 }
