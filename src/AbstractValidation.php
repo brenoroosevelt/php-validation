@@ -34,7 +34,7 @@ abstract class AbstractValidation implements Validation
      */
     public function isValid(mixed $input, array $context = []): bool
     {
-        return $this->validate($input, $context)->isOk();
+        return $this->evaluate($input, $context);
     }
 
     /**
