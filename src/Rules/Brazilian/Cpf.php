@@ -13,7 +13,7 @@ class Cpf extends Document
         parent::__construct($mask, $message);
     }
 
-    protected function isValidDocument(string $input): bool
+    public function isValidDocument(string $input): bool
     {
         if (!$this->validateNumbersWithCorrectLength($input)) {
             return false;
@@ -22,12 +22,12 @@ class Cpf extends Document
         return $this->validateCpfCnpjDigits($input);
     }
 
-    protected function maskPattern(): string
+    public function maskPattern(): string
     {
         return '/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/';
     }
 
-    protected function unmaskedLength(): int
+    public function unmaskedLength(): int
     {
         return 11;
     }

@@ -35,28 +35,28 @@ abstract class Document extends AbstractValidation
         return $this->isValidDocument($document);
     }
 
-    protected function isValidMask(string $input): bool
+    public function isValidMask(string $input): bool
     {
         return preg_match($this->maskPattern(), $input) === 1;
     }
 
-    protected function unmaskNumber(string $input): string
+    public function unmaskNumber(string $input): string
     {
         return preg_replace('/\D/', '', $input);
     }
 
-    protected function adjustZeroPadding(string $input): string
+    public function adjustZeroPadding(string $input): string
     {
         return str_pad($input, $this->unmaskedLength(), '0', STR_PAD_LEFT);
     }
 
-    protected function validateNumbersWithCorrectLength(string $unmaskedInput): bool
+    public function validateNumbersWithCorrectLength(string $unmaskedInput): bool
     {
         $numericWithSize = '/^\d{' . $this->unmaskedLength() . '}$/';
         return preg_match($numericWithSize, $unmaskedInput) === 1;
     }
 
-    protected function validateCpfCnpjDigits(string $unmaskedDocument): bool
+    public function validateCpfCnpjDigits(string $unmaskedDocument): bool
     {
         $number = substr($unmaskedDocument, 0, -2);
         $digits = substr($unmaskedDocument, -2);
@@ -67,9 +67,9 @@ abstract class Document extends AbstractValidation
         return $digits === ($digit1 . $digit2);
     }
 
-    abstract protected function isValidDocument(string $input): bool;
+    abstract public function isValidDocument(string $input): bool;
 
-    abstract protected function maskPattern(): string;
+    abstract public function maskPattern(): string;
 
-    abstract protected function unmaskedLength(): int;
+    abstract public function unmaskedLength(): int;
 }

@@ -13,22 +13,22 @@ class Cep extends Document
         parent::__construct($mask, $message);
     }
 
-    protected function isValidDocument(string $input): bool
+    public function isValidDocument(string $input): bool
     {
         return $this->validateNumbersWithCorrectLength($input);
     }
 
-    protected function adjustZeroPadding(string $input): string
+    public function adjustZeroPadding(string $input): string
     {
         return $input;
     }
 
-    protected function maskPattern(): string
+    public function maskPattern(): string
     {
         return '/^[0-9]{5}\-[0-9]{3}$/';
     }
 
-    protected function unmaskedLength(): int
+    public function unmaskedLength(): int
     {
         return 9;
     }
