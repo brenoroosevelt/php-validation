@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use BrenoRoosevelt\Validation\AbstractValidation;
 use InvalidArgumentException;
+use Throwable;
 
 class DigitoVerificador extends AbstractValidation
 {
@@ -18,9 +19,18 @@ class DigitoVerificador extends AbstractValidation
 
     public function evaluate($input, array $context = []): bool
     {
-        $numbers = preg_replace('/\D/', '', (string) $input);
-        $number = substr($numbers, 0, -1);
-        $digit = (int) substr($numbers, -1);
+        try {
+            $stringInput = (string) $input;
+        } catch (Throwable) {
+            return false;
+        }
+
+        if (preg_match('/^\d$/', $stringInput) !== 1) {
+            return false;
+        }
+
+        $number = substr($stringInput, 0, -1);
+        $digit = (int) substr($stringInput, -1);
         return
             $digit === match($this->algorithm) {
                 self::MOD11 => self::mod11($number),
