@@ -11,7 +11,7 @@ class ValidationResultByField extends ValidationResult implements ResultByField
 
     public function __construct(string $field)
     {
-        (new NotEmpty('Field name cannot be left empty'))->validateOrFail($field);
+        (new NotEmpty('The field cannot be left blank'))->validateOrFail($field);
         $this->field = $field;
     }
 
