@@ -76,13 +76,14 @@ final class Validator
 
     /**
      * @param string|object $objectOrClass
+     * @param int|null $filter filter properties, ex: ReflectionProperty::IS_PUBLIC|ReflectionProperty::IS_PRIVATE
      * @return static
-     * @throws ReflectionException
+     * @throws ReflectionException if the class does not exist
      */
-    public static function fromProperties(string|object $objectOrClass): self
+    public static function fromProperties(string|object $objectOrClass, ?int $filter = null): self
     {
         $instance = new self;
-        $instance->ruleSets = ValidationSet::fromProperties($objectOrClass);
+        $instance->ruleSets = ValidationSet::fromProperties($objectOrClass, $filter);
         return $instance;
     }
 }

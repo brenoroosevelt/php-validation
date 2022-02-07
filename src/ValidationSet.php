@@ -68,13 +68,14 @@ final class ValidationSet implements Validation
 
     /**
      * @param string|object $objectOrClass
+     * @param int|null $filter filter properties, ex: ReflectionProperty::IS_PUBLIC|ReflectionProperty::IS_PRIVATE
      * @return array
-     * @throws ReflectionException
+     * @throws ReflectionException if the class does not exist
      */
-    public static function fromProperties(string|object $objectOrClass): array
+    public static function fromProperties(string|object $objectOrClass, ?int $filter = null): array
     {
         $ruleSets = [];
-        foreach ((new ReflectionClass($objectOrClass))->getProperties() as $property) {
+        foreach ((new ReflectionClass($objectOrClass))->getProperties($filter) as $property) {
             $ruleSets[$property->getName()] = ValidationSet::fromReflectionProperty($property);
         }
 
@@ -85,7 +86,7 @@ final class ValidationSet implements Validation
      * @param string|object $objectOrClass
      * @param string $property
      * @return static
-     * @throws ReflectionException
+     * @throws ReflectionException if the class or property does not exist.
      */
     public static function fromProperty(string|object $objectOrClass, string $property): self
     {
