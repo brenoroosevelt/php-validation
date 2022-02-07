@@ -7,9 +7,9 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractValidation;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotExacly extends AbstractValidation
+class Exactly extends AbstractValidation
 {
-    const MESSAGE = 'The value should be different from `%s`';
+    const MESSAGE = 'The value should be exacly `%s`';
 
     public function __construct(private mixed $value, ?string $message = null)
     {
@@ -19,6 +19,6 @@ class NotExacly extends AbstractValidation
 
     protected function evaluate($input, array $context = []): bool
     {
-        return $input !== $this->value;
+        return $input === $this->value;
     }
 }
