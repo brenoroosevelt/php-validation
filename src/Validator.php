@@ -5,7 +5,6 @@ namespace BrenoRoosevelt\Validation;
 
 use ReflectionClass;
 use ReflectionException;
-use ReflectionMethod;
 
 final class Validator
 {
@@ -60,6 +59,22 @@ final class Validator
         }
 
         return $validationResultSet;
+    }
+
+    public function only(string ...$fields): self
+    {
+        $instance = clone $this;
+        $instance->ruleSets =
+            array_filter($instance->ruleSets, fn(ValidationSet $ruleSet) => in_array($ruleSet->getField(), $fields));
+        return $instance;
+    }
+
+    public function except(string ...$fields): self
+    {
+        $instance = clone $this;
+        $instance->ruleSets =
+            array_filter($instance->ruleSets, fn(ValidationSet $ruleSet) => !in_array($ruleSet->getField(), $fields));
+        return $instance;
     }
 
     /**
