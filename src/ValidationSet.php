@@ -89,7 +89,7 @@ class ValidationSet implements Validation
         return false;
     }
 
-    public function notRequired(): self
+    public function setNotRequired(): self
     {
         if ($this->isRequired()) {
             $this->rules[] = new NotRequired;
