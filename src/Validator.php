@@ -77,7 +77,8 @@ final class Validator
 
         $methodRules = ValidationSet::fromMethods($object);
         foreach ($methodRules as $methodName => $ruleSet) {
-            $value = (new ReflectionMethod($object, $methodName))->invoke($object);
+            $method = new ReflectionMethod($object, $methodName);
+            $value = $method->invoke($method->isStatic() ? null : $object);
             $methodResult = $ruleSet->validate($value);
             if (!$methodResult->isOk()) {
                 $result = $result->add($methodResult);
