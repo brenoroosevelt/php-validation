@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractValidation;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class DigitoVerificador extends AbstractValidation
 {
-    public function __construct(?string $message = 'Dígito verificador inválido')
+    public function __construct(private string $calc = 'mod11', ?string $message = 'Dígito verificador inválido')
     {
         parent::__construct($message);
     }
@@ -19,7 +19,7 @@ class DigitoVerificador extends AbstractValidation
         $numbers = preg_replace('/\D/', '', (string) $input);
         $number = substr($numbers, 0, -1);
         $digit = (int) substr($numbers, -1);
-        return self::mod11($number) === $digit;
+        return $digit === ($this->calc === 'mod11' ? self::mod11($number) : self::mod10($number));
     }
 
     public static function mod11($input): int
