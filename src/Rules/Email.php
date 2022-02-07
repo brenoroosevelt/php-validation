@@ -15,7 +15,7 @@ class Email extends AbstractValidation
         parent::__construct($message);
     }
 
-    public function isValid($input, array $context = []): bool
+    public function evaluate($input, array $context = []): bool
     {
         return
             is_string($input) &&

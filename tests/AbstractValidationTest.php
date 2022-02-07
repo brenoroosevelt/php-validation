@@ -12,7 +12,7 @@ class AbstractValidationTest extends TestCase
     public function shouldProvideDefaultMessage(): void
     {
             $validation = new class extends AbstractValidation {
-            protected function isValid($input, array $context = []): bool {
+            protected function evaluate($input, array $context = []): bool {
                 return false;
             }
         };
@@ -25,7 +25,7 @@ class AbstractValidationTest extends TestCase
     {
         $message = 'My Error';
         $validation = new class($message) extends AbstractValidation {
-            protected function isValid($input, array $context = []): bool {
+            protected function evaluate($input, array $context = []): bool {
                 return false;
             }
         };
@@ -37,7 +37,7 @@ class AbstractValidationTest extends TestCase
     public function shouldValidateAccordingAbstractMethod_TRUE(): void
     {
         $validation = new class extends AbstractValidation {
-            protected function isValid($input, array $context = []): bool {
+            protected function evaluate($input, array $context = []): bool {
                 return true;
             }
         };
@@ -49,7 +49,7 @@ class AbstractValidationTest extends TestCase
     public function shouldValidateAccordingAbstractMethod_FALSE(): void
     {
         $validation = new class extends AbstractValidation {
-            protected function isValid($input, array $context = []): bool {
+            protected function evaluate($input, array $context = []): bool {
                 return false;
             }
         };

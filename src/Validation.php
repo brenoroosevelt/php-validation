@@ -5,5 +5,10 @@ namespace BrenoRoosevelt\Validation;
 
 interface Validation
 {
-    public function validate($input, array $context = []): Result;
+    /**
+     * @param mixed $input
+     * @param array $context
+     * @return Result
+     */
+    public function validate(mixed $input, array $context = []): Result;
 }

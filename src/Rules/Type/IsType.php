@@ -14,7 +14,7 @@ class IsType extends AbstractValidation
         parent::__construct($message ?? sprintf('Invalid type: %s', $this->type));
     }
 
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         return gettype($input) === $this->type;
     }

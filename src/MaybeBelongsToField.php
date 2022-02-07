@@ -31,6 +31,9 @@ trait MaybeBelongsToField
 
     private function newEmptyValidationResult(): ValidationResult|ValidationResultByField
     {
-        return $this->belongsToField() ? new ValidationResultByField($this->getField()) : new ValidationResult;
+        return
+            $this->belongsToField() ?
+                new ValidationResultByField($this->getField()) :
+                ValidationResult::everythingIsOk();
     }
 }

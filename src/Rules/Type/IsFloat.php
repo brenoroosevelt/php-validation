@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsFloat extends AbstractValidation
 {
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         return is_float($input);
     }

@@ -23,7 +23,7 @@ final class Validator
             }
         }
 
-        return $this->ruleSets[] = (new ValidationSet)->setField($field);
+        return $this->ruleSets[] = ValidationSet::forField($field);
     }
 
     public function field(string $field, Validation|ValidationSet ...$rules): self
@@ -44,7 +44,7 @@ final class Validator
 
     public function validate(array $data = []): ValidationResultSet
     {
-        $validationResultSet = new ValidationResultSet();
+        $validationResultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $ruleSet) {
             $field = $ruleSet->getField();
             if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {

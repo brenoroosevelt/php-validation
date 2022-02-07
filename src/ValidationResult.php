@@ -13,6 +13,11 @@ class ValidationResult implements Result
         return new self;
     }
 
+    public static function withError(string ...$error): self
+    {
+        return (new self)->error(...$error);
+    }
+
     public function error(string ...$errors): self
     {
         array_push($this->errors, ...$errors);

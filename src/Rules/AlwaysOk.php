@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\ValidationResult;
 
 class AlwaysOk implements Validation
 {
-    public function validate($input, array $context = []): Result
+    public function validate(mixed $input, array $context = []): Result
     {
         return ValidationResult::everythingIsOk();
     }

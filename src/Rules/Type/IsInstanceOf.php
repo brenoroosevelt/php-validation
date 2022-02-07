@@ -14,7 +14,7 @@ class IsInstanceOf extends AbstractValidation
         parent::__construct($message);
     }
 
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         return $input instanceof $this->class;
     }

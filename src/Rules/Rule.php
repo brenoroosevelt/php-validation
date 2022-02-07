@@ -17,7 +17,7 @@ class Rule extends AbstractValidation
         parent::__construct($message);
     }
 
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         return ($this->rule)($input, $context);
     }

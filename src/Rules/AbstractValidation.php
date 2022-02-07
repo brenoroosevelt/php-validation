@@ -8,6 +8,9 @@ use BrenoRoosevelt\Validation\GuardForValidation;
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Validation;
 
+/**
+ * helper class to create single message validations
+ */
 abstract class AbstractValidation implements Validation
 {
     use GuardForValidation,
@@ -20,11 +23,19 @@ abstract class AbstractValidation implements Validation
         $this->message = $message ?? sprintf('Constraint violation: %s', get_class($this));
     }
 
-    public function validate($input, array $context = []): Result
+    /**
+     * @inheritDoc
+     */
+    public function validate(mixed $input, array $context = []): Result
     {
         $result = $this->newEmptyValidationResult();
-        return $this->isValid($input, $context) ? $result: $result->error($this->message);
+        return $this->evaluate($input, $context) ? $result: $result->error($this->message);
     }
 
-    abstract protected function isValid($input, array $context = []): bool;
+    public function isValid($input, array $context = []): bool
+    {
+        return $this->validate($input, $context)->isOk();
+    }
+
+    abstract protected function evaluate($input, array $context = []): bool;
 }

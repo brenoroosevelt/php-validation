@@ -11,7 +11,7 @@ use BrenoRoosevelt\Validation\ValidationResult;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class NotRequired implements Validation
 {
-    public function validate($input, array $context = []): Result
+    public function validate(mixed $input, array $context = []): Result
     {
         return new ValidationResult;
     }

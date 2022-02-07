@@ -11,14 +11,14 @@ use Throwable;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsToday extends AbstractValidation
 {
-    CONST TODAY_FORMAT = 'Y-m-d';
+    const TODAY_FORMAT = 'Y-m-d';
 
     public function __construct(?string $message = 'The date/time should be today')
     {
         parent::__construct($message);
     }
 
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         try {
             $now = new DateTimeImmutable();

@@ -19,7 +19,7 @@ class Format extends AbstractValidation
         parent::__construct($message);
     }
 
-    protected function isValid($input, array $context = []): bool
+    protected function evaluate($input, array $context = []): bool
     {
         try {
             $stringInput = (string) $input;

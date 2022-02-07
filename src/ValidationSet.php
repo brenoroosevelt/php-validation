@@ -48,7 +48,7 @@ class ValidationSet implements Validation
         return $this;
     }
 
-    public function validate($input, array $context = []): ValidationResult|ValidationResultByField
+    public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
     {
         $violations = $this->newEmptyValidationResult();
         foreach ($this->rules as $constraint) {
