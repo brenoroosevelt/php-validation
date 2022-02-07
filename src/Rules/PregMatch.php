@@ -20,8 +20,7 @@ class PregMatch extends AbstractValidation
             $subject = (string) $input;
             return preg_match($this->pattern, $subject) === 1;
         } catch (Throwable $exception) {
+            return false;
         }
-
-        return false;
     }
 }
