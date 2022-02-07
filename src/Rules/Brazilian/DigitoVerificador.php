@@ -34,4 +34,18 @@ class DigitoVerificador extends AbstractValidation
 
         return 11 - (($sum * 10 ) % 11);
     }
+
+    public static function mod10($input): int
+    {
+        $numbers = array_reverse(str_split((string) $input));
+        $factor = [2, 1];
+        $size = count($factor);
+        $i = $sum = 0;
+        foreach ($numbers as $number) {
+            $num = $number * $factor[$i++ % $size];
+            $sum += array_sum(str_split((string) $num));
+        }
+
+        return 10 - ($sum % 10);
+    }
 }
