@@ -40,9 +40,9 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
         return new self($field, ...$rules);
     }
 
-    public static function withRules(Validation|ValidationSet $validation, Validation|ValidationSet ...$rules): self
+    public static function withRules(Validation|ValidationSet ...$rules): self
     {
-        return new self(null, $validation, ...$rules);
+        return new self(null, ...$rules);
     }
 
     public function add(Validation|ValidationSet ...$rules): self
