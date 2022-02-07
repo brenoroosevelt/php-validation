@@ -4,19 +4,31 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Cnpj extends AbstractValidation
+class Cnpj extends Document
 {
-    public function __construct(?string $message = 'CNPJ inválido')
+    public function __construct(bool $mask = true, ?string $message = 'CNPJ inválido')
     {
-        parent::__construct($message);
+        parent::__construct($mask, $message);
     }
 
-    public function evaluate($input, array $context = []): bool
+    protected function isValidDocument(string $input): bool
     {
-        //TODO: validate
-        return false;
+        if (!$this->validateNumbersWithCorrectLength($input)) {
+            return false;
+        }
+
+        return $this->validateCpfCnpjDigits($input);
+    }
+
+    protected function maskPattern(): string
+    {
+        return '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/';
+    }
+
+    protected function unmaskedLength(): int
+    {
+        return 14;
     }
 }
