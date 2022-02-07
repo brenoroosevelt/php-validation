@@ -13,9 +13,11 @@ class CurrentMonth extends AbstractValidation
 {
     const CURRENT_MONTH = 'm';
     const CURRENT_MONTH_SAME_YEAR = 'Y-m';
+    const MESSAGE = 'The date/time should be in the current month%s';
 
-    public function __construct(private bool $sameYear = true, ?string $message = 'The date/time should be today')
+    public function __construct(private bool $sameYear = true, ?string $message = null)
     {
+        $message = $message ?? sprintf(self::MESSAGE, $this->sameYear ? ' (and same year)' : '');
         parent::__construct($message);
     }
 

@@ -13,7 +13,7 @@ class CurrentYear extends AbstractValidation
 {
     const CURRENT_YEAR = 'Y';
 
-    public function __construct(?string $message = 'The date/time should be today')
+    public function __construct(?string $message = 'The date/time should be in the current year')
     {
         parent::__construct($message);
     }
