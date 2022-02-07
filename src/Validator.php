@@ -48,22 +48,31 @@ final class Validator
         $validationResultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $ruleSet) {
             $field = $ruleSet->getField();
-            if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {
+            if (!$this->shouldValidate($ruleSet, $field, $data)) {
                 continue;
             }
 
-            $value = $data[$field] ?? null;
-            if ($ruleSet->allowsEmpty() && empty($value)) {
-                continue;
-            }
-
-            $result = $ruleSet->validate($value, $data);
+            $result = $ruleSet->validate($data[$field] ?? null, $data);
             if (!$result->isOk()) {
                 $validationResultSet = $validationResultSet->add($result);
             }
         }
 
         return $validationResultSet;
+    }
+
+    private function shouldValidate(ValidationSet $ruleSet, string $field, array $data): bool
+    {
+        if (!$ruleSet->isRequired() && !array_key_exists($field, $data)) {
+            return false;
+        }
+
+        $value = $data[$field] ?? null;
+        if ($ruleSet->allowsEmpty() && empty($value)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function only(string ...$fields): self
