@@ -9,23 +9,16 @@ use DateTimeInterface;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class DateTimeInFuture extends AbstractValidation
+class DateTimeGreaterThan extends AbstractValidation
 {
-    private ?DateTimeInterface $now = null;
-
-    public function __construct(?string $message = 'The date/time should be in the future')
+    public function __construct(private string $datetime = 'now', ?string $message = null)
     {
-        parent::__construct($message);
+        parent::__construct($message ?? sprintf('The date/time should be greater than %s', $this->datetime));
     }
 
-    public function setNow(DateTimeInterface $now): void
+    private function datetime(): DateTimeInterface
     {
-        $this->now = $now;
-    }
-
-    public function getNow(): DateTimeInterface
-    {
-        return $this->now instanceof DateTimeInterface ? $this->now : new DateTimeImmutable();
+        return new DateTimeImmutable($this->datetime);
     }
 
     protected function isValid($input, array $context = []): bool
@@ -36,7 +29,7 @@ class DateTimeInFuture extends AbstractValidation
                     $input :
                     new DateTimeImmutable($input);
 
-            return $datetime > $this->getNow();
+            return $datetime > $this->datetime();
         } catch (Throwable) {
             return false;
         }
