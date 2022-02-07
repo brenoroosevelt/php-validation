@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules;
+namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
+use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class DateTimeLessThan extends AbstractValidation
+class LessThan extends AbstractValidation
 {
     public function __construct(private string $datetime = 'now', ?string $message = null)
     {

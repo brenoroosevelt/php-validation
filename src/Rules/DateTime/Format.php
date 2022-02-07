@@ -1,16 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules;
+namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
+use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 use DateTime;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class DateTimeFormat extends AbstractValidation
+class Format extends AbstractValidation
 {
-    const MESSAGE = 'Formato de data e/ou hora inválido, use %s';
+    const MESSAGE = 'Invalid date/time format, use %s';
 
     public function __construct(private string $format, ?string $message = null)
     {

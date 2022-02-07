@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests\Fixture;
 
-use BrenoRoosevelt\Validation\Rules\IsInteger;
-use BrenoRoosevelt\Validation\Rules\IsNumeric;
-use BrenoRoosevelt\Validation\ValidationSet;
-use BrenoRoosevelt\Validation\Validator;
+use BrenoRoosevelt\Validation\Rules;
 
 class Stub
 {
-    #[IsInteger]
-    #[IsNumeric]
+    #[Rules\Type\IsInteger]
+    #[Rules\Type\IsNumeric]
     private int $int;
+
+    #[Rules\DateTime\Format(DATE_ISO8601)]
+    private string $date = '';
 
     public function x() {
 

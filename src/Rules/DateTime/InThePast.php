@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules;
+namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class DateTimeInThePast extends DateTimeLessThan
+class InThePast extends LessThan
 {
     public function __construct(?string $message = 'The date/time should be in the past')
     {

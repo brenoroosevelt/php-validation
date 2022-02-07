@@ -1,24 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation\Rules;
+namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
+use BrenoRoosevelt\Validation\Rules\AbstractValidation;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class DateTimeGreaterThan extends AbstractValidation
+class GreaterThanOther extends AbstractValidation
 {
-    public function __construct(private string $datetime = 'now', ?string $message = null)
+    public function __construct(private string $other, ?string $message = null)
     {
-        parent::__construct($message ?? sprintf('The date/time should be greater than %s', $this->datetime));
-    }
-
-    private function datetime(): DateTimeInterface
-    {
-        return new DateTimeImmutable($this->datetime);
+        parent::__construct($message ?? sprintf('The date/time should be greater than %s', $this->other));
     }
 
     protected function isValid($input, array $context = []): bool
@@ -29,7 +25,8 @@ class DateTimeGreaterThan extends AbstractValidation
                     $input :
                     new DateTimeImmutable($input);
 
-            return $datetime > $this->datetime();
+            return array_key_exists($this->other, $context)
+                && $datetime > (new DateTimeImmutable($context[$this->other]));
         } catch (Throwable) {
             return false;
         }
