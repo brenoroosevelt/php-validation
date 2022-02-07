@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 /**
- * Composite
+ * Composite, Immutable
  */
 class ValidationResultSet implements Result
 {
@@ -13,8 +13,9 @@ class ValidationResultSet implements Result
 
     public function add(ValidationResult ...$errorResult): self
     {
-        array_push($this->validationResults, ...$errorResult);
-        return $this;
+        $instance = clone $this;
+        array_push($instance->validationResults, ...$errorResult);
+        return $instance;
     }
 
     /**

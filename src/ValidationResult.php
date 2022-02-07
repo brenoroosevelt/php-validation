@@ -13,15 +13,18 @@ class ValidationResult implements Result
         return new self;
     }
 
-    public static function withError(string ...$error): self
+    public static function withErrors(string ...$error): self
     {
-        return (new self)->error(...$error);
+        $instance = new self;
+        $instance->errors = $error;
+        return $instance;
     }
 
     public function error(string ...$errors): self
     {
-        array_push($this->errors, ...$errors);
-        return $this;
+        $instance = clone $this;
+        array_push($instance->errors, ...$errors);
+        return $instance;
     }
 
     /**

@@ -24,7 +24,7 @@ abstract class AbstractValidation implements Validation
     public function validate(mixed $input, array $context = []): Result
     {
         $result = $this->newEmptyValidationResult();
-        return $this->evaluate($input, $context) ? $result: $result->error($this->message);
+        return $this->evaluate($input, $context) ? $result : $result->error($this->message);
     }
 
     /**

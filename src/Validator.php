@@ -53,7 +53,7 @@ final class Validator
 
             $result = $ruleSet->validate($data[$field] ?? null, $data);
             if (!$result->isOk()) {
-                $validationResultSet->add($result);
+                $validationResultSet = $validationResultSet->add($result);
             }
         }
 

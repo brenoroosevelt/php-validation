@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Rules\NotEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -52,7 +51,7 @@ class ValidationSet implements Validation
     {
         $violations = $this->newEmptyValidationResult();
         foreach ($this->rules as $constraint) {
-            $violations->error(...$constraint->validate($input, $context)->getErrors());
+            $violations = $violations->error(...$constraint->validate($input, $context)->getErrors());
         }
 
         return $violations;
