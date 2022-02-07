@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Rules\NotEmpty;
+
 trait MaybeBelongsToField
 {
     private ?string $field = null;
@@ -14,6 +16,10 @@ trait MaybeBelongsToField
 
     public function setField(?string $field): self
     {
+        if ($field !== null) {
+            (new NotEmpty('When provided, the field cannot be left blank'))->validateOrFail($field);
+        }
+
         $this->field = $field;
         return $this;
     }

@@ -23,7 +23,7 @@ class ValidationSet implements Validation
 
     final public function __construct(?string $field = null, Validation ...$rules)
     {
-        $this->field = $field;
+        $this->setField($field);
         $this->rules = $rules;
     }
 
@@ -32,10 +32,8 @@ class ValidationSet implements Validation
         return new self;
     }
 
-    /** @throws ValidationException */
     public static function forField(string $field, Validation ...$rules): self
     {
-        (new NotEmpty('Field cannot be left empty'))->validateOrFail($field);
         return new self($field, ...$rules);
     }
 
