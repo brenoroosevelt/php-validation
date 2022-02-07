@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractValidation;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class DigitoVerificador extends AbstractValidation
 {
-    public function __construct(?string $message = 'CPF inválido')
+    public function __construct(?string $message = 'Dígito verificador inválido')
     {
         parent::__construct($message);
     }
