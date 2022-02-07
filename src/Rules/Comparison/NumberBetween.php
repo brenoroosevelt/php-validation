@@ -17,7 +17,9 @@ class NumberBetween extends AbstractValidation
         private $boundaries = true,
         ?string $message = null
     ) {
-        $this->message = $message ?? sprintf(
+        $this->message =
+            $message ??
+            sprintf(
                 self::MESSAGE,
                 $this->min,
                 $this->max,
