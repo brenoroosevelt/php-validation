@@ -9,8 +9,13 @@ use BrenoRoosevelt\Validation\AbstractValidation;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class DigitoVerificador extends AbstractValidation
 {
-    public function __construct(private string $calc = 'mod11', ?string $message = 'Dígito verificador inválido')
-    {
+    const CALC_MOD11 = 'mod11';
+    const CALC_MOD10 = 'mod10';
+
+    public function __construct(
+        private string $calc = self::CALC_MOD11,
+        ?string $message = 'Dígito verificador inválido'
+    ) {
         parent::__construct($message);
     }
 
@@ -19,7 +24,7 @@ class DigitoVerificador extends AbstractValidation
         $numbers = preg_replace('/\D/', '', (string) $input);
         $number = substr($numbers, 0, -1);
         $digit = (int) substr($numbers, -1);
-        return $digit === ($this->calc === 'mod11' ? self::mod11($number) : self::mod10($number));
+        return $digit === ($this->calc === self::CALC_MOD11 ? self::mod11($number) : self::mod10($number));
     }
 
     public static function mod11($input): int
