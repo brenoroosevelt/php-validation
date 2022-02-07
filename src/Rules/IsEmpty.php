@@ -11,6 +11,6 @@ class IsEmpty extends AbstractValidation
 {
     protected function evaluate($input, array $context = []): bool
     {
-        return $input === true;
+        return empty($input);
     }
 }
