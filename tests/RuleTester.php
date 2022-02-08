@@ -43,7 +43,7 @@ abstract class RuleTester extends TestCase
      * @return void
      * @dataProvider validInputProvider
      */
-    public function testvalidInputs(Rule $rule, mixed $input, array $context = []): void
+    public function testValidInputs(Rule $rule, mixed $input, array $context = []): void
     {
         $this->assertInstanceOf($this->ruleClass(), $rule);
         $result = $rule->validate($input, $context);
