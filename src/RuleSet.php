@@ -17,18 +17,18 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     use GuardForValidation,
         ComparisonFactory,
         MaybeBelongsToField {
-        setField as private;
+        field as private;
     }
 
     private SplObjectStorage $rules;
 
     /**
-     * @throws ValidationException if the field is provided and is blank
+     * @throws ValidationException
      */
     final public function __construct(?string $field = null, Rule|RuleSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
-        $this->field = $field;
+        $this->setField($field);
         $this->attachRules(...$rules);
     }
 
