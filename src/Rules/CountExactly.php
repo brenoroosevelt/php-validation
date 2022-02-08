@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use Traversable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CountExactly extends AbstractValidation
+class CountExactly extends AbstractRule
 {
     const MESSAGE = 'Expected count is: %s';
 

@@ -6,7 +6,7 @@ namespace BrenoRoosevelt\Validation;
 /**
  * helper class to create single message validations
  */
-abstract class AbstractValidation implements Validation
+abstract class AbstractRule implements Rule
 {
     use GuardForValidation,
         MaybeBelongsToField;

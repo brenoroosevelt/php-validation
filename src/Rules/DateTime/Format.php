@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use DateTime;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Format extends AbstractValidation
+class Format extends AbstractRule
 {
     const MESSAGE = 'Invalid date/time format, use %s';
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Number;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NumberBetween extends AbstractValidation
+class NumberBetween extends AbstractRule
 {
     const MESSAGE = 'The value should be between `%s` and `%s` (%sincluding the boundaries)';
 

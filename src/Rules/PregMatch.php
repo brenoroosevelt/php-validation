@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class PregMatch extends AbstractValidation
+class PregMatch extends AbstractRule
 {
     public function __construct(private string $pattern, ?string $message = null)
     {

@@ -7,7 +7,7 @@ trait GuardForValidation
 {
     public function validateOrFail($input, array $context = [], string $message = 'Validation errors'): void
     {
-        if (! $this instanceof Validation) {
+        if (! $this instanceof Rule) {
             return;
         }
 

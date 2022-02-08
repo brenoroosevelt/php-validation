@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use Closure;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Rule extends AbstractValidation
+class Rule extends AbstractRule
 {
     private Closure $rule;
 

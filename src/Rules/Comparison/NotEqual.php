@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Comparison;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotEqual extends AbstractValidation
+class NotEqual extends AbstractRule
 {
     const MESSAGE = 'The value should not be equals to `%s`';
 

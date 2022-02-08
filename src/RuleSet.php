@@ -10,18 +10,21 @@ use Countable;
 use IteratorAggregate;
 use SplObjectStorage;
 
-class ValidationSet implements Validation, IteratorAggregate, Countable
+class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use GuardForValidation,
         MaybeBelongsToField;
 
     private SplObjectStorage $rules;
 
-    final public function __construct(?string $field = null, Validation|ValidationSet ...$rules)
+    /**
+     * @throws ValidationException if the field is provided and is blank
+     */
+    final public function __construct(?string $field = null, Rule|RuleSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
-        $this->field = $field;
-        $this->attachRules(...$rules);
+        $this->setField($field);
+        $this->add(...$rules);
     }
 
     public static function empty(): self
@@ -29,36 +32,31 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
         return new self;
     }
 
-    public static function forField(string $field, Validation|ValidationSet ...$rules): self
+    public static function forField(string $field, Rule|RuleSet ...$rules): self
     {
         return new self($field, ...$rules);
     }
 
-    public static function withRules(Validation|ValidationSet ...$rules): self
+    public static function withRules(Rule|RuleSet ...$rules): self
     {
         return new self(null, ...$rules);
     }
 
-    public function add(Validation|ValidationSet ...$rules): self
-    {
-        $instance = clone $this;
-        $instance->attachRules(...$rules);
-        return $instance;
-    }
-
-    private function attachRules(Validation|ValidationSet ...$rules): void
+    public function add(Rule|RuleSet ...$rules): self
     {
         foreach ($rules as $validationOrSet) {
-            if ($validationOrSet instanceof Validation) {
+            if ($validationOrSet instanceof Rule) {
                 $this->rules->attach($validationOrSet);
             }
 
-            if ($validationOrSet instanceof ValidationSet) {
+            if ($validationOrSet instanceof RuleSet) {
                 foreach ($validationOrSet as $validation) {
                     $this->rules->attach($validation);
                 }
             }
         }
+
+        return $this;
     }
 
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
@@ -144,7 +142,7 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
         return $this->rules->count() === 0;
     }
 
-    /** @return Validation[] */
+    /** @return Rule[] */
     public function toArray(): array
     {
         return iterator_to_array($this->rules);

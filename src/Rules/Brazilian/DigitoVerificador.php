@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use InvalidArgumentException;
 use Throwable;
 
-class DigitoVerificador extends AbstractValidation
+class DigitoVerificador extends AbstractRule
 {
     const MOD11 = 0;
     const MOD10 = 1;

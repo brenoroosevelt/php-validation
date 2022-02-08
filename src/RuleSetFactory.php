@@ -8,12 +8,12 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 
-final class ValidationSetFactory
+final class RuleSetFactory
 {
     /**
      * @param string|object $objectOrClass
      * @param int|null $filter filter properties, ex: ReflectionProperty::IS_PUBLIC|ReflectionProperty::IS_PRIVATE
-     * @return ValidationSet[]
+     * @return RuleSet[]
      * @throws ReflectionException if the class does not exist
      */
     public static function fromProperties(string|object $objectOrClass, ?int $filter = null): array
@@ -23,13 +23,13 @@ final class ValidationSetFactory
             $ruleSets[$property->getName()] = self::fromReflectionProperty($property);
         }
 
-        return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
+        return array_filter($ruleSets, fn(RuleSet $c) => !$c->isEmpty());
     }
 
     /**
      * @param string|object $objectOrClass
      * @param int|null $filter
-     * @return ValidationSet[]
+     * @return RuleSet[]
      * @throws ReflectionException
      */
     public static function fromMethods(string|object $objectOrClass, ?int $filter = null): array
@@ -39,16 +39,16 @@ final class ValidationSetFactory
             $ruleSets[$method->getName()] = self::fromReflectionMethod($method);
         }
 
-        return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
+        return array_filter($ruleSets, fn(RuleSet $c) => !$c->isEmpty());
     }
 
     /**
      * @param string|object $objectOrClass
      * @param string $property
-     * @return ValidationSet
+     * @return RuleSet
      * @throws ReflectionException if the class or property does not exist.
      */
-    public static function fromProperty(string|object $objectOrClass, string $property): ValidationSet
+    public static function fromProperty(string|object $objectOrClass, string $property): RuleSet
     {
         return self::fromReflectionProperty(new ReflectionProperty($objectOrClass, $property));
     }
@@ -56,41 +56,41 @@ final class ValidationSetFactory
     /**
      * @param string|object $objectOrClass
      * @param string $method
-     * @return ValidationSet
+     * @return RuleSet
      * @throws ReflectionException
      */
-    public static function fromMethod(string|object $objectOrClass, string $method): ValidationSet
+    public static function fromMethod(string|object $objectOrClass, string $method): RuleSet
     {
         return self::fromReflectionMethod(new ReflectionMethod($objectOrClass, $method));
     }
 
     /**
      * @param ReflectionProperty $property
-     * @return ValidationSet
+     * @return RuleSet
      */
-    public static function fromReflectionProperty(ReflectionProperty $property): ValidationSet
+    public static function fromReflectionProperty(ReflectionProperty $property): RuleSet
     {
         return
-            ValidationSet::forField(
+            RuleSet::forField(
                 $property->getName(),
                 ...array_map(
                     fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
-                    $property->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
+                    $property->getAttributes(Rule::class, ReflectionAttribute::IS_INSTANCEOF)
                 )
             );
     }
 
     /**
      * @param ReflectionMethod $method
-     * @return ValidationSet
+     * @return RuleSet
      */
-    public static function fromReflectionMethod(ReflectionMethod $method): ValidationSet
+    public static function fromReflectionMethod(ReflectionMethod $method): RuleSet
     {
         return
-            ValidationSet::withRules(
+            RuleSet::withRules(
                 ...array_map(
                     fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
-                    $method->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
+                    $method->getAttributes(Rule::class, ReflectionAttribute::IS_INSTANCEOF)
                 )
             );
     }

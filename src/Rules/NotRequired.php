@@ -5,11 +5,11 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\Validation;
+use BrenoRoosevelt\Validation\Rule;
 use BrenoRoosevelt\Validation\ValidationResult;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class NotRequired implements Validation
+final class NotRequired implements Rule
 {
     private static ?self $instance = null;
 

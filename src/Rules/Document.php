@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Rules;
 
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use Throwable;
 
-abstract class Document extends AbstractValidation
+abstract class Document extends AbstractRule
 {
     public function __construct(private bool $mask = true, ?string $message = 'Invalid document')
     {

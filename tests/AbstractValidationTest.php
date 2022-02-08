@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use PHPUnit\Framework\TestCase;
 
 class AbstractValidationTest extends TestCase
@@ -11,7 +11,7 @@ class AbstractValidationTest extends TestCase
     /** @test */
     public function shouldProvideDefaultMessage(): void
     {
-            $validation = new class extends AbstractValidation {
+            $validation = new class extends AbstractRule {
             protected function evaluate($input, array $context = []): bool {
                 return false;
             }
@@ -24,7 +24,7 @@ class AbstractValidationTest extends TestCase
     public function shouldUseProvidedMessage(): void
     {
         $message = 'My Error';
-        $validation = new class($message) extends AbstractValidation {
+        $validation = new class($message) extends AbstractRule {
             protected function evaluate($input, array $context = []): bool {
                 return false;
             }
@@ -36,7 +36,7 @@ class AbstractValidationTest extends TestCase
     /** @test */
     public function shouldValidateAccordingAbstractMethod_TRUE(): void
     {
-        $validation = new class extends AbstractValidation {
+        $validation = new class extends AbstractRule {
             protected function evaluate($input, array $context = []): bool {
                 return true;
             }
@@ -48,7 +48,7 @@ class AbstractValidationTest extends TestCase
     /** @test */
     public function shouldValidateAccordingAbstractMethod_FALSE(): void
     {
-        $validation = new class extends AbstractValidation {
+        $validation = new class extends AbstractRule {
             protected function evaluate($input, array $context = []): bool {
                 return false;
             }

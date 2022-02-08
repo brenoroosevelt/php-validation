@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Comparison;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class GreaterThanOrEqual extends AbstractValidation
+class GreaterThanOrEqual extends AbstractRule
 {
     const MESSAGE = 'The value should be greater than or equal to `%s`';
 

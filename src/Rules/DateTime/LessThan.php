@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class LessThan extends AbstractValidation
+class LessThan extends AbstractRule
 {
     public function __construct(private string $datetime = 'now', ?string $message = null)
     {

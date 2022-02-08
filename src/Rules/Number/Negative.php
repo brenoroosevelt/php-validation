@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Number;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\Rules\Comparison\LessThan;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]

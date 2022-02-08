@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use DateTimeImmutable;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CurrentDay extends AbstractValidation
+class CurrentDay extends AbstractRule
 {
     const TODAY_FORMAT = 'Y-m-d';
 

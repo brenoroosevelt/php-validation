@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use DateTimeImmutable;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CurrentMonth extends AbstractValidation
+class CurrentMonth extends AbstractRule
 {
     const CURRENT_MONTH = 'm';
     const CURRENT_MONTH_SAME_YEAR = 'Y-m';

@@ -5,10 +5,10 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use ArrayAccess;
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class HasKey extends AbstractValidation
+class HasKey extends AbstractRule
 {
     const MESSAGE = 'Key not found: %s';
 

@@ -14,15 +14,17 @@ trait MaybeBelongsToField
         return $this->field;
     }
 
-    public function withField(?string $field): static
+    /**
+     * @throws ValidationException
+     */
+    public function setField(?string $field): static
     {
         if ($field !== null) {
             (new NotEmpty('When provided, the field cannot be left blank'))->validateOrFail($field);
         }
 
-        $instance = clone $this;
-        $instance->field = $field;
-        return $instance;
+        $this->field = $field;
+        return $this;
     }
 
     public function belongsToField(): bool

@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Type;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class IsInstanceOfAny extends AbstractValidation
+class IsInstanceOfAny extends AbstractRule
 {
     public function __construct(private array $classes, ?string $message = null)
     {

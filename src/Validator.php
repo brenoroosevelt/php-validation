@@ -8,7 +8,7 @@ use ReflectionException;
 
 final class Validator
 {
-    /** @var ValidationSet[] */
+    /** @var RuleSet[] */
     private array $ruleSets;
 
     public static function new(): self
@@ -16,16 +16,10 @@ final class Validator
         return new self;
     }
 
-    public function field(string $field): ?ValidationSet
+    public function ruleSet(string $field, Rule|RuleSet ...$rules): RuleSet
     {
-        return $this->ruleSets[$field] ?? null;
-    }
-
-    public function ruleSet(string $field, Validation|ValidationSet ...$rules): self
-    {
-        $ruleSet = $this->ruleSets[$field] ?? ValidationSet::forField($field);
-        $this->ruleSets[$field] = $ruleSet->add(...$rules);
-        return $this;
+        $ruleSet = $this->ruleSets[$field] ?? $this->ruleSets[$field] = RuleSet::forField($field);
+        return $ruleSet->add(...$rules);
     }
 
     public function validate(array $data = []): ValidationResultSet
@@ -49,7 +43,7 @@ final class Validator
     {
         $instance = clone $this;
         $instance->ruleSets =
-            array_filter($instance->ruleSets, fn(ValidationSet $ruleSet) => in_array($ruleSet->getField(), $fields));
+            array_filter($instance->ruleSets, fn(RuleSet $ruleSet) => in_array($ruleSet->getField(), $fields));
         return $instance;
     }
 
@@ -57,7 +51,7 @@ final class Validator
     {
         $instance = clone $this;
         $instance->ruleSets =
-            array_filter($instance->ruleSets, fn(ValidationSet $ruleSet) => !in_array($ruleSet->getField(), $fields));
+            array_filter($instance->ruleSets, fn(RuleSet $ruleSet) => !in_array($ruleSet->getField(), $fields));
         return $instance;
     }
 
@@ -75,7 +69,7 @@ final class Validator
         $result = Validator::fromProperties($object)->validate($data);
 
         foreach ($class->getMethods() as $method) {
-            $ruleSet = ValidationSetFactory::fromReflectionMethod($method);
+            $ruleSet = RuleSetFactory::fromReflectionMethod($method);
             $value = $method->invoke($method->isStatic() ? null : $object);
             $methodResult = $ruleSet->validate($value);
             if (!$methodResult->isOk()) {
@@ -109,7 +103,7 @@ final class Validator
     public static function fromProperties(string|object $objectOrClass, ?int $filter = null): self
     {
         $instance = new self;
-        $instance->ruleSets = ValidationSetFactory::fromProperties($objectOrClass, $filter);
+        $instance->ruleSets = RuleSetFactory::fromProperties($objectOrClass, $filter);
         return $instance;
     }
 }

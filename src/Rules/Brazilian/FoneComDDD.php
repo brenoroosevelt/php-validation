@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class FoneComDDD extends AbstractValidation
+class FoneComDDD extends AbstractRule
 {
     const WITH_MASK = '/^\([0-9]{2}\)[0-9]{4,5}-[0-9]{4}$/';
     const NO_MASK = '/^\[0-9]{10,11}$/';

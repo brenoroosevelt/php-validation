@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 use DateTimeImmutable;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CurrentYear extends AbstractValidation
+class CurrentYear extends AbstractRule
 {
     const CURRENT_YEAR = 'Y';
 

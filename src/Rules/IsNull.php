@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractValidation;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
-class IsNull extends AbstractValidation
+class IsNull extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {

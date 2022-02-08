@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\Validation;
+use BrenoRoosevelt\Validation\Rule;
 use BrenoRoosevelt\Validation\ValidationResult;
 
-final class AlwaysOk implements Validation
+final class AlwaysOk implements Rule
 {
     private static ?self $instance = null;
 
