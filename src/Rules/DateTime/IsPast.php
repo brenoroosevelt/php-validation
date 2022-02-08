@@ -6,9 +6,9 @@ namespace BrenoRoosevelt\Validation\Rules\DateTime;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class InTheFuture extends GreaterThan
+class IsPast extends LessThan
 {
-    public function __construct(?string $message = 'The date/time should be in the future')
+    public function __construct(?string $message = 'The date/time should be in the past')
     {
         parent::__construct('now', $message);
     }

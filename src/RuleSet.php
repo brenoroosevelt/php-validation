@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Factories\CommonFactory;
 use BrenoRoosevelt\Validation\Factories\ComparisonFactory;
+use BrenoRoosevelt\Validation\Factories\DateTimeFactory;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
@@ -18,6 +19,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     use GuardForValidation,
         CommonFactory,
         ComparisonFactory,
+        DateTimeFactory,
         MaybeBelongsToField {
         field as private;
     }
