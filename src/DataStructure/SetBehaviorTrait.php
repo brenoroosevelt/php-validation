@@ -14,10 +14,12 @@ trait SetBehaviorTrait
         }
     }
 
-    public function add(mixed $element): self
+    public function add(mixed ...$elements): self
     {
-        if (!$this->hasElement($element)) {
-            $this->elements[] = $element;
+        foreach ($elements as $element) {
+            if (!$this->hasElement($element)) {
+                $this->elements[] = $element;
+            }
         }
 
         return $this;

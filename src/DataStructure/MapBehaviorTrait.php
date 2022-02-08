@@ -14,7 +14,7 @@ trait MapBehaviorTrait
         }
     }
 
-    public function set(string|int $index, $value): self
+    public function set(string|int $index, mixed $value): self
     {
         $this->insert($value, $index);
         return $this;
