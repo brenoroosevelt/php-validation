@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/brenoroosevelt/php-validation/branch/main/graph/badge.svg?token=S1QBA18IBX)](https://codecov.io/gh/brenoroosevelt/php-validation)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 
-PHP Validation Library.
+PHP Validation Library
 
 ## Requirements
 
@@ -14,7 +14,7 @@ The following versions of PHP are supported: >= `8.0`.
 ## Install
 
 ``` bash
-$ composer require brenoroosevelt/php-validation
+$ composer require brenoroosevelt/validation
 ```
 
 ## Usage
