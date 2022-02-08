@@ -4,37 +4,39 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
-use BrenoRoosevelt\Validation\Rules\Document;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Cnpj extends Document
+class Cnpj extends AbstractRule
 {
-    public function __construct(bool $mask = true, ?string $message = 'CNPJ inválido')
+    const MASK = '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/';
+    const LENGTH = 14;
+
+    public function __construct(private  bool $mask = true, ?string $message = 'CNPJ inválido')
     {
-        parent::__construct($mask, $message);
+        parent::__construct($message);
     }
 
-    public function isValidDocument(string $input): bool
+    protected function evaluate(mixed $input, array $context = []): bool
     {
-        if (!$this->validateNumbersWithCorrectLength($input)) {
+        if (!is_string($input) || !is_numeric($input)) {
             return false;
         }
 
-        return DigitoVerificador::checkCpfCnpjDigits($input);
-    }
+        $cnpj = (string) $input;
+        if ($this->mask) {
+            if (preg_match(Cnpj::MASK, $cnpj) !== 1) {
+                return false;
+            }
 
-    public function maskPattern(): string
-    {
-        return '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/';
-    }
+            $cnpj = preg_replace('/\D/', '', $cnpj);
+        }
 
-    public function unmaskedLength(): int
-    {
-        return 14;
-    }
+        $cnpj = str_pad($cnpj, Cnpj::LENGTH, '0', STR_PAD_LEFT);
+        if (strlen($cnpj) !== Cnpj::LENGTH) {
+            return false;
+        }
 
-    public function adjustZeroPadding(string $input): string
-    {
-        return str_pad($input, $this->unmaskedLength(), '0', STR_PAD_LEFT);
+        return DigitoVerificador::checkCpfCnpjDigits($cnpj);
     }
 }

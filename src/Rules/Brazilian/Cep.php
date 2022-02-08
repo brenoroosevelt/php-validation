@@ -4,28 +4,26 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
-use BrenoRoosevelt\Validation\Rules\Document;
+use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Cep extends Document
+class Cep extends AbstractRule
 {
-    public function __construct(bool $mask = true, ?string $message = 'CEP inválido')
+    const MASK = '/^[0-9]{5}\-[0-9]{3}$/';
+    const UNMASK = '/^[0-9]{8}$/';
+
+    public function __construct(private bool $mask = true, ?string $message = 'CEP inválido')
     {
-        parent::__construct($mask, $message);
+        parent::__construct( $message);
     }
 
-    public function isValidDocument(string $input): bool
+    protected function evaluate(mixed $input, array $context = []): bool
     {
-        return $this->validateNumbersWithCorrectLength($input);
-    }
+        if (!is_string($input) || !is_numeric($input)) {
+            return false;
+        }
 
-    public function maskPattern(): string
-    {
-        return '/^[0-9]{5}\-[0-9]{3}$/';
-    }
-
-    public function unmaskedLength(): int
-    {
-        return 8;
+        $pattern = $this->mask ? Cep::MASK : Cep::UNMASK;
+        return preg_match($pattern, (string) $input) === 1;
     }
 }

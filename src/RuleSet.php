@@ -151,7 +151,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     }
 
     /**
-     * Allows empty arrays or strings
+     * Allows empty arrays or strings (only)
      */
     public function setAllowsEmpty(): self
     {
