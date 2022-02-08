@@ -8,7 +8,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 use Closure;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Rule extends AbstractRule
+class Generic extends AbstractRule
 {
     private Closure $rule;
 

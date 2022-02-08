@@ -14,6 +14,6 @@ class Stub
     private ?int $int;
 
     #[Rules\DateTime\Format(DATE_ISO8601)]
-    #[Rules\Rule([self::class, 'x'])]
+    #[Rules\Generic([self::class, 'x'])]
     private string $date = '';
 }
