@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation\Tests\Rules;
 use ArrayObject;
 use BrenoRoosevelt\Validation\Rules\CountAtLeast;
 use BrenoRoosevelt\Validation\Tests\RuleTester;
+use Generator;
 use stdClass;
 
 class CountAtLeastTest extends RuleTester
@@ -44,6 +45,18 @@ class CountAtLeastTest extends RuleTester
                 new CountAtLeast(0),
                 0
             ],
+            'case_6' => [
+                new CountAtLeast(2),
+                new ArrayObject([1])
+            ],
+            'case_7' => [
+                new CountAtLeast(4),
+                (function(): Generator {
+                    yield 1;
+                    yield 2;
+                    yield 3;
+                })()
+            ]
         ];
     }
 
@@ -65,6 +78,14 @@ class CountAtLeastTest extends RuleTester
             'case_4' => [
                 new CountAtLeast(0),
                 new ArrayObject()
+            ],
+            'case_5' => [
+                new CountAtLeast(3),
+                (function(): Generator {
+                    yield 1;
+                    yield 2;
+                    yield 3;
+                })()
             ]
         ];
     }
