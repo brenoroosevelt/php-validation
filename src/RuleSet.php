@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Factories\ComparisonFactory;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
+use BrenoRoosevelt\Validation\Rules\IsEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use Countable;
 use IteratorAggregate;
@@ -88,16 +89,16 @@ class RuleSet implements Rule, IteratorAggregate, Countable
             return false;
         }
 
-        if ($this->inputTypeApplyAllowsEmpty($input) && empty($input) && $this->allowsEmpty()) {
+        if ($this->isEmptyInput($input) && $this->allowsEmpty()) {
             return false;
         }
 
         return true;
     }
 
-    private function inputTypeApplyAllowsEmpty($input) : bool
+    private function isEmptyInput($input): bool
     {
-        return is_array($input) || is_string($input);
+        return (new IsEmpty)->isValid($input);
     }
 
     public function isRequired(): bool
