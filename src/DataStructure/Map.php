@@ -3,15 +3,12 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\DataStructure;
 
-use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 
-class Map implements IteratorAggregate, ArrayAccess, Countable
+class Map implements IteratorAggregate, Countable
 {
-    use CollectionTrait,
-        MapBehaviorTrait,
+    use MapBehaviorTrait,
         IteratorTrait,
-        CountableTrait,
-        ArrayAccessTrait;
+        CountableTrait;
 }

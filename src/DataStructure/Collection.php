@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\DataStructure;
 
-use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 
-class Collection implements IteratorAggregate, ArrayAccess, Countable
+class Collection implements IteratorAggregate, Countable
 {
     use CollectionTrait {
         insert as public;
@@ -16,8 +15,7 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
     }
 
     use IteratorTrait,
-        CountableTrait,
-        ArrayAccessTrait;
+        CountableTrait;
 
     public function __construct(iterable $values = [])
     {

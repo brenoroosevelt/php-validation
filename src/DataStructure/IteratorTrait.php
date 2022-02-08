@@ -7,10 +7,10 @@ use ArrayIterator;
 
 trait IteratorTrait
 {
-    use CollectionTrait;
+    abstract protected function entries(): array;
 
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->elements);
+        return new ArrayIterator($this->entries());
     }
 }

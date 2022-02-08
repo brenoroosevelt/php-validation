@@ -101,4 +101,9 @@ trait CollectionTrait
     {
         return $this->length() === 0;
     }
+
+    public function entries(): array
+    {
+        return $this->elements;
+    }
 }

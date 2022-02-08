@@ -5,10 +5,10 @@ namespace BrenoRoosevelt\Validation\DataStructure;
 
 trait CountableTrait
 {
-    use CollectionTrait;
+    abstract protected function entries(): array;
 
     public function count(): int
     {
-        return count($this->elements);
+        return count($this->entries());
     }
 }

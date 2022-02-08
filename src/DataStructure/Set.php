@@ -8,8 +8,7 @@ use IteratorAggregate;
 
 class Set implements IteratorAggregate, Countable
 {
-    use CollectionTrait,
-        SetBehaviorTrait,
+    use SetBehaviorTrait,
         IteratorTrait,
         CountableTrait;
 }
