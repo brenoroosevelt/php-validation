@@ -20,7 +20,7 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
     final public function __construct(?string $field = null, Validation|ValidationSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
-        $this->withField($field);
+        $this->field = $field;
         $this->attachRules(...$rules);
     }
 
