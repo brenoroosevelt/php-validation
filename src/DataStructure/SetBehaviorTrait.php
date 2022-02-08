@@ -7,17 +7,17 @@ trait SetBehaviorTrait
 {
     use CollectionTrait;
 
-    public function __construct(iterable $values = [])
+    public function __construct(iterable $elements = [])
     {
-        foreach ($values as $value) {
-            $this->add($value);
+        foreach ($elements as $element) {
+            $this->add($element);
         }
     }
 
-    public function add(mixed $value): self
+    public function add(mixed $element): self
     {
-        if (!$this->has($value)) {
-            $this->elements[] = $value;
+        if (!$this->has($element)) {
+            $this->elements[] = $element;
         }
 
         return $this;
