@@ -7,6 +7,11 @@ trait CollectionTrait
 {
     protected array $elements = [];
 
+    public function get(string|int $index, $default = null): mixed
+    {
+        return $this->elements[$index] ?? $default;
+    }
+
     protected function insert(mixed $value, $key = null): void
     {
         if ($key !== null) {
@@ -16,18 +21,18 @@ trait CollectionTrait
         }
     }
 
-    protected function deleteElement(mixed $element): bool
+    public function deleteElement(mixed $element): bool
     {
         $index = $this->indexOf($element);
         if ($index === false) {
             return false;
         }
-        
+
         unset($this->elements[$index]);
         return true;
     }
 
-    protected function deleteByIndex($index): bool
+    public function deleteByIndex($index): bool
     {
         if (!array_key_exists($index, $this->elements)) {
             return false;
@@ -40,6 +45,16 @@ trait CollectionTrait
     public function indexOf(mixed $element): bool|int|string
     {
         return array_search($element, $this->elements, true);
+    }
+
+    public function hasIndex($index): bool
+    {
+        return array_key_exists($index, $this->elements);
+    }
+
+    public function hasElement(mixed $element): bool
+    {
+        return $this->indexOf($element) !== false;
     }
 
     public function clear(): static

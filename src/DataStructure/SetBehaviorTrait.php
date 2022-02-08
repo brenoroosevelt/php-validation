@@ -16,20 +16,10 @@ trait SetBehaviorTrait
 
     public function add(mixed $element): self
     {
-        if (!$this->has($element)) {
+        if (!$this->hasElement($element)) {
             $this->elements[] = $element;
         }
 
         return $this;
-    }
-
-    public function has(mixed $element): bool
-    {
-        return $this->indexOf($element) !== false;
-    }
-
-    public function delete(mixed $element): bool
-    {
-        return $this->deleteElement($element);
     }
 }
