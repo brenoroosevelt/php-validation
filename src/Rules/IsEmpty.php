@@ -11,11 +11,11 @@ class IsEmpty extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {
-        if (is_array($input) && empty($input)) {
-            return true;
+        if (is_object($input)) {
+            return false;
         }
 
-        if (is_iterable($input) && iterator_count($input) === 0) {
+        if (is_array($input) && empty($input)) {
             return true;
         }
 
