@@ -16,28 +16,22 @@ final class Validator
         return new self;
     }
 
-    public function ruleSet(string $field): ValidationSet
+    public function field(string $field): ?ValidationSet
     {
-        foreach ($this->ruleSets as $ruleSet) {
-            if ($ruleSet->getField() === $field) {
-                return $ruleSet;
-            }
-        }
-
-        return $this->ruleSets[] = ValidationSet::forField($field);
+        return $this->ruleSets[$field] ?? null;
     }
 
-    public function field(string $field, Validation|ValidationSet ...$rules): self
+    public function ruleSet(string $field, Validation|ValidationSet ...$rules): self
     {
-        $this->ruleSet($field)->add(...$rules);
+        $ruleSet = $this->ruleSets[$field] ?? ValidationSet::forField($field);
+        $this->ruleSets[$field] = $ruleSet->add(...$rules);
         return $this;
     }
 
     public function validate(array $data = []): ValidationResultSet
     {
         $validationResultSet = new ValidationResultSet;
-        foreach ($this->ruleSets as $fieldRuleSet) {
-            $field = $fieldRuleSet->getField();
+        foreach ($this->ruleSets as $field => $fieldRuleSet) {
             if (!$fieldRuleSet->isRequired() && !array_key_exists($field, $data)) {
                 continue;
             }

@@ -6,7 +6,6 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
-use Composer\DependencyResolver\RuleSet;
 use Countable;
 use IteratorAggregate;
 use ReflectionAttribute;
@@ -25,9 +24,9 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
 
     final public function __construct(?string $field = null, Validation|ValidationSet ...$rules)
     {
-        $this->rules = new SplObjectStorage();
-        $this->setField($field);
-        $this->add(...$rules);
+        $this->rules = new SplObjectStorage;
+        $this->withField($field);
+        $this->attachRules(...$rules);
     }
 
     public static function empty(): self
@@ -47,17 +46,24 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
 
     public function add(Validation|ValidationSet ...$rules): self
     {
-        foreach ($rules as $rule) {
-            if ($rule instanceof Validation) {
-                $this->rules->attach($rule);
+        $instance = clone $this;
+        $instance->attachRules(...$rules);
+        return $instance;
+    }
+
+    private function attachRules(Validation|ValidationSet ...$rules): void
+    {
+        foreach ($rules as $validationOrSet) {
+            if ($validationOrSet instanceof Validation) {
+                $this->rules->attach($validationOrSet);
             }
 
-            if ($rule instanceof ValidationSet) {
-                $this->add(...$rule->toArray());
+            if ($validationOrSet instanceof ValidationSet) {
+                foreach ($validationOrSet as $validation) {
+                    $this->rules->attach($validation);
+                }
             }
         }
-
-        return $this;
     }
 
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
