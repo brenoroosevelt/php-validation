@@ -19,10 +19,7 @@ trait MaybeBelongsToField
      */
     public function setField(?string $field): static
     {
-        if ($field !== null) {
-            (new NotEmpty('When provided, the field cannot be left blank'))->validateOrFail($field);
-        }
-
+        (new NotEmpty('When provided, the field cannot be left blank'))->validateOrFail($field);
         $instance = clone $this;
         $instance->field = $field;
         return $instance;
