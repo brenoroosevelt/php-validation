@@ -88,7 +88,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
             return false;
         }
 
-        if ((is_string($input) || is_array($input)) && empty($input) && $this->allowsEmpty()) {
+        if (is_string($input) && empty($input) && $this->allowsEmpty()) {
             return false;
         }
 
@@ -110,10 +110,6 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return true;
     }
 
-    /**
-     * Allows empty arrays or strings
-     * @return bool
-     */
     public function allowsEmpty(): bool
     {
         if ($this->isEmpty()) {
@@ -149,11 +145,17 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return $this->add(NotRequired::instance());
     }
 
+    /**
+     * Allows empty arrays or strings
+     */
     public function setAllowsEmpty(): self
     {
         return $this->add(AllowsEmpty::instance());
     }
 
+    /**
+     * Allows null values
+     */
     public function setAllowsNull(): self
     {
         return $this->add(AllowsNull::instance());
