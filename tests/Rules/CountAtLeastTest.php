@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation\Tests\Rules;
 use ArrayObject;
 use BrenoRoosevelt\Validation\Rules\CountAtLeast;
 use BrenoRoosevelt\Validation\Tests\RuleTester;
+use DateTimeImmutable;
 use Generator;
 use stdClass;
 
@@ -40,7 +41,7 @@ class CountAtLeastTest extends RuleTester
                 null
             ],
             'case_4' => [
-                new CountAtLeast(1),
+                new CountAtLeast(0),
                 new stdClass()
             ],
             'case_5' => [
@@ -58,6 +59,26 @@ class CountAtLeastTest extends RuleTester
                     yield 2;
                     yield 3;
                 })()
+            ],
+            'case_8' => [
+                new CountAtLeast(2),
+                '123'
+            ],
+            'case_9' => [
+                new CountAtLeast(0),
+                99.99
+            ],
+            'case_10' => [
+                new CountAtLeast(0),
+                true
+            ],
+            'case_11' => [
+                new CountAtLeast(0),
+                false
+            ],
+            'case_12' => [
+                new CountAtLeast(0),
+                new DateTimeImmutable()
             ]
         ];
     }
