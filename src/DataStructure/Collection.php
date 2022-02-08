@@ -25,4 +25,11 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
             $this->insert($value, $key);
         }
     }
+
+    public function fromArray(array $data): Collection
+    {
+        $collection = new self;
+        $collection->elements = $data;
+        return $collection;
+    }
 }
