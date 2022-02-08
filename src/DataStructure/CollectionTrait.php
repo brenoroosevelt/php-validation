@@ -109,6 +109,11 @@ trait CollectionTrait
         return $this;
     }
 
+    public function copy(): static
+    {
+        return clone $this;
+    }
+
     public function count(): int
     {
         return count($this->elements);
