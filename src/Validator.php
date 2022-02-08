@@ -58,7 +58,7 @@ final class Validator
     /**
      * @throws ReflectionException
      */
-    public function validateObject(object $object): ValidationResultSet
+    public static function validateObject(object $object): ValidationResultSet
     {
         $data = [];
         $class = new ReflectionClass($object);
