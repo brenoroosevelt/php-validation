@@ -14,7 +14,7 @@ class Cep extends AbstractRule
 
     public function __construct(private bool $mask = true, ?string $message = 'CEP inválido')
     {
-        parent::__construct( $message);
+        parent::__construct($message);
     }
 
     protected function evaluate(mixed $input, array $context = []): bool
