@@ -21,15 +21,12 @@ class Collection implements IteratorAggregate, ArrayAccess, Countable
 
     public function __construct(iterable $values = [])
     {
-        foreach ($values as $key => $value) {
-            $this->insert($value, $key);
+        if (is_array($values)) {
+            $this->elements = $values;
+        } else {
+            foreach ($values as $key => $value) {
+                $this->insert($value, $key);
+            }
         }
-    }
-
-    public function fromArray(array $data): Collection
-    {
-        $collection = new self;
-        $collection->elements = $data;
-        return $collection;
     }
 }
