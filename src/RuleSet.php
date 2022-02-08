@@ -88,11 +88,16 @@ class RuleSet implements Rule, IteratorAggregate, Countable
             return false;
         }
 
-        if (is_string($input) && empty($input) && $this->allowsEmpty()) {
+        if ($this->inputTypeAllowsEmpty($input) && empty($input) && $this->allowsEmpty()) {
             return false;
         }
 
         return true;
+    }
+
+    private function inputTypeAllowsEmpty($input) : bool
+    {
+        return is_array($input) || is_string($input);
     }
 
     public function isRequired(): bool
