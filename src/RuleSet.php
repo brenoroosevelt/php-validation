@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Factories\CommonFactory;
 use BrenoRoosevelt\Validation\Factories\ComparisonFactory;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
@@ -15,6 +16,7 @@ use SplObjectStorage;
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use GuardForValidation,
+        CommonFactory,
         ComparisonFactory,
         MaybeBelongsToField {
         field as private;

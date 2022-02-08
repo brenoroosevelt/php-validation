@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Tests;
 
 use BrenoRoosevelt\Validation\Rules\Brazilian\DigitoVerificador;
 use BrenoRoosevelt\Validation\Rules\Email;
+use BrenoRoosevelt\Validation\Rules\Generic;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use BrenoRoosevelt\Validation\Rules\Type\IsArray;
 use BrenoRoosevelt\Validation\RuleSet;
@@ -20,6 +21,9 @@ class ValidationTest extends TestCase
     {
         $this->assertTrue(true);
 
+        RuleSet::forField('email')
+            ->check(fn() => false, 'O valor deve ser algo');
+        
         try {
             RuleSet::forField('name')
                 ->add(new Email())
