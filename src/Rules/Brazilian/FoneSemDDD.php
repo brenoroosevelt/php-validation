@@ -10,8 +10,8 @@ use Throwable;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class FoneSemDDD extends AbstractRule
 {
-    const WITH_MASK = '/^\[0-9]{4,5}-[0-9]{4}$/';
-    const NO_MASK = '/^\[0-9]{8,9}$/';
+    const MASK = '/^\[0-9]{4,5}-[0-9]{4}$/';
+    const UNMASK = '/^\[0-9]{8,9}$/';
 
     public function __construct(private bool $mask = true, ?string $message = 'Telefone inválido')
     {
@@ -20,13 +20,11 @@ class FoneSemDDD extends AbstractRule
 
     public function evaluate($input, array $context = []): bool
     {
-        try {
-            $fone = (string) $input;
-        } catch (Throwable) {
+        if (!is_string($input) || !is_numeric($input)) {
             return false;
         }
 
-        $pattern = $this->mask ? self::WITH_MASK : self::NO_MASK;
-        return preg_match($pattern, $fone) === 1;
+        $pattern = $this->mask ? self::MASK : self::UNMASK;
+        return preg_match($pattern, $input) === 1;
     }
 }
