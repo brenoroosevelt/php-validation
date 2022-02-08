@@ -11,6 +11,6 @@ class NotEmpty extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {
-        return !empty($input);
+        return !(new IsEmpty)->isValid($input, $context);
     }
 }
