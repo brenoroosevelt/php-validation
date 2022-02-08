@@ -12,7 +12,7 @@ class Cnpj extends AbstractRule
     const MASK = '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/';
     const LENGTH = 14;
 
-    public function __construct(private  bool $mask = true, ?string $message = 'CNPJ inválido')
+    public function __construct(private bool $mask = true, ?string $message = 'CNPJ inválido')
     {
         parent::__construct($message);
     }
