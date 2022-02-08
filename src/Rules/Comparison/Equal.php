@@ -13,7 +13,7 @@ class Equal extends AbstractRule
 
     public function __construct(private mixed $value, ?string $message = null)
     {
-        $this->message = $message ?? sprintf(self::MESSAGE, $this->value);
+        $message = $message ?? sprintf(self::MESSAGE, $this->value);
         parent::__construct($message);
     }
 

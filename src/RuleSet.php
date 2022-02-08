@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Factories\ComparisonFactory;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
@@ -13,9 +14,10 @@ use SplObjectStorage;
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use GuardForValidation,
+        ComparisonFactory,
         MaybeBelongsToField {
-            setField as private;
-        }
+        setField as private;
+    }
 
     private SplObjectStorage $rules;
 
@@ -25,11 +27,11 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     final public function __construct(?string $field = null, Rule|RuleSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
-        $this->setField($field);
+        $this->field = $field;
         $this->attachRules(...$rules);
     }
 
-    public static function empty(): self
+    public static function new(): self
     {
         return new self;
     }
@@ -73,7 +75,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
             return $empty;
         }
 
-        if (empty($input) && $this->allowsEmpty()) {
+        if ((is_string($input) || is_array($input)) && empty($input) && $this->allowsEmpty()) {
             return $empty;
         }
 

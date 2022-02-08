@@ -67,7 +67,7 @@ final class Validator
 
         return $instance;
     }
-    
+
     public function except(string ...$fields): self
     {
         $instance = clone $this;

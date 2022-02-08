@@ -5,7 +5,7 @@ namespace BrenoRoosevelt\Validation;
 
 trait GuardForValidation
 {
-    public function validateOrFail($input, array $context = [], string $message = 'Validation errors'): void
+    public function validateOrFail($input, array $context = [], ?string $message = null): void
     {
         if (! $this instanceof Rule) {
             return;
