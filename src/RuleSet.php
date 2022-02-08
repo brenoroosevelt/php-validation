@@ -110,6 +110,10 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return true;
     }
 
+    /**
+     * Allows empty arrays or strings
+     * @return bool
+     */
     public function allowsEmpty(): bool
     {
         if ($this->isEmpty()) {
