@@ -23,8 +23,9 @@ trait MaybeBelongsToField
             (new NotEmpty('When provided, the field cannot be left blank'))->validateOrFail($field);
         }
 
-        $this->field = $field;
-        return $this;
+        $instance = clone $this;
+        $instance->field = $field;
+        return $instance;
     }
 
     public function belongsToField(): bool

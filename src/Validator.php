@@ -16,10 +16,27 @@ final class Validator
         return new self;
     }
 
-    public function ruleSet(string $field, Rule|RuleSet ...$rules): RuleSet
+    /**
+     * Returns (immutable) RuleSet instance, or null if not has been set
+     * @param string $field
+     * @return RuleSet|null
+     */
+    public function ruleSet(string $field): ?RuleSet
     {
-        $ruleSet = $this->ruleSets[$field] ?? $this->ruleSets[$field] = RuleSet::forField($field);
-        return $ruleSet->add(...$rules);
+        return $this->ruleSets[$field] ?? null;
+    }
+
+    /**
+     * Apply new rules for field
+     * @param string $field
+     * @param Rule|RuleSet ...$rules
+     * @return $this
+     */
+    public function field(string $field, Rule|RuleSet ...$rules): self
+    {
+        $ruleSet = $this->ruleSets[$field] ?? RuleSet::forField($field);
+        $this->ruleSets[$field] = $ruleSet->add(...$rules);
+        return $this;
     }
 
     public function validate(array $data = []): ValidationResultSet

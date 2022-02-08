@@ -13,7 +13,9 @@ use SplObjectStorage;
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use GuardForValidation,
-        MaybeBelongsToField;
+        MaybeBelongsToField {
+            setField as private;
+        }
 
     private SplObjectStorage $rules;
 
@@ -24,7 +26,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     {
         $this->rules = new SplObjectStorage;
         $this->setField($field);
-        $this->add(...$rules);
+        $this->attachRules(...$rules);
     }
 
     public static function empty(): self
@@ -42,7 +44,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return new self(null, ...$rules);
     }
 
-    public function add(Rule|RuleSet ...$rules): self
+    private function attachRules(Rule|RuleSet ...$rules): void
     {
         foreach ($rules as $validationOrSet) {
             if ($validationOrSet instanceof Rule) {
@@ -55,8 +57,13 @@ class RuleSet implements Rule, IteratorAggregate, Countable
                 }
             }
         }
+    }
 
-        return $this;
+    public function add(Rule|RuleSet ...$rules): self
+    {
+        $instance = clone $this;
+        $instance->attachRules(...$rules);
+        return $instance;
     }
 
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
