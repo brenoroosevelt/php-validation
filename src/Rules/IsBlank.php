@@ -7,18 +7,10 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
-class IsEmpty extends AbstractRule
+class IsBlank extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {
-        if (is_object($input)) {
-            return false;
-        }
-
-        if ((is_array($input) || is_string($input)) && empty($input)) {
-            return true;
-        }
-
-        return false;
+        return (is_string($input) && mb_strlen(trim($input)) === 0);
     }
 }

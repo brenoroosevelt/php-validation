@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Rules\NotEmpty;
+use BrenoRoosevelt\Validation\Rules\NotBlank;
 
 class ValidationResultByField extends ValidationResult implements ResultByField
 {
@@ -11,7 +11,7 @@ class ValidationResultByField extends ValidationResult implements ResultByField
 
     public function __construct(string $field)
     {
-        (new NotEmpty('The field cannot be left blank'))->validateOrFail($field);
+        (new NotBlank('The field cannot be left blank'))->validateOrFail($field);
         $this->field = $field;
     }
 
