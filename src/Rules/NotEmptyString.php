@@ -7,10 +7,10 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotBlank extends AbstractRule
+class NotEmptyString extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {
-        return !(new IsBlank)->isValid($input, $context);
+        return !(new EmptyString)->isValid($input, $context);
     }
 }

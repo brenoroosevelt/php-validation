@@ -39,7 +39,7 @@ class DigitoVerificador extends AbstractRule
             };
     }
 
-    public static function mod11($input, $replace = []): int
+    public static function mod11($input, $modReturn = []): int
     {
         $numbers = array_reverse(str_split((string) $input));
         $factor = [2, 3, 4, 5, 6, 7, 8, 9];
@@ -50,8 +50,8 @@ class DigitoVerificador extends AbstractRule
         }
 
         $mod11 = ($sum * 10 ) % 11;
-        if (array_key_exists($mod11, $replace)) {
-            return $replace[$mod11];
+        if (array_key_exists($mod11, $modReturn)) {
+            return $modReturn[$mod11];
         }
 
         return 11 - $mod11;
@@ -77,9 +77,9 @@ class DigitoVerificador extends AbstractRule
         $number = substr($document, 0, -2);
         $digits = substr($document, -2);
 
-        $replace = [0 => 0, 1 => 0];
-        $digit1 = DigitoVerificador::mod11($number, $replace);
-        $digit2 = DigitoVerificador::mod11($number . $digit1, $replace);
+        $modReturn = [0 => 0, 1 => 0];
+        $digit1 = DigitoVerificador::mod11($number, $modReturn);
+        $digit2 = DigitoVerificador::mod11($number . $digit1, $modReturn);
 
         return $digits === ($digit1 . $digit2);
     }

@@ -7,7 +7,7 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
-class IsBlank extends AbstractRule
+class EmptyString extends AbstractRule
 {
     protected function evaluate($input, array $context = []): bool
     {
