@@ -22,8 +22,8 @@ trait CollectionTrait
         if ($index === false) {
             return false;
         }
-
-        $this->elements = array_slice($this->elements, $index, 1, true);
+        
+        unset($this->elements[$index]);
         return true;
     }
 
