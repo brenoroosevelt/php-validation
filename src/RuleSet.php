@@ -71,11 +71,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
     {
         $violations = $empty = $this->newEmptyValidationResult();
-        if (null === $input && $this->allowsNull()) {
-            return $empty;
-        }
-
-        if ((is_string($input) || is_array($input)) && empty($input) && $this->allowsEmpty()) {
+        if (!$this->shouldValidate($input)) {
             return $empty;
         }
 
@@ -84,6 +80,19 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         }
 
         return $violations;
+    }
+
+    private function shouldValidate(mixed $input): bool
+    {
+        if (null === $input && $this->allowsNull()) {
+            return false;
+        }
+
+        if ((is_string($input) || is_array($input)) && empty($input) && $this->allowsEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isRequired(): bool
