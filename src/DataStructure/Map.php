@@ -8,7 +8,5 @@ use IteratorAggregate;
 
 class Map implements IteratorAggregate, Countable
 {
-    use MapBehaviorTrait,
-        IteratorTrait,
-        CountableTrait;
+    use MapBehaviorTrait;
 }

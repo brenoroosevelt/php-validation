@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\DataStructure;
 
+use ArrayIterator;
+
 trait CollectionTrait
 {
     protected array $elements = [];
-
-    public function get(string|int $index, $default = null): mixed
-    {
-        return $this->elements[$index] ?? $default;
-    }
 
     protected function insert(mixed $value, $key = null): void
     {
@@ -19,6 +16,11 @@ trait CollectionTrait
         } else {
             $this->elements[] = $value;
         }
+    }
+
+    public function get(string|int $index, $default = null): mixed
+    {
+        return $this->elements[$index] ?? $default;
     }
 
     public function deleteElement(mixed $element): bool
@@ -107,18 +109,18 @@ trait CollectionTrait
         return $this;
     }
 
-    public function length(): int
+    public function count(): int
     {
         return count($this->elements);
     }
 
     public function isEmpty(): bool
     {
-        return $this->length() === 0;
+        return $this->count() === 0;
     }
 
-    public function entries(): array
+    public function getIterator(): ArrayIterator
     {
-        return $this->elements;
+        return new ArrayIterator($this->elements);
     }
 }

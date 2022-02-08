@@ -10,12 +10,7 @@ class Collection implements IteratorAggregate, Countable
 {
     use CollectionTrait {
         insert as public;
-        deleteElement as public;
-        deleteByIndex as public;
     }
-
-    use IteratorTrait,
-        CountableTrait;
 
     public function __construct(iterable $values = [])
     {
