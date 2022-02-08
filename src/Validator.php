@@ -17,7 +17,7 @@ final class Validator
     }
 
     /**
-     * Returns (immutable) RuleSet instance, or null if not has been set
+     * Returns an instance of RuleSet (immutable) or null if not set
      * @param string $field
      * @return RuleSet|null
      */
@@ -27,7 +27,7 @@ final class Validator
     }
 
     /**
-     * Apply new rules for field
+     * Apply new rules to the field
      * @param string $field
      * @param Rule|RuleSet ...$rules
      * @return $this
@@ -59,16 +59,24 @@ final class Validator
     public function only(string ...$fields): self
     {
         $instance = clone $this;
-        $instance->ruleSets =
-            array_filter($instance->ruleSets, fn(RuleSet $ruleSet) => in_array($ruleSet->getField(), $fields));
+        foreach ($instance->ruleSets as $field => $set) {
+            if (!in_array($field, $fields)) {
+                unset($instance[$field]);
+            }
+        }
+
         return $instance;
     }
-
+    
     public function except(string ...$fields): self
     {
         $instance = clone $this;
-        $instance->ruleSets =
-            array_filter($instance->ruleSets, fn(RuleSet $ruleSet) => !in_array($ruleSet->getField(), $fields));
+        foreach ($instance->ruleSets as $field => $set) {
+            if (in_array($field, $fields)) {
+                unset($instance[$field]);
+            }
+        }
+
         return $instance;
     }
 
