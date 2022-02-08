@@ -65,11 +65,11 @@ class CountAtLeastTest extends RuleTester
                 '123'
             ],
             'case_9' => [
-                new CountAtLeast(0),
+                new CountAtLeast(1),
                 99.99
             ],
             'case_10' => [
-                new CountAtLeast(0),
+                new CountAtLeast(1),
                 true
             ],
             'case_11' => [
