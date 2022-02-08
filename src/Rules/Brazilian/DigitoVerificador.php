@@ -50,11 +50,7 @@ class DigitoVerificador extends AbstractRule
         }
 
         $mod11 = ($sum * 10 ) % 11;
-        if (array_key_exists($mod11, $modReturn)) {
-            return $modReturn[$mod11];
-        }
-
-        return 11 - $mod11;
+        return $modReturn[$mod11] ?? 11 - $mod11;
     }
 
     public static function mod10($input): int
