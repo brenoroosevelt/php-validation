@@ -8,11 +8,6 @@ use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
 use Countable;
 use IteratorAggregate;
-use ReflectionAttribute;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionMethod;
-use ReflectionProperty;
 use SplObjectStorage;
 
 class ValidationSet implements Validation, IteratorAggregate, Countable
@@ -147,85 +142,6 @@ class ValidationSet implements Validation, IteratorAggregate, Countable
     public function isEmpty(): bool
     {
         return $this->rules->count() === 0;
-    }
-
-    /**
-     * @param string|object $objectOrClass
-     * @param int|null $filter filter properties, ex: ReflectionProperty::IS_PUBLIC|ReflectionProperty::IS_PRIVATE
-     * @return ValidationSet[]
-     * @throws ReflectionException if the class does not exist
-     */
-    public static function fromProperties(string|object $objectOrClass, ?int $filter = null): array
-    {
-        $ruleSets = [];
-        foreach ((new ReflectionClass($objectOrClass))->getProperties($filter) as $property) {
-            $ruleSets[$property->getName()] = ValidationSet::fromReflectionProperty($property);
-        }
-
-        return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
-    }
-
-    /**
-     * @param string|object $objectOrClass
-     * @param int|null $filter
-     * @return ValidationSet[]
-     * @throws ReflectionException
-     */
-    public static function fromMethods(string|object $objectOrClass, ?int $filter = null): array
-    {
-        $ruleSets = [];
-        foreach ((new ReflectionClass($objectOrClass))->getMethods($filter) as $method) {
-            $ruleSets[$method->getName()] = ValidationSet::fromReflectionMethod($method);
-        }
-
-        return array_filter($ruleSets, fn(ValidationSet $c) => !$c->isEmpty());
-    }
-
-    /**
-     * @param string|object $objectOrClass
-     * @param string $property
-     * @return static
-     * @throws ReflectionException if the class or property does not exist.
-     */
-    public static function fromProperty(string|object $objectOrClass, string $property): self
-    {
-        return self::fromReflectionProperty(new ReflectionProperty($objectOrClass, $property));
-    }
-
-    public static function fromMethod(string|object $objectOrClass, string $method): self
-    {
-        return self::fromReflectionMethod(new ReflectionMethod($objectOrClass, $method));
-    }
-
-    /**
-     * @param ReflectionProperty $property
-     * @return static
-     */
-    public static function fromReflectionProperty(ReflectionProperty $property): self
-    {
-        return
-            ValidationSet::forField(
-                $property->getName(),
-                ...array_map(
-                    fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
-                    $property->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
-                )
-            );
-    }
-
-    /**
-     * @param ReflectionMethod $method
-     * @return static
-     */
-    public static function fromReflectionMethod(ReflectionMethod $method): self
-    {
-        return
-            ValidationSet::withRules(
-                ...array_map(
-                    fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
-                    $method->getAttributes(Validation::class, ReflectionAttribute::IS_INSTANCEOF)
-                )
-            );
     }
 
     /** @return Validation[] */

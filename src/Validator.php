@@ -75,7 +75,7 @@ final class Validator
         $result = Validator::fromProperties($object)->validate($data);
 
         foreach ($class->getMethods() as $method) {
-            $ruleSet = ValidationSet::fromReflectionMethod($method);
+            $ruleSet = ValidationSetFactory::fromReflectionMethod($method);
             $value = $method->invoke($method->isStatic() ? null : $object);
             $methodResult = $ruleSet->validate($value);
             if (!$methodResult->isOk()) {
@@ -109,7 +109,7 @@ final class Validator
     public static function fromProperties(string|object $objectOrClass, ?int $filter = null): self
     {
         $instance = new self;
-        $instance->ruleSets = ValidationSet::fromProperties($objectOrClass, $filter);
+        $instance->ruleSets = ValidationSetFactory::fromProperties($objectOrClass, $filter);
         return $instance;
     }
 }
