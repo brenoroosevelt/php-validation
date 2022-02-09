@@ -103,7 +103,7 @@ class RuleSet implements Rule
 
     public function isNotRequired(): bool
     {
-        return $this->hasRule(NotRequired::class);
+        return !$this->hasRule(NotRequired::class);
     }
 
     public function isAllowsEmpty(): bool
