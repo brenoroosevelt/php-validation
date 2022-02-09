@@ -3,18 +3,15 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Exception\ValidationException;
-use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
-
 class ValidationResultSet
 {
     /** @var Result[] */
     private array $validationResults = [];
 
-    public function add(Result ...$errorResult): self
+    public function add(Result ...$results): self
     {
         $instance = clone $this;
-        array_push($instance->validationResults, ...$errorResult);
+        array_push($instance->validationResults, ...$results);
         return $instance;
     }
 
@@ -32,17 +29,15 @@ class ValidationResultSet
     public function getErrors(): array
     {
         $errors = [];
-        foreach ($this->validationResults as $violation) {
-            if (null === ($field = $violation->getField())) {
-                array_push($errors, ...$violation->getErrors());
-                continue;
+        foreach ($this->validationResults as $result) {
+            foreach ($result->getErrors() as $error) {
+                $field = $result->getField();
+                if ($field !== null) {
+                    $errors[$field][] = $error;
+                } else {
+                    $errors[] = $error;
+                }
             }
-
-            if (!isset($errors[$field])) {
-                $errors[$field] = [];
-            }
-
-            array_push($errors[$field], ...$violation->getErrors());
         }
 
         return $errors;
