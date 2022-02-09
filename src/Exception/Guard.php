@@ -33,11 +33,7 @@ trait Guard
             return;
         }
 
-        $exception =
-            $validationException instanceof ValidationExceptionInterface ?
-                $validationException :
-                new ValidationException(is_string($validationException) ? $validationException : '');
-
+        $exception = $this->createValidationException($validationException);
         $results = $guardResult instanceof Result ? [$guardResult] : $guardResult->validationResults();
         foreach ($results as $result) {
             foreach ($result->getErrors() as $error) {
@@ -46,5 +42,14 @@ trait Guard
         }
 
         throw $exception;
+    }
+
+    private function createValidationException(
+        ValidationExceptionInterface | string | null $validationException = null
+    ): ValidationExceptionInterface {
+        return
+            $validationException instanceof ValidationExceptionInterface ?
+                $validationException :
+                new ValidationException(is_string($validationException) ? $validationException : '');
     }
 }
