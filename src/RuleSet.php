@@ -30,12 +30,12 @@ class RuleSet implements Rule
         return new self;
     }
 
-    public static function of(string $field, Rule|RuleSet ...$rules): self
+    public static function of(string $field, Rule | RuleSet ...$rules): self
     {
         return new self($field, ...$rules);
     }
 
-    public static function withRules(Rule|RuleSet ...$rules): self
+    public static function withRules(Rule | RuleSet ...$rules): self
     {
         return new self(null, ...$rules);
     }
