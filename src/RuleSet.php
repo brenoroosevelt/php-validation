@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Factories\AllFactories;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
@@ -14,9 +13,10 @@ use SplObjectStorage;
 
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
-    use GuardForValidation,
-        AllFactories,
-        MaybeBelongsToField {
+    use RuleChain,
+        GuardForValidation;
+
+    use MaybeBelongsToField {
         field as private;
     }
 
