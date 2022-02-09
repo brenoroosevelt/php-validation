@@ -63,10 +63,11 @@ final class Validator
 
     /**
      * @throws ValidationExceptionInterface
-     * @throws ValidationException
      */
-    public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
-    {
+    public function validateOrFail(
+        array $data = [],
+        ValidationExceptionInterface | string | null  $validationException = null
+    ): void {
         $this->validate($data)->guard($validationException);
     }
 

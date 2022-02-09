@@ -68,7 +68,7 @@ class ValidationResult implements Result
     /**
      * @throws ValidationExceptionInterface
      */
-    public function guard(?ValidationExceptionInterface $validationException = null): void
+    public function guard(ValidationExceptionInterface | string | null  $validationException = null): void
     {
         $this->guardResult($this, $validationException);
     }

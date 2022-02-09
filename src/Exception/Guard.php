@@ -27,7 +27,7 @@ trait Guard
      */
     protected function guardResult(
         Result | ValidationResultSet $guardResult,
-        ?ValidationExceptionInterface $validationException = null
+        ValidationExceptionInterface | string | null $validationException = null
     ): void {
         if ($guardResult->isOk()) {
             return;
@@ -36,7 +36,7 @@ trait Guard
         $exception =
             $validationException instanceof ValidationExceptionInterface ?
                 $validationException :
-                new ValidationException;
+                new ValidationException(is_string($validationException) ? $validationException : '');
 
         $results = $guardResult instanceof Result ? [$guardResult] : $guardResult->validationResults();
         foreach ($results as $result) {

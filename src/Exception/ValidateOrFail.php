@@ -15,7 +15,7 @@ trait ValidateOrFail
     public function validateOrFail(
         mixed $input,
         array $context = [],
-        ?ValidationExceptionInterface $validationException = null
+        ValidationExceptionInterface | string | null $validationException = null
     ): void {
         if ($this instanceof Rule) {
             $this->guardRule($this, $input, $context, $validationException);
