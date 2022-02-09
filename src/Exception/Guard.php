@@ -10,7 +10,6 @@ use BrenoRoosevelt\Validation\ValidationResultSet;
 trait Guard
 {
     /**
-     * @throws ValidationException
      * @throws ValidationExceptionInterface
      */
     protected function guardRule(
@@ -25,7 +24,6 @@ trait Guard
 
     /**
      * @throws ValidationExceptionInterface
-     * @throws ValidationException
      */
     protected function guardResult(
         Result | ValidationResultSet $guardResult,

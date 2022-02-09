@@ -67,8 +67,7 @@ final class Validator
      */
     public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
     {
-        $validationResultSet = $this->validate($data);
-        $this->guardResult($validationResultSet, $validationException);
+        $this->validate($data)->guard($validationException);
     }
 
     public function only(string ...$fields): self

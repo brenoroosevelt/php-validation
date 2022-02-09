@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\Guard;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
+
 class ValidationResultSet
 {
+    use Guard;
+
     /** @var Result[] */
     private array $validationResults = [];
 
@@ -52,5 +57,13 @@ class ValidationResultSet
     public function isEmpty(): bool
     {
         return empty($this->validationResults);
+    }
+
+    /**
+     * @throws ValidationExceptionInterface
+     */
+    public function guard(?ValidationExceptionInterface $validationException = null): void
+    {
+        $this->guardResult($this, $validationException);
     }
 }

@@ -11,7 +11,6 @@ trait ValidateOrFail
 
     /**
      * @throws ValidationExceptionInterface
-     * @throws ValidationException
      */
     public function validateOrFail(
         mixed $input,

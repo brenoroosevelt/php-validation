@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\Guard;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
+
 class ValidationResult implements Result
 {
+    use Guard;
+
     use BelongsToField {
         getField as private _getField;
     }
@@ -58,5 +63,13 @@ class ValidationResult implements Result
     public function getField(): ?string
     {
         return $this->_getField();
+    }
+
+    /**
+     * @throws ValidationExceptionInterface
+     */
+    public function guard(?ValidationExceptionInterface $validationException = null): void
+    {
+        $this->guardResult($this, $validationException);
     }
 }
