@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\ValidationException;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
+
 class ValidationResultSet
 {
     /** @var ValidationResult[] */
@@ -53,5 +56,25 @@ class ValidationResultSet
     public function isEmpty(): bool
     {
         return empty($this->validationResults);
+    }
+
+    public function guard(?ValidationExceptionInterface $validationException = null): void
+    {
+        if ($this->isOk()) {
+            return;
+        }
+
+        $exception =
+            $validationException instanceof ValidationExceptionInterface ?
+                $validationException :
+                new ValidationException();
+
+        foreach ($this->validationResults as $result) {
+            foreach ($result->getErrors() as $error) {
+                $validationException->addError($error, $result->getField());
+            }
+        }
+
+        throw $exception;
     }
 }

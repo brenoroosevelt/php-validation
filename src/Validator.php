@@ -58,6 +58,15 @@ final class Validator
         return $validationResultSet;
     }
 
+    /**
+     * @throws ValidationExceptionInterface
+     * @throws ValidationException
+     */
+    public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
+    {
+        $this->validate($data)->guard($validationException);
+    }
+
     public function only(string ...$fields): self
     {
         $instance = clone $this;
@@ -82,7 +91,6 @@ final class Validator
         return $instance;
     }
 
-
     public static function validateObject(object $object): ValidationResultSet
     {
         $data = [];
@@ -103,36 +111,6 @@ final class Validator
         }
 
         return $result;
-    }
-
-    /**
-     * @throws ValidationExceptionInterface
-     * @throws ValidationException
-     */
-    public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
-    {
-        $resultSet = $this->validate($data);
-        if ($resultSet->isOk()) {
-            return;
-        }
-
-        $exception =
-            $validationException instanceof ValidationExceptionInterface ?
-                $validationException :
-                new ValidationException();
-
-        foreach ($resultSet->getErrors() as $fieldOrIndex => $error) {
-            if (!is_array($error)) {
-                $exception->addError($error);
-                continue;
-            }
-
-            foreach ($error as $err) {
-                $exception->addError($err, $fieldOrIndex);
-            }
-        }
-
-        throw $exception;
     }
 
     /**
