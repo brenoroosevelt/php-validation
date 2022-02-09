@@ -12,14 +12,14 @@ class ValidationResult implements Result
     /** @var string[] */
     private array $errors = [];
 
-    public static function of(string $field, string ...$errors): self
-    {
-        return self::withErrors(...$errors)->field($field);
-    }
-
     public static function ok(): self
     {
         return new self;
+    }
+
+    public static function of(string $field, string ...$errors): self
+    {
+        return self::withErrors(...$errors)->field($field);
     }
 
     public static function withErrors(string ...$error): self
@@ -52,6 +52,9 @@ class ValidationResult implements Result
         return $this->errors;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getField(): ?string
     {
         return $this->_getField();

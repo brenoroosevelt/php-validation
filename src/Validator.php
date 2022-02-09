@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Exception\Guard;
 use BrenoRoosevelt\Validation\Exception\ValidationException;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use ReflectionClass;
@@ -11,8 +10,6 @@ use ReflectionException;
 
 final class Validator
 {
-    use Guard;
-
     /** @var RuleSet[] */
     private array $ruleSets;
 
@@ -114,8 +111,28 @@ final class Validator
      */
     public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
     {
-        $result = $this->validate($data);
-        $this->guardResult($result, $validationException);
+        $resultSet = $this->validate($data);
+        if ($resultSet->isOk()) {
+            return;
+        }
+
+        $exception =
+            $validationException instanceof ValidationExceptionInterface ?
+                $validationException :
+                new ValidationException();
+
+        foreach ($resultSet->getErrors() as $fieldOrIndex => $error) {
+            if (!is_array($error)) {
+                $exception->addError($error);
+                continue;
+            }
+
+            foreach ($error as $err) {
+                $exception->addError($err, $fieldOrIndex);
+            }
+        }
+
+        throw $exception;
     }
 
     /**

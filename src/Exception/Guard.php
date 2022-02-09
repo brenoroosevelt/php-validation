@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Exception;
 
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Rule;
+use BrenoRoosevelt\Validation\ValidationResultSet;
 
 trait Guard
 {
