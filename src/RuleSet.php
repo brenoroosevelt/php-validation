@@ -19,7 +19,7 @@ class RuleSet implements Rule
 
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
-        $this->rules = $rules;
+        $this->attachRules(...$rules);
         $this->setField($field);
     }
 
@@ -41,14 +41,18 @@ class RuleSet implements Rule
     public function add(Rule | RuleSet ...$rules): static
     {
         $instance = clone $this;
+        $instance->attachRules(...$rules);
+        return $instance;
+    }
+
+    private function attachRules(Rule | RuleSet ...$rules): void
+    {
         foreach ($rules as $ruleOrRuleSet) {
             array_push(
-                $instance->rules,
+                $this->rules,
                 ...($ruleOrRuleSet instanceof Rule ? [$ruleOrRuleSet] : $ruleOrRuleSet->rules())
             );
         }
-
-        return $instance;
     }
 
     public function validate(mixed $input, array $context = []): ValidationResult
