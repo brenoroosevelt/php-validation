@@ -16,7 +16,7 @@ trait Guard
         Rule $rule,
         mixed $input,
         array $context = [],
-        ?ValidationExceptionInterface $validationException = null
+        ValidationExceptionInterface | string | null $validationException = null
     ): void {
         $result = $rule->validate($input, $context);
         $this->guardResult($result, $validationException);
