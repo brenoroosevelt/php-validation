@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
@@ -14,18 +16,15 @@ use SplObjectStorage;
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use RuleChain,
-        GuardForValidation;
-
-    use MaybeBelongsToField {
-        field as private;
-    }
+        ValidateOrFail,
+        MaybeBelongsToField;
 
     private SplObjectStorage $rules;
 
     /**
-     * @throws ValidationException
+     * @throws Exception\ValidationExceptionInterface
      */
-    final public function __construct(?string $field = null, Rule|RuleSet ...$rules)
+    final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
         $this->setField($field);
@@ -37,17 +36,23 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return new self;
     }
 
+    /**
+     * @throws Exception\ValidationExceptionInterface
+     */
     public static function forField(string $field, Rule|RuleSet ...$rules): self
     {
         return new self($field, ...$rules);
     }
 
+    /**
+     * @throws Exception\ValidationExceptionInterface
+     */
     public static function withRules(Rule|RuleSet ...$rules): self
     {
         return new self(null, ...$rules);
     }
 
-    private function attachRules(Rule|RuleSet ...$rules): void
+    private function attachRules(Rule | RuleSet ...$rules): void
     {
         foreach ($rules as $validationOrSet) {
             if ($validationOrSet instanceof Rule) {
@@ -62,14 +67,17 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         }
     }
 
-    public function add(Rule|RuleSet ...$rules): static
+    public function add(Rule | RuleSet ...$rules): static
     {
         $instance = clone $this;
         $instance->attachRules(...$rules);
         return $instance;
     }
 
-    public function validate(mixed $input, array $context = []): ValidationResult|ValidationResultByField
+    /**
+     * @throws ValidationExceptionInterface
+     */
+    public function validate(mixed $input, array $context = []): ValidationResult | ValidationResultByField
     {
         $violations = $empty = $this->newEmptyValidationResult();
         if (!$this->shouldValidate($input)) {

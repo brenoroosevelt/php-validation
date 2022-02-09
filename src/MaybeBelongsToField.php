@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use BrenoRoosevelt\Validation\Rules\NotEmptyString;
 
 trait MaybeBelongsToField
@@ -15,7 +16,7 @@ trait MaybeBelongsToField
     }
 
     /**
-     * @throws ValidationException
+     * @throws Exception\ValidationExceptionInterface
      */
     public function field(?string $field): static
     {
@@ -25,7 +26,7 @@ trait MaybeBelongsToField
     }
 
     /**
-     * @throws ValidationException
+     * @throws ValidationExceptionInterface
      */
     private function setField(?string $field): void
     {
@@ -38,6 +39,9 @@ trait MaybeBelongsToField
         return $this->field !== null;
     }
 
+    /**
+     * @throws ValidationExceptionInterface
+     */
     private function newEmptyValidationResult(): ValidationResult|ValidationResultByField
     {
         return

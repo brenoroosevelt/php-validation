@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\Guard;
+use BrenoRoosevelt\Validation\Exception\ValidationException;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 
 final class Validator
 {
+    use Guard;
+
     /** @var RuleSet[] */
     private array $ruleSets;
 
@@ -80,9 +85,7 @@ final class Validator
         return $instance;
     }
 
-    /**
-     * @throws ReflectionException
-     */
+
     public static function validateObject(object $object): ValidationResultSet
     {
         $data = [];
@@ -106,17 +109,13 @@ final class Validator
     }
 
     /**
-     * @param array $data
-     * @param ?string $message
-     * @return void
+     * @throws ValidationExceptionInterface
      * @throws ValidationException
      */
-    public function validateOrFail(array $data = [], ?string $message = null)
+    public function validateOrFail(array $data = [], ?ValidationExceptionInterface $validationException = null): void
     {
         $result = $this->validate($data);
-        if (!$result->isOk()) {
-            throw new ValidationException($result, $message);
-        }
+        $this->guardResult($result, $validationException);
     }
 
     /**

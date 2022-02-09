@@ -8,7 +8,7 @@ class ValidationResultByField extends ValidationResult implements ResultByField
     private string $field;
 
     /**
-     * @throws ValidationException
+     * @throws Exception\ValidationExceptionInterface
      */
     public function __construct(string $field)
     {

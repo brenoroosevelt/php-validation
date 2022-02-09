@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
+
 /**
  * helper class to create single message validations
  */
 abstract class AbstractRule implements Rule
 {
-    use GuardForValidation,
+    use ValidateOrFail,
         MaybeBelongsToField;
 
     protected string $message;
