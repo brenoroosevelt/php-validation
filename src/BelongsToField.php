@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-trait MaybeBelongsToField
+trait BelongsToField
 {
     private ?string $field = null;
 

@@ -14,7 +14,7 @@ class RuleSet implements Rule
 {
     use RuleChain,
         ValidateOrFail,
-        MaybeBelongsToField;
+        BelongsToField;
 
     private SplObjectStorage $rules;
 

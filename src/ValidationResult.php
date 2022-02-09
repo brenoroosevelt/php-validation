@@ -5,7 +5,7 @@ namespace BrenoRoosevelt\Validation;
 
 class ValidationResult implements Result
 {
-    use MaybeBelongsToField {
+    use BelongsToField {
         getField as private _getField;
     }
 

@@ -8,7 +8,7 @@ use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
 abstract class AbstractRule implements Rule
 {
     use ValidateOrFail,
-        MaybeBelongsToField;
+        BelongsToField;
 
     protected string $message;
 

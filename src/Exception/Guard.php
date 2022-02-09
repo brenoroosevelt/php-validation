@@ -28,7 +28,7 @@ trait Guard
      * @throws ValidationException
      */
     protected function guardResult(
-        Result|ValidationResultSet $guardResult,
+        Result | ValidationResultSet $guardResult,
         ?ValidationExceptionInterface $validationException = null
     ): void {
         if ($guardResult->isOk()) {
