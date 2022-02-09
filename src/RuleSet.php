@@ -15,7 +15,7 @@ class RuleSet implements Rule
         ValidateOrFail,
         BelongsToField;
 
-    private array $rules;
+    private array $rules = [];
 
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
