@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Exception;
 
+use BrenoRoosevelt\Validation\Rule;
+
 trait ValidateOrFail
 {
     use Guard;
@@ -16,6 +18,8 @@ trait ValidateOrFail
         array $context = [],
         ?ValidationExceptionInterface $validationException = null
     ): void {
-        $this->guardRule($this, $input, $context, $validationException);
+        if ($this instanceof Rule) {
+            $this->guardRule($this, $input, $context, $validationException);
+        }
     }
 }
