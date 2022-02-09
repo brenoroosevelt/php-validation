@@ -12,29 +12,29 @@ use BrenoRoosevelt\Validation\Rule;
 
 trait DateTimeFactory
 {
-    abstract public function add(Rule|RuleSet ...$rules): RuleSet;
+    abstract public function add(Rule|RuleSet ...$rules): static;
 
-    public function isPast(?string $message = null): RuleSet
+    public function isPast(?string $message = null): static
     {
         return $this->add(new IsPast($message));
     }
 
-    public function isFuture(?string $message = null): RuleSet
+    public function isFuture(?string $message = null): static
     {
         return $this->add(new IsFuture($message));
     }
 
-    public function currentDay(?string $message = null): RuleSet
+    public function currentDay(?string $message = null): static
     {
         return $this->add(new CurrentDay($message));
     }
 
-    public function currentMonth(bool $sameYear = true, ?string $message = null): RuleSet
+    public function currentMonth(bool $sameYear = true, ?string $message = null): static
     {
         return $this->add(new CurrentMonth($sameYear, $message));
     }
 
-    public function currentYear(?string $message = null): RuleSet
+    public function currentYear(?string $message = null): static
     {
         return $this->add(new CurrentDay($message));
     }

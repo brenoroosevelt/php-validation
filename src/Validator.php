@@ -43,7 +43,7 @@ final class Validator
     {
         $validationResultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            if (!$fieldRuleSet->isRequired() && !array_key_exists($field, $data)) {
+            if ($fieldRuleSet->isNotRequired() && !array_key_exists($field, $data)) {
                 continue;
             }
 

@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Factories\CommonFactory;
-use BrenoRoosevelt\Validation\Factories\ComparisonFactory;
-use BrenoRoosevelt\Validation\Factories\DateTimeFactory;
+use BrenoRoosevelt\Validation\Factories\AllFactories;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
@@ -17,9 +15,7 @@ use SplObjectStorage;
 class RuleSet implements Rule, IteratorAggregate, Countable
 {
     use GuardForValidation,
-        CommonFactory,
-        ComparisonFactory,
-        DateTimeFactory,
+        AllFactories,
         MaybeBelongsToField {
         field as private;
     }
@@ -66,7 +62,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         }
     }
 
-    public function add(Rule|RuleSet ...$rules): self
+    public function add(Rule|RuleSet ...$rules): static
     {
         $instance = clone $this;
         $instance->attachRules(...$rules);
@@ -89,45 +85,26 @@ class RuleSet implements Rule, IteratorAggregate, Countable
 
     private function shouldValidate(mixed $input): bool
     {
-        if (null === $input && $this->allowsNull()) {
+        if (null === $input && $this->isAllowsNull()) {
             return false;
         }
 
-        if ($this->isEmptyInput($input) && $this->allowsEmpty()) {
+        $isEmptyInput = (new IsEmpty)->isValid($input);
+        if ($isEmptyInput && $this->isAllowsEmpty()) {
             return false;
         }
 
         return true;
     }
 
-    private function isEmptyInput($input): bool
+    public function hasRule(string $ruleClass): bool
     {
-        return (new IsEmpty)->isValid($input);
-    }
-
-    public function isRequired(): bool
-    {
-        if ($this->isEmpty()) {
+        if (!class_exists($ruleClass)) {
             return false;
         }
 
         foreach ($this->rules as $rule) {
-            if ($rule instanceof NotRequired) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function allowsEmpty(): bool
-    {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
-        foreach ($this->rules as $rule) {
-            if ($rule instanceof AllowsEmpty) {
+            if ($rule instanceof $ruleClass) {
                 return true;
             }
         }
@@ -135,40 +112,19 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return false;
     }
 
-    public function allowsNull(): bool
+    public function isNotRequired(): bool
     {
-        if ($this->isEmpty()) {
-            return true;
-        }
-
-        foreach ($this->rules as $rule) {
-            if ($rule instanceof AllowsNull) {
-                return true;
-            }
-        }
-
-        return false;
+        return !$this->isEmpty() && !$this->hasRule(NotRequired::class);
     }
 
-    public function setNotRequired(): self
+    public function isAllowsEmpty(): bool
     {
-        return $this->add(NotRequired::instance());
+        return $this->isEmpty() || $this->hasRule(AllowsEmpty::class);
     }
 
-    /**
-     * Allows empty arrays or strings (only)
-     */
-    public function setAllowsEmpty(): self
+    public function isAllowsNull(): bool
     {
-        return $this->add(AllowsEmpty::instance());
-    }
-
-    /**
-     * Allows null values
-     */
-    public function setAllowsNull(): self
-    {
-        return $this->add(AllowsNull::instance());
+        return $this->isEmpty() || $this->hasRule(AllowsNull::class);
     }
 
     public function isEmpty(): bool

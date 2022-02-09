@@ -9,9 +9,9 @@ use BrenoRoosevelt\Validation\Rule;
 
 trait ComparisonFactory
 {
-    abstract public function add(Rule|RuleSet ...$rules): RuleSet;
+    abstract public function add(Rule|RuleSet ...$rules): static;
 
-    public function equal($value, ?string $message = null): RuleSet
+    public function equal($value, ?string $message = null): static
     {
         return $this->add(new Equal($value, $message));
     }
