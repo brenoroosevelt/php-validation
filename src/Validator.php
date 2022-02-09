@@ -46,7 +46,7 @@ final class Validator
 
     public function validate(array $data = []): ValidationResultSet
     {
-        $validationResultSet = new ValidationResultSet;
+        $resultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
             if ($fieldRuleSet->isNotRequired() && !array_key_exists($field, $data)) {
                 continue;
@@ -54,11 +54,11 @@ final class Validator
 
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             if (!$result->isOk()) {
-                $validationResultSet = $validationResultSet->add($result);
+                $resultSet = $resultSet->add($result);
             }
         }
 
-        return $validationResultSet;
+        return $resultSet;
     }
 
     /**

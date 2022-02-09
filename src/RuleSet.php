@@ -42,14 +42,14 @@ class RuleSet implements Rule
 
     private function attachRules(Rule | RuleSet ...$rules): void
     {
-        foreach ($rules as $validationOrSet) {
-            if ($validationOrSet instanceof Rule) {
-                $this->rules->attach($validationOrSet);
+        foreach ($rules as $ruleOrSet) {
+            if ($ruleOrSet instanceof Rule) {
+                $this->rules->attach($ruleOrSet);
             }
 
-            if ($validationOrSet instanceof RuleSet) {
-                foreach ($validationOrSet as $validation) {
-                    $this->rules->attach($validation);
+            if ($ruleOrSet instanceof RuleSet) {
+                foreach ($ruleOrSet->rules() as $rule) {
+                    $this->rules->attach($rule);
                 }
             }
         }
@@ -64,16 +64,16 @@ class RuleSet implements Rule
 
     public function validate(mixed $input, array $context = []): ValidationResult
     {
-        $violations = $empty = $this->newEmptyResult();
+        $result = $empty = $this->newEmptyResult();
         if (!$this->shouldValidate($input)) {
             return $empty;
         }
 
         foreach ($this->rules as $rule) {
-            $violations = $violations->addError(...$rule->validate($input, $context)->getErrors());
+            $result = $result->addError(...$rule->validate($input, $context)->getErrors());
         }
 
-        return $violations;
+        return $result;
     }
 
     private function shouldValidate(mixed $input): bool
