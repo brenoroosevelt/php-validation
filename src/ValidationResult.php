@@ -5,10 +5,19 @@ namespace BrenoRoosevelt\Validation;
 
 class ValidationResult implements Result
 {
+    use MaybeBelongsToField {
+        getField as private _getField;
+    }
+
     /** @var string[] */
     private array $errors = [];
 
-    public static function everythingIsOk(): self
+    public static function of(string $field, string ...$errors): self
+    {
+        return self::withErrors(...$errors)->field($field);
+    }
+
+    public static function ok(): self
     {
         return new self;
     }
@@ -20,7 +29,7 @@ class ValidationResult implements Result
         return $instance;
     }
 
-    public function error(string ...$errors): self
+    public function addError(string ...$errors): self
     {
         $instance = clone $this;
         array_push($instance->errors, ...$errors);
@@ -41,5 +50,10 @@ class ValidationResult implements Result
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    public function getField(): ?string
+    {
+        return $this->_getField();
     }
 }

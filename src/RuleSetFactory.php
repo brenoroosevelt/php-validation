@@ -71,7 +71,7 @@ final class RuleSetFactory
     public static function fromReflectionProperty(ReflectionProperty $property): RuleSet
     {
         return
-            RuleSet::forField(
+            RuleSet::of(
                 $property->getName(),
                 ...array_map(
                     fn(ReflectionAttribute $attribute) => $attribute->newInstance(),

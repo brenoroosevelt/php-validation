@@ -39,7 +39,7 @@ final class Validator
      */
     public function field(string $field, Rule|RuleSet ...$rules): self
     {
-        $ruleSet = $this->ruleSets[$field] ?? RuleSet::forField($field);
+        $ruleSet = $this->ruleSets[$field] ?? RuleSet::of($field);
         $this->ruleSets[$field] = $ruleSet->add(...$rules);
         return $this;
     }

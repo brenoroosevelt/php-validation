@@ -17,7 +17,7 @@ class NotExactly extends AbstractRule
         parent::__construct($message);
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return $input !== $this->value;
     }

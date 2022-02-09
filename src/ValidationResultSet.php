@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-/**
- * Composite, Immutable
- */
-class ValidationResultSet implements Result
+class ValidationResultSet
 {
     /** @var ValidationResult[] */
     private array $validationResults = [];
@@ -18,9 +15,6 @@ class ValidationResultSet implements Result
         return $instance;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isOk(): bool
     {
         foreach ($this->validationResults as $violation) {
@@ -32,14 +26,20 @@ class ValidationResultSet implements Result
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getErrors(): array
     {
         $errors = [];
         foreach ($this->validationResults as $violation) {
-            array_push($errors, ...$violation->getErrors());
+            if (null === ($field = $violation->getField())) {
+                array_push($errors, ...$violation->getErrors());
+                continue;
+            }
+
+            if (!isset($errors[$field])) {
+                $errors[$field] = [];
+            }
+
+            array_push($errors[$field], ...$violation->getErrors());
         }
 
         return $errors;

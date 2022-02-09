@@ -18,7 +18,7 @@ class Cpf extends AbstractRule
         parent::__construct($message);
     }
 
-    protected function evaluate(mixed $input, array $context = []): bool
+    public function isValid(mixed $input, array $context = []): bool
     {
         if (!is_string($input) || !is_numeric($input)) {
             return false;

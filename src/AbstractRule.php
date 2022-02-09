@@ -5,9 +5,6 @@ namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
 
-/**
- * helper class to create single message validations
- */
 abstract class AbstractRule implements Rule
 {
     use ValidateOrFail,
@@ -25,24 +22,9 @@ abstract class AbstractRule implements Rule
      */
     public function validate(mixed $input, array $context = []): Result
     {
-        $result = $this->newEmptyValidationResult();
-        return $this->evaluate($input, $context) ? $result : $result->error($this->message);
+        $result = $this->newEmptyResult();
+        return $this->isValid($input, $context) ? $result : $result->addError($this->message);
     }
 
-    /**
-     * @param mixed $input
-     * @param array $context
-     * @return bool
-     */
-    public function isValid(mixed $input, array $context = []): bool
-    {
-        return $this->evaluate($input, $context);
-    }
-
-    /**
-     * @param mixed $input
-     * @param array $context
-     * @return bool
-     */
-    abstract protected function evaluate(mixed $input, array $context = []): bool;
+    abstract public function isValid(mixed $input, array $context = []): bool;
 }

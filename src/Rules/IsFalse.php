@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
 class IsFalse extends AbstractRule
 {
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return $input === false;
     }

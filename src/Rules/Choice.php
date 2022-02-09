@@ -16,7 +16,7 @@ class Choice extends AbstractRule
         parent::__construct($message ?? sprintf(self::MESSAGE, implode(', ', $this->list)));
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return in_array($input, $this->list, $this->strict);
     }

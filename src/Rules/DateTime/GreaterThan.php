@@ -22,7 +22,7 @@ class GreaterThan extends AbstractRule
         return new DateTimeImmutable($this->datetime);
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         try {
             $datetime =

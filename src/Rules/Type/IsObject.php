@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsObject extends AbstractRule
 {
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return is_object($input);
     }

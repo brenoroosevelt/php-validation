@@ -14,7 +14,7 @@ class IsType extends AbstractRule
         parent::__construct($message ?? sprintf('Invalid type: %s', $this->type));
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return gettype($input) === $this->type;
     }

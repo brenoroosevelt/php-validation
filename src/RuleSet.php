@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
-use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
@@ -21,9 +20,6 @@ class RuleSet implements Rule, IteratorAggregate, Countable
 
     private SplObjectStorage $rules;
 
-    /**
-     * @throws Exception\ValidationExceptionInterface
-     */
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
         $this->rules = new SplObjectStorage;
@@ -36,17 +32,11 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return new self;
     }
 
-    /**
-     * @throws Exception\ValidationExceptionInterface
-     */
-    public static function forField(string $field, Rule|RuleSet ...$rules): self
+    public static function of(string $field, Rule|RuleSet ...$rules): self
     {
         return new self($field, ...$rules);
     }
 
-    /**
-     * @throws Exception\ValidationExceptionInterface
-     */
     public static function withRules(Rule|RuleSet ...$rules): self
     {
         return new self(null, ...$rules);
@@ -74,18 +64,15 @@ class RuleSet implements Rule, IteratorAggregate, Countable
         return $instance;
     }
 
-    /**
-     * @throws ValidationExceptionInterface
-     */
-    public function validate(mixed $input, array $context = []): ValidationResult | ValidationResultByField
+    public function validate(mixed $input, array $context = []): ValidationResult
     {
-        $violations = $empty = $this->newEmptyValidationResult();
+        $violations = $empty = $this->newEmptyResult();
         if (!$this->shouldValidate($input)) {
             return $empty;
         }
 
         foreach ($this->rules as $rule) {
-            $violations = $violations->error(...$rule->validate($input, $context)->getErrors());
+            $violations = $violations->addError(...$rule->validate($input, $context)->getErrors());
         }
 
         return $violations;
@@ -122,7 +109,7 @@ class RuleSet implements Rule, IteratorAggregate, Countable
 
     public function isNotRequired(): bool
     {
-        return !$this->isEmpty() && !$this->hasRule(NotRequired::class);
+        return $this->hasRule(NotRequired::class);
     }
 
     public function isAllowsEmpty(): bool

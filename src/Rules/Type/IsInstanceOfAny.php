@@ -14,7 +14,7 @@ class IsInstanceOfAny extends AbstractRule
         parent::__construct($message);
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         foreach ($this->classes as $class) {
             if ($input instanceof $class) {

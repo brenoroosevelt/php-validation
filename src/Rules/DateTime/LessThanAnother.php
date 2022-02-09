@@ -17,7 +17,7 @@ class LessThanAnother extends AbstractRule
         parent::__construct($message ?? sprintf('The date/time should be less than %s', $this->other));
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         try {
             $datetime =

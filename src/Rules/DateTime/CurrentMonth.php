@@ -21,7 +21,7 @@ class CurrentMonth extends AbstractRule
         parent::__construct($message);
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         try {
             $now = new DateTimeImmutable();

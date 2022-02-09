@@ -18,7 +18,7 @@ class Generic extends AbstractRule
         parent::__construct($message);
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return ($this->rule)($input, $context);
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Exception;
 
 use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\ResultByField;
 use BrenoRoosevelt\Validation\Rule;
 
 trait Guard
@@ -38,9 +37,8 @@ trait Guard
                 $validationException :
                 new ValidationException();
 
-        $field = $result instanceof ResultByField ? $result->getField() : null;
         foreach ($result->getErrors() as $error) {
-            $exception->addError($error, $field);
+            $exception->addError($error, $result->getField());
         }
 
         throw $exception;

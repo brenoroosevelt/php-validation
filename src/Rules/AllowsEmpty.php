@@ -20,6 +20,6 @@ final class AllowsEmpty implements Rule
 
     public function validate(mixed $input, array $context = []): Result
     {
-        return ValidationResult::everythingIsOk();
+        return ValidationResult::ok();
     }
 }

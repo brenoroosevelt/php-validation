@@ -18,7 +18,7 @@ class FoneSemDDD extends AbstractRule
         parent::__construct($message);
     }
 
-    public function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         if (!is_string($input) || !is_numeric($input)) {
             return false;

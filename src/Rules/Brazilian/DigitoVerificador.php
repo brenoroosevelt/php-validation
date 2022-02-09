@@ -17,7 +17,7 @@ class DigitoVerificador extends AbstractRule
         parent::__construct($message);
     }
 
-    public function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         try {
             $stringInput = (string) $input;

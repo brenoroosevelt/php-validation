@@ -17,7 +17,7 @@ class HasKey extends AbstractRule
         parent::__construct($message ?? sprintf(self::MESSAGE, $this->key));
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         if (is_array($input)) {
             return array_key_exists($this->key, $input);

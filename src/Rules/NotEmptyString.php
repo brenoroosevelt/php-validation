@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class NotEmptyString extends AbstractRule
 {
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         return !(new EmptyString)->isValid($input, $context);
     }

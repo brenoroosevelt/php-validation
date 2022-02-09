@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
-use BrenoRoosevelt\Validation\Rules\NotEmptyString;
-
 trait MaybeBelongsToField
 {
     private ?string $field = null;
@@ -15,9 +12,6 @@ trait MaybeBelongsToField
         return $this->field;
     }
 
-    /**
-     * @throws Exception\ValidationExceptionInterface
-     */
     public function field(?string $field): static
     {
         $instance = clone $this;
@@ -25,12 +19,8 @@ trait MaybeBelongsToField
         return $instance;
     }
 
-    /**
-     * @throws ValidationExceptionInterface
-     */
     private function setField(?string $field): void
     {
-        (new NotEmptyString('When provided, the field cannot be left blank'))->validateOrFail($field);
         $this->field = $field;
     }
 
@@ -39,14 +29,8 @@ trait MaybeBelongsToField
         return $this->field !== null;
     }
 
-    /**
-     * @throws ValidationExceptionInterface
-     */
-    private function newEmptyValidationResult(): ValidationResult|ValidationResultByField
+    private function newEmptyResult(): ValidationResult
     {
-        return
-            $this->belongsToField() ?
-                new ValidationResultByField($this->getField()) :
-                ValidationResult::everythingIsOk();
+        return $this->belongsToField() ? ValidationResult::of($this->getField()) : ValidationResult::ok();
     }
 }

@@ -15,7 +15,7 @@ class PregMatch extends AbstractRule
         parent::__construct($message ?? sprintf('Value does not match pattern: %s', $this->pattern));
     }
 
-    protected function evaluate($input, array $context = []): bool
+    public function isValid($input, array $context = []): bool
     {
         try {
             $subject = (string) $input;
