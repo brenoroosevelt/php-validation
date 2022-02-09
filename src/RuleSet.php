@@ -8,7 +8,6 @@ use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
-use SplObjectStorage;
 
 class RuleSet implements Rule
 {
@@ -16,13 +15,12 @@ class RuleSet implements Rule
         ValidateOrFail,
         BelongsToField;
 
-    private SplObjectStorage $rules;
+    private array $rules;
 
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
-        $this->rules = new SplObjectStorage;
+        $this->rules = $rules;
         $this->setField($field);
-        $this->attachRules(...$rules);
     }
 
     public static function new(): self
@@ -40,25 +38,16 @@ class RuleSet implements Rule
         return new self(null, ...$rules);
     }
 
-    private function attachRules(Rule | RuleSet ...$rules): void
-    {
-        foreach ($rules as $ruleOrSet) {
-            if ($ruleOrSet instanceof Rule) {
-                $this->rules->attach($ruleOrSet);
-            }
-
-            if ($ruleOrSet instanceof RuleSet) {
-                foreach ($ruleOrSet->rules() as $rule) {
-                    $this->rules->attach($rule);
-                }
-            }
-        }
-    }
-
     public function add(Rule | RuleSet ...$rules): static
     {
         $instance = clone $this;
-        $instance->attachRules(...$rules);
+        foreach ($rules as $ruleOrRuleSet) {
+            array_push(
+                $instance->rules,
+                ...($ruleOrRuleSet instanceof Rule ? [$ruleOrRuleSet] : $ruleOrRuleSet->rules())
+            );
+        }
+
         return $instance;
     }
 
@@ -122,12 +111,12 @@ class RuleSet implements Rule
 
     public function isEmpty(): bool
     {
-        return $this->rules->count() === 0;
+        return empty($this->rules);
     }
 
     /** @return Rule[] */
     public function rules(): array
     {
-        return iterator_to_array($this->rules);
+        return $this->rules;
     }
 }
