@@ -55,6 +55,9 @@ class RuleSet implements Rule
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate(mixed $input, array $context = []): ValidationResult
     {
         $result = $empty = $this->newEmptyResult();
