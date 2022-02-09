@@ -126,7 +126,7 @@ class RuleSet implements Rule
     }
 
     /** @return Rule[] */
-    public function toArray(): array
+    public function rules(): array
     {
         return iterator_to_array($this->rules);
     }
