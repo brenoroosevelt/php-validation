@@ -8,11 +8,9 @@ use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 use BrenoRoosevelt\Validation\Rules\NotRequired;
-use Countable;
-use IteratorAggregate;
 use SplObjectStorage;
 
-class RuleSet implements Rule, IteratorAggregate, Countable
+class RuleSet implements Rule
 {
     use RuleChain,
         ValidateOrFail,
@@ -131,15 +129,5 @@ class RuleSet implements Rule, IteratorAggregate, Countable
     public function toArray(): array
     {
         return iterator_to_array($this->rules);
-    }
-
-    public function getIterator(): SplObjectStorage
-    {
-        return clone $this->rules;
-    }
-
-    public function count(): int
-    {
-        return $this->rules->count();
     }
 }
