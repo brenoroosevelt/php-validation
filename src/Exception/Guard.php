@@ -27,19 +27,24 @@ trait Guard
      * @throws ValidationExceptionInterface
      * @throws ValidationException
      */
-    protected function guardResult(Result $result, ?ValidationExceptionInterface $validationException = null): void
-    {
-        if ($result->isOk()) {
+    protected function guardResult(
+        Result|ValidationResultSet $guardResult,
+        ?ValidationExceptionInterface $validationException = null
+    ): void {
+        if ($guardResult->isOk()) {
             return;
         }
 
         $exception =
             $validationException instanceof ValidationExceptionInterface ?
                 $validationException :
-                new ValidationException();
+                new ValidationException;
 
-        foreach ($result->getErrors() as $error) {
-            $exception->addError($error, $result->getField());
+        $results = $guardResult instanceof Result ? [$guardResult] : $guardResult->validationResults();
+        foreach ($results as $result) {
+            foreach ($result->getErrors() as $error) {
+                $exception->addError($error, $result->getField());
+            }
         }
 
         throw $exception;

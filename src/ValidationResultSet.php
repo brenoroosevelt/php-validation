@@ -8,10 +8,10 @@ use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 
 class ValidationResultSet
 {
-    /** @var ValidationResult[] */
+    /** @var Result[] */
     private array $validationResults = [];
 
-    public function add(ValidationResult ...$errorResult): self
+    public function add(Result ...$errorResult): self
     {
         $instance = clone $this;
         array_push($instance->validationResults, ...$errorResult);
@@ -48,6 +48,7 @@ class ValidationResultSet
         return $errors;
     }
 
+    /** @return Result[] */
     public function validationResults(): array
     {
         return $this->validationResults;
@@ -56,25 +57,5 @@ class ValidationResultSet
     public function isEmpty(): bool
     {
         return empty($this->validationResults);
-    }
-
-    public function guard(?ValidationExceptionInterface $validationException = null): void
-    {
-        if ($this->isOk()) {
-            return;
-        }
-
-        $exception =
-            $validationException instanceof ValidationExceptionInterface ?
-                $validationException :
-                new ValidationException();
-
-        foreach ($this->validationResults as $result) {
-            foreach ($result->getErrors() as $error) {
-                $validationException->addError($error, $result->getField());
-            }
-        }
-
-        throw $exception;
     }
 }
