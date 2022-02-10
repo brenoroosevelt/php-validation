@@ -51,10 +51,7 @@ final class Validator
                 continue;
             }
 
-            if ($fieldRuleSet instanceof BelongsToField) {
-                $fieldRuleSet = $fieldRuleSet->setField($field);
-            }
-
+            $fieldRuleSet = $fieldRuleSet->setField($field);
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             $errorReporting = $errorReporting->add($result);
         }
