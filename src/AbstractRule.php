@@ -14,7 +14,7 @@ abstract class AbstractRule implements Rule
 
     public function __construct(?string $message = null)
     {
-        $this->message = $message ?? sprintf('Constraint violation: %s', get_class($this));
+        $this->message = $message ?? sprintf('Constraint violation: %s', $this->classShortName());
     }
 
     /**
@@ -24,6 +24,11 @@ abstract class AbstractRule implements Rule
     {
         $result = $this->newEmptyResult();
         return $this->isValid($input, $context) ? $result : $result->addError($this->message);
+    }
+
+    private function classShortName(): string
+    {
+        return array_reverse(explode('\\', get_class($this)))[0];
     }
 
     abstract public function isValid(mixed $input, array $context = []): bool;

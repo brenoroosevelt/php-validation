@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\Guard;
-use BrenoRoosevelt\Validation\Exception\ValidationException;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
+use BrenoRoosevelt\Validation\Rules\Required;
 use ReflectionClass;
 use ReflectionException;
 
@@ -44,12 +44,25 @@ final class Validator
         return $this;
     }
 
+    public function isRequired(string $field): bool
+    {
+        $ruleSet = $this->ruleSets[$field] ?? new RuleSet;
+        foreach ($ruleSet->rules() as $rule) {
+            if ($rule instanceof Required) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function validate(array $data = []): ValidationResultSet
     {
         $resultSet = new ValidationResultSet;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            if ($fieldRuleSet->isNotRequired() && !array_key_exists($field, $data)) {
-                continue;
+            $fieldIsPresent = array_key_exists($field, $data);
+            if (!$this->isRequired($field) && !$fieldIsPresent) {
+                return new ValidationResultSet;
             }
 
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
@@ -69,30 +82,6 @@ final class Validator
         ValidationExceptionInterface | string | null  $validationException = null
     ): void {
         $this->validate($data)->guard($validationException);
-    }
-
-    public function only(string ...$fields): self
-    {
-        $instance = clone $this;
-        foreach ($instance->ruleSets as $field => $set) {
-            if (!in_array($field, $fields)) {
-                unset($instance[$field]);
-            }
-        }
-
-        return $instance;
-    }
-
-    public function except(string ...$fields): self
-    {
-        $instance = clone $this;
-        foreach ($instance->ruleSets as $field => $set) {
-            if (in_array($field, $fields)) {
-                unset($instance[$field]);
-            }
-        }
-
-        return $instance;
     }
 
     public static function validateObject(object $object): ValidationResultSet

@@ -4,10 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
-use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
-use BrenoRoosevelt\Validation\Rules\IsEmpty;
-use BrenoRoosevelt\Validation\Rules\NotRequired;
 
 class RuleSet implements Rule
 {
@@ -60,60 +57,27 @@ class RuleSet implements Rule
      */
     public function validate(mixed $input, array $context = []): ValidationResult
     {
-        $result = $empty = $this->newEmptyResult();
-        if (!$this->shouldValidate($input)) {
-            return $empty;
-        }
-
+        $result = $this->newEmptyResult();
         foreach ($this->rules as $rule) {
+            if (null == $input && $this->isAllowsNull()) {
+                return $this->newEmptyResult();
+            }
+
             $result = $result->addError(...$rule->validate($input, $context)->getErrors());
         }
 
         return $result;
     }
 
-    private function shouldValidate(mixed $input): bool
+    public function isAllowsNull(): bool
     {
-        if (null === $input && $this->isAllowsNull()) {
-            return false;
-        }
-
-        $isEmptyInput = (new IsEmpty)->isValid($input);
-        if ($isEmptyInput && $this->isAllowsEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function hasRule(string $ruleClass): bool
-    {
-        if (!class_exists($ruleClass)) {
-            return false;
-        }
-
         foreach ($this->rules as $rule) {
-            if ($rule instanceof $ruleClass) {
+            if ($rule instanceof AllowsNull) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    public function isNotRequired(): bool
-    {
-        return !$this->hasRule(NotRequired::class);
-    }
-
-    public function isAllowsEmpty(): bool
-    {
-        return $this->isEmpty() || $this->hasRule(AllowsEmpty::class);
-    }
-
-    public function isAllowsNull(): bool
-    {
-        return $this->isEmpty() || $this->hasRule(AllowsNull::class);
     }
 
     public function isEmpty(): bool
