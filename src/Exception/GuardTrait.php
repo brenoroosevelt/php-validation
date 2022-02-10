@@ -5,9 +5,8 @@ namespace BrenoRoosevelt\Validation\Exception;
 
 use BrenoRoosevelt\Validation\Result;
 use BrenoRoosevelt\Validation\Rule;
-use BrenoRoosevelt\Validation\ValidationResultSet;
 
-trait Guard
+trait GuardTrait
 {
     /**
      * @throws ValidationExceptionInterface
@@ -26,19 +25,16 @@ trait Guard
      * @throws ValidationExceptionInterface
      */
     protected function guardResult(
-        Result | ValidationResultSet $guardResult,
+        Result $result,
         ValidationExceptionInterface | string | null $validationException = null
     ): void {
-        if ($guardResult->isOk()) {
+        if ($result->isOk()) {
             return;
         }
 
         $exception = $this->createValidationException($validationException);
-        $results = $guardResult instanceof Result ? [$guardResult] : $guardResult->validationResults();
-        foreach ($results as $result) {
-            foreach ($result->getErrors() as $error) {
-                $exception->addError($error, $result->getField());
-            }
+        foreach ($result->getErrors() as $error) {
+            $exception->addError($error->message(), $error->field());
         }
 
         throw $exception;

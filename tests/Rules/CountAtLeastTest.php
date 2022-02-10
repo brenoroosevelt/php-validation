@@ -24,13 +24,11 @@ class CountAtLeastTest extends RuleTester
                 new CountAtLeast(1, 'MY_ERROR'),
                 [],
                 [],
-                'MY_ERROR'
             ],
             'case_1' => [
                 new CountAtLeast(1, null),
                 [],
                 [],
-                'Expected count is at least'
             ],
             'case_2' => [
                 new CountAtLeast(5),

@@ -6,15 +6,17 @@ namespace BrenoRoosevelt\Validation;
 use RuntimeException;
 
 /**
+ * @internal
  * @method self allowsNull()
  * @method self allowsEmpty()
  * @method self allowsEmptyString()
- * @method self notRequired()
+ * @method self required(?string $message = null)
  * @method self notEmpty(?string $message = null)
  * @method self notEmptyString(?string $message = null)
  * @method self notNull(?string $message = null)
+ * @method self email(?string $message = null)
  */
-trait RuleChain
+trait RuleChainTrait
 {
     abstract public function add(Rule|RuleSet ...$rules): static;
 
@@ -28,7 +30,7 @@ trait RuleChain
 
         $rule = new $class(...$arguments);
         if ($rule instanceof Rule) {
-            $this->add($rule);
+            return $this->add($rule);
         }
 
         return $this;

@@ -11,26 +11,13 @@ class AbstractValidationTest extends TestCase
     /** @test */
     public function shouldProvideDefaultMessage(): void
     {
-            $validation = new class extends AbstractRule {
+        $validation = new class extends AbstractRule {
             public function isValid($input, array $context = []): bool {
                 return false;
             }
         };
-        $result = $validation->validate(null);
-        $this->assertStringContainsString('Constraint violation', $result->getErrors()[0]);
-    }
 
-    /** @test */
-    public function shouldUseProvidedMessage(): void
-    {
-        $message = 'My Error';
-        $validation = new class($message) extends AbstractRule {
-            public function isValid($input, array $context = []): bool {
-                return false;
-            }
-        };
-        $result = $validation->validate(null);
-        $this->assertEquals($message, $result->getErrors()[0]);
+        $this->assertStringContainsString('Constraint violation', $validation->message());
     }
 
     /** @test */

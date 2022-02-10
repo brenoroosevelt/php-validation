@@ -3,21 +3,28 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
+use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
+use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
+use BrenoRoosevelt\Validation\Rules\IsEmpty;
+use BrenoRoosevelt\Validation\Rules\Required;
 
-class RuleSet implements Rule
+class RuleSet implements Rule, BelongsToField
 {
-    use RuleChain,
-        ValidateOrFail,
-        BelongsToField;
+    use RuleChainTrait, BelongsToFieldTrait, ValidateOrFailTrait;
 
+    /** @var Rule[] */
     private array $rules = [];
 
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
-        $this->attachRules(...$rules);
-        $this->setField($field);
+        $this->field = $field;
+        foreach ($rules as $ruleOrRuleSet) {
+            array_push(
+                $this->rules,
+                ...($ruleOrRuleSet instanceof Rule ? [$ruleOrRuleSet] : $ruleOrRuleSet->rules())
+            );
+        }
     }
 
     public static function new(): self
@@ -37,47 +44,45 @@ class RuleSet implements Rule
 
     public function add(Rule | RuleSet ...$rules): static
     {
-        $instance = clone $this;
-        $instance->attachRules(...$rules);
-        return $instance;
+        return new self($this->field, ...$this->rules, ...$rules);
     }
 
-    private function attachRules(Rule | RuleSet ...$rules): void
+    /** @inheritDoc */
+    public function validate(mixed $input, array $context = []): Result
     {
-        foreach ($rules as $ruleOrRuleSet) {
-            array_push(
-                $this->rules,
-                ...($ruleOrRuleSet instanceof Rule ? [$ruleOrRuleSet] : $ruleOrRuleSet->rules())
-            );
+        $errorReporting = new ErrorReporting;
+        if (null === $input && $this->hasAllowsNull()) {
+            return $errorReporting;
         }
-    }
 
-    /**
-     * @inheritDoc
-     */
-    public function validate(mixed $input, array $context = []): ValidationResult
-    {
-        $result = $this->newEmptyResult();
+        if ((new IsEmpty)->isValid($input) && $this->hasAllowsEmpty()) {
+            return $errorReporting;
+        }
+
         foreach ($this->rules as $rule) {
-            if (null == $input && $this->isAllowsNull()) {
-                return $this->newEmptyResult();
+            if ($rule instanceof BelongsToField) {
+                $rule = $rule->setField($this->getField());
             }
 
-            $result = $result->addError(...$rule->validate($input, $context)->getErrors());
+            $errorReporting = $errorReporting->add($rule->validate($input, $context));
         }
 
-        return $result;
+        return $errorReporting;
     }
 
-    public function isAllowsNull(): bool
+    public function hasRequired(): bool
     {
-        foreach ($this->rules as $rule) {
-            if ($rule instanceof AllowsNull) {
-                return true;
-            }
-        }
+        return $this->someRule(fn(Rule $rule) => $rule instanceof Required);
+    }
 
-        return false;
+    public function hasAllowsNull(): bool
+    {
+        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowsNull);
+    }
+
+    public function hasAllowsEmpty(): bool
+    {
+        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowsEmpty);
     }
 
     public function isEmpty(): bool
@@ -89,5 +94,16 @@ class RuleSet implements Rule
     public function rules(): array
     {
         return $this->rules;
+    }
+
+    private function someRule(callable $callback): bool
+    {
+        foreach ($this->rules as $rule) {
+            if (true === call_user_func_array($callback, [$rule])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

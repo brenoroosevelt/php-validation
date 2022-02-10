@@ -17,7 +17,6 @@ abstract class RuleTester extends TestCase
      * @param Rule $rule
      * @param mixed $input
      * @param array $context
-     * @param string|null $expectedError
      * @return void
      * @dataProvider invalidInputProvider
      */
@@ -25,15 +24,11 @@ abstract class RuleTester extends TestCase
         Rule $rule,
         mixed $input,
         array $context = [],
-        ?string $expectedError = null
     ): void {
         $this->assertInstanceOf($this->ruleClass(), $rule);
         $result = $rule->validate($input, $context);
         $this->assertFalse($result->isOk());
         $this->assertNotEmpty($result->getErrors());
-        if (null !== $expectedError) {
-            $this->assertErrorMessagesContain($expectedError, $result->getErrors());
-        }
     }
 
     /**
@@ -49,19 +44,5 @@ abstract class RuleTester extends TestCase
         $result = $rule->validate($input, $context);
         $this->assertTrue($result->isOk());
         $this->assertEmpty($result->getErrors());
-    }
-
-    protected function assertErrorMessagesContain(string $text, array $errors): void
-    {
-        $contain = false;
-        $constraint = new StringContains($text, true);
-        foreach ($errors as $error) {
-            if (true === $constraint->evaluate($error, '', true)) {
-                $contain = true;
-                break;
-            }
-        }
-
-        $this->assertTrue($contain, 'No error messages contain: ' . $text);
     }
 }

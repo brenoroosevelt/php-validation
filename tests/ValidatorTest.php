@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\Email;
 use BrenoRoosevelt\Validation\Rules\Required;
+use BrenoRoosevelt\Validation\RuleSet;
 use BrenoRoosevelt\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -26,12 +28,4 @@ class ValidatorTest extends TestCase
         $result = $validator->validate([]);
         $this->assertFalse($result->isOk());
     }
-
-//    /** @test */
-//    public function validatesNotRequiredWithNull(): void
-//    {
-//        $validator = Validator::new()->field('name', new AllowsNull);
-//        $result = $validator->validate([]);
-//        $this->assertFalse($result->isOk());
-//    }
 }

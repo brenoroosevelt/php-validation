@@ -11,12 +11,7 @@ interface Result
     public function isOk(): bool;
 
     /**
-     * @return string[]
+     * @return Error[]
      */
     public function getErrors(): array;
-
-    /**
-     * @return string|null
-     */
-    public function getField(): ?string;
 }

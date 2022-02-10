@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Exception\Guard;
+use BrenoRoosevelt\Validation\Exception\GuardTrait;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
-use BrenoRoosevelt\Validation\Rules\Required;
 use ReflectionClass;
 use ReflectionException;
 
 final class Validator
 {
-    use Guard;
+    use GuardTrait;
 
     /** @var RuleSet[] */
     private array $ruleSets;
@@ -44,39 +43,26 @@ final class Validator
         return $this;
     }
 
-    public function isRequired(string $field): bool
+    public function validate(array $data = []): ErrorReporting
     {
-        $ruleSet = $this->ruleSets[$field] ?? new RuleSet;
-        foreach ($ruleSet->rules() as $rule) {
-            if ($rule instanceof Required) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function validate(array $data = []): ValidationResultSet
-    {
-        $resultSet = new ValidationResultSet;
+        $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            $fieldIsPresent = array_key_exists($field, $data);
-            if (!$this->isRequired($field) && !$fieldIsPresent) {
-                return new ValidationResultSet;
+            if (!$fieldRuleSet->hasRequired() && !array_key_exists($field, $data)) {
+                continue;
+            }
+
+            if ($fieldRuleSet instanceof BelongsToField) {
+                $fieldRuleSet = $fieldRuleSet->setField($field);
             }
 
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
-            if (!$result->isOk()) {
-                $resultSet = $resultSet->add($result);
-            }
+            $errorReporting = $errorReporting->add($result);
         }
 
-        return $resultSet;
+        return $errorReporting;
     }
 
-    /**
-     * @throws ValidationExceptionInterface
-     */
+    /** @throws ValidationExceptionInterface */
     public function validateOrFail(
         array $data = [],
         ValidationExceptionInterface | string | null  $validationException = null
@@ -84,7 +70,7 @@ final class Validator
         $this->validate($data)->guard($validationException);
     }
 
-    public static function validateObject(object $object): ValidationResultSet
+    public static function validateObject(object $object): ErrorReporting
     {
         $data = [];
         $class = new ReflectionClass($object);
