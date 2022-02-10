@@ -28,7 +28,7 @@ abstract class AbstractRule implements Rule, BelongsToField, Stopable
         return
             $this->isValid($input, $context) ?
                 ErrorReporting::success() :
-                (new ErrorReporting)->addError($this->message, $this, $this->getField());
+                (new ErrorReporting)->addError($this->message, $this->getField(), $this);
     }
 
     private function className(): string

@@ -69,7 +69,7 @@ final class Validator
         $field = $fieldRuleSet->getField();
         $fieldIsPresent = $field && array_key_exists($field, $data);
 
-        return !$fieldRuleSet->hasRequired() && !$fieldIsPresent;
+        return !$fieldRuleSet->containsRequiredRule() && !$fieldIsPresent;
     }
 
     private function shouldStop(RuleSet $fieldRuleSet, Result $result): bool

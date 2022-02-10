@@ -7,9 +7,8 @@ use RuntimeException;
 
 /**
  * @internal
- * @method self allowsNull()
- * @method self allowsEmpty()
- * @method self allowsEmptyString()
+ * @method self allowNull()
+ * @method self allowEmpty()
  * @method self required(?string $message = null)
  * @method self notEmpty(?string $message = null)
  * @method self notEmptyString(?string $message = null)

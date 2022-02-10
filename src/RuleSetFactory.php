@@ -23,7 +23,7 @@ final class RuleSetFactory
             $ruleSets[$property->getName()] = self::fromReflectionProperty($property);
         }
 
-        return array_filter($ruleSets, fn(RuleSet $c) => !$c->isEmpty());
+        return array_filter($ruleSets, fn(RuleSet $ruleSet) => !$ruleSet->isEmpty());
     }
 
     /**

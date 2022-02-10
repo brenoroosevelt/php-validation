@@ -7,7 +7,7 @@ use BrenoRoosevelt\Validation\Rules;
 
 class Stub
 {
-    #[Rules\AllowsEmpty]
+    #[Rules\AllowEmpty]
     #[Rules\Type\IsInteger(message: 'Deve ser um inteiro')]
     #[Rules\Type\IsNumeric]
     #[Rules\Brazilian\Cpf]

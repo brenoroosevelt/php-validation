@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Tests;
 
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
-use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
-use BrenoRoosevelt\Validation\Rules\AllowsNull;
+use BrenoRoosevelt\Validation\Rules\AllowEmpty;
+use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\Email;
 use BrenoRoosevelt\Validation\Rules\Required;
 use BrenoRoosevelt\Validation\RuleSet;

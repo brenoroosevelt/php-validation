@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
-use BrenoRoosevelt\Validation\Rules\AllowsEmpty;
-use BrenoRoosevelt\Validation\Rules\AllowsNull;
+use BrenoRoosevelt\Validation\Rules\AllowEmpty;
+use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 use BrenoRoosevelt\Validation\Rules\Required;
 
@@ -73,11 +73,11 @@ class RuleSet implements Rule, BelongsToField, Stopable
 
     private function shouldValidate(mixed $input, array $context): bool
     {
-        if (null === $input && $this->hasAllowsNull()) {
+        if (null === $input && $this->containsAllowNullRule()) {
             return false;
         }
 
-        if ((new IsEmpty)->isValid($input) && $this->hasAllowsEmpty()) {
+        if ((new IsEmpty)->isValid($input) && $this->containsAllowEmptyRule()) {
             return false;
         }
 
@@ -89,19 +89,19 @@ class RuleSet implements Rule, BelongsToField, Stopable
         return $rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk();
     }
 
-    public function hasRequired(): bool
+    public function containsRequiredRule(): bool
     {
         return $this->someRule(fn(Rule $rule) => $rule instanceof Required);
     }
 
-    public function hasAllowsNull(): bool
+    public function containsAllowNullRule(): bool
     {
-        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowsNull);
+        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowNull);
     }
 
-    public function hasAllowsEmpty(): bool
+    public function containsAllowEmptyRule(): bool
     {
-        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowsEmpty);
+        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowEmpty);
     }
 
     public function isEmpty(): bool
