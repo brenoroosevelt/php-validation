@@ -51,11 +51,7 @@ class RuleSet implements Rule, BelongsToField
     public function validate(mixed $input, array $context = []): Result
     {
         $errorReporting = new ErrorReporting;
-        if (null === $input && $this->hasAllowsNull()) {
-            return $errorReporting;
-        }
-
-        if ((new IsEmpty)->isValid($input) && $this->hasAllowsEmpty()) {
+        if (!$this->shouldValidate($input)) {
             return $errorReporting;
         }
 
@@ -68,6 +64,19 @@ class RuleSet implements Rule, BelongsToField
         }
 
         return $errorReporting;
+    }
+
+    private function shouldValidate(mixed $input): bool
+    {
+        if (null === $input && $this->hasAllowsNull()) {
+            return false;
+        }
+
+        if ((new IsEmpty)->isValid($input) && $this->hasAllowsEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function hasRequired(): bool
