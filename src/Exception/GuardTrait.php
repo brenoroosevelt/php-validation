@@ -32,20 +32,7 @@ trait GuardTrait
             return;
         }
 
-        $exception = $this->createValidationException($validationException);
-        foreach ($result->getErrors() as $error) {
-            $exception->addError($error->message(), $error->rule(), $error->field());
-        }
-
-        throw $exception;
-    }
-
-    private function createValidationException(
-        ValidationExceptionInterface | string | null $validationException = null
-    ): ValidationExceptionInterface {
-        return
-            $validationException instanceof ValidationExceptionInterface ?
-                $validationException :
-                new ValidationException(is_string($validationException) ? $validationException : '');
+        $exceptionFactory = new ValidationExceptionFactory($validationException);
+        throw $exceptionFactory->create($result);
     }
 }
