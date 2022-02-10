@@ -14,4 +14,9 @@ interface Error
      * @return string|null
      */
     public function field(): ?string;
+
+    /**
+     * @return Rule
+     */
+    public function rule(): Rule;
 }

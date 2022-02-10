@@ -34,7 +34,7 @@ trait GuardTrait
 
         $exception = $this->createValidationException($validationException);
         foreach ($result->getErrors() as $error) {
-            $exception->addError($error->message(), $error->field());
+            $exception->addError($error->message(), $error->rule(), $error->field());
         }
 
         throw $exception;

@@ -27,7 +27,7 @@ abstract class AbstractRule implements Rule, BelongsToField
         return
             $this->isValid($input, $context) ?
                 new ErrorReporting :
-                (new ErrorReporting)->addError($this->message, $this->getField());
+                (new ErrorReporting)->addError($this->message, $this, $this->getField());
     }
 
     private function className(): string
