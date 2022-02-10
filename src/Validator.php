@@ -48,21 +48,33 @@ final class Validator
     {
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            $fieldIsPresent = array_key_exists($field, $data);
-            if (!$fieldRuleSet->hasRequired() && !$fieldIsPresent) {
+            if ($this->shouldValidate($fieldRuleSet, $data)) {
                 continue;
             }
 
             $fieldRuleSet = $fieldRuleSet->setField($field);
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             $errorReporting = $errorReporting->add($result);
-            
-            if ($fieldRuleSet->stopOnFailure() && !$result->isOk()) {
+
+            if ($this->shouldStop($fieldRuleSet, $result)) {
                 break;
             }
         }
 
         return $errorReporting;
+    }
+
+    private function shouldValidate(RuleSet $fieldRuleSet, mixed $data): bool
+    {
+        $field = $fieldRuleSet->getField();
+        $fieldIsPresent = $field && array_key_exists($field, $data);
+
+        return !$fieldRuleSet->hasRequired() && !$fieldIsPresent;
+    }
+
+    private function shouldStop(RuleSet $fieldRuleSet, Result $result): bool
+    {
+        return $fieldRuleSet->stopOnFailure() && !$result->isOk();
     }
 
     /** @throws ValidationExceptionInterface */

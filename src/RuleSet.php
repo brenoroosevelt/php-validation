@@ -62,7 +62,7 @@ class RuleSet implements Rule, BelongsToField, Stopable
 
             $result = $rule->validate($input, $context);
             $errorReporting = $errorReporting->add($result);
-            if ($rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk()) {
+            if ($this->shouldStop($rule, $result)) {
                 $this->stopOnFailure = true;
                 break;
             }
@@ -82,6 +82,11 @@ class RuleSet implements Rule, BelongsToField, Stopable
         }
 
         return true;
+    }
+
+    private function shouldStop(Rule $rule, Result $result): bool
+    {
+        return $rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk();
     }
 
     public function hasRequired(): bool
