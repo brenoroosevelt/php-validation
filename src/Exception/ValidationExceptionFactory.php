@@ -13,7 +13,7 @@ final class ValidationExceptionFactory implements ValidationExceptionFactoryInte
     {
     }
 
-    public static function setDefault(ValidationExceptionFactoryInterface $factory): void
+    public static function setDefault(?ValidationExceptionFactoryInterface $factory): void
     {
         self::$userDefinedFactory = $factory;
     }
