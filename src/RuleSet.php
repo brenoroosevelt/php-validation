@@ -50,11 +50,11 @@ class RuleSet implements Rule, BelongsToField
     /** @inheritDoc */
     public function validate(mixed $input, array $context = []): Result
     {
-        $errorReporting = new ErrorReporting;
-        if (!$this->shouldValidate($input)) {
-            return $errorReporting;
+        if (!$this->shouldValidate($input, $context)) {
+            return ErrorReporting::success();
         }
 
+        $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
             if ($rule instanceof BelongsToField) {
                 $rule = $rule->setField($this->getField());
@@ -66,7 +66,7 @@ class RuleSet implements Rule, BelongsToField
         return $errorReporting;
     }
 
-    private function shouldValidate(mixed $input): bool
+    private function shouldValidate(mixed $input, array $context): bool
     {
         if (null === $input && $this->hasAllowsNull()) {
             return false;

@@ -11,6 +11,6 @@ final class AlwaysOk implements Rule
 {
     public function validate(mixed $input, array $context = []): Result
     {
-        return new ErrorReporting;
+        return ErrorReporting::success();
     }
 }

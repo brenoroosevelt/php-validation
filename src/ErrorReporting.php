@@ -24,6 +24,11 @@ class ErrorReporting implements Result
         }
     }
 
+    public static function success(): self
+    {
+        return new self;
+    }
+
     public function add(Error | Result ...$errors): self
     {
         return new self(...$this->errors, ...$errors);

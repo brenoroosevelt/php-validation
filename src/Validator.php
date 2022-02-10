@@ -48,7 +48,8 @@ final class Validator
     {
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            if (!$fieldRuleSet->hasRequired() && !array_key_exists($field, $data)) {
+            $fieldIsPresent = array_key_exists($field, $data);
+            if (!$fieldRuleSet->hasRequired() && !$fieldIsPresent) {
                 continue;
             }
 
