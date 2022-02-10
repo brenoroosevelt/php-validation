@@ -22,7 +22,7 @@ class RuleSet implements Rule, BelongsToField
         foreach ($rules as $ruleOrRuleSet) {
             array_push(
                 $this->rules,
-                ...($ruleOrRuleSet instanceof Rule ? [$ruleOrRuleSet] : $ruleOrRuleSet->rules())
+                ...($ruleOrRuleSet instanceof RuleSet ? $ruleOrRuleSet->rules() : [$ruleOrRuleSet])
             );
         }
     }

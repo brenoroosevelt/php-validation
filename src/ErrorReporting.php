@@ -19,7 +19,7 @@ class ErrorReporting implements Result
         foreach ($errors as $errorOrResult) {
             array_push(
                 $this->errors,
-                ...($errorOrResult instanceof Error ? [$errorOrResult] : $errorOrResult->getErrors())
+                ...($errorOrResult instanceof Result ? $errorOrResult->getErrors() : [$errorOrResult])
             );
         }
     }
