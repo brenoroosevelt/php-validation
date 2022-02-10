@@ -32,11 +32,19 @@ trait GuardTrait
             return;
         }
 
-        $exceptionFactory =
-            $validationException instanceof ValidationExceptionFactoryInterface ?
-                $validationException :
-                new ValidationExceptionFactory($validationException);
+        if ($validationException instanceof ValidationExceptionInterface) {
+            throw $validationException;
+        }
 
-        throw $exceptionFactory->create($result);
+        if ($validationException instanceof ValidationExceptionFactoryInterface) {
+            throw $validationException->create($result);
+        }
+
+        $exceptionMessage = $validationException;
+        if (ValidationException::hasFactory()) {
+            throw ValidationException::getFactory()->create($result, $exceptionMessage);
+        }
+
+        throw new ValidationException($result->getErrors(), $exceptionMessage);
     }
 }

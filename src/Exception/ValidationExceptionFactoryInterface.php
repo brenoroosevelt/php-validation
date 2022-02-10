@@ -9,7 +9,8 @@ interface ValidationExceptionFactoryInterface
 {
     /**
      * @param Result $result
+     * @param string|null $message
      * @return ValidationExceptionInterface
      */
-    public function create(Result $result): ValidationExceptionInterface;
+    public function create(Result $result, ?string $message = null): ValidationExceptionInterface;
 }
