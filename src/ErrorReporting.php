@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 
 class ErrorReporting implements Result
@@ -46,8 +47,9 @@ class ErrorReporting implements Result
     }
 
     /** @throws ValidationExceptionInterface */
-    public function guard(ValidationExceptionInterface | string | null  $validationException = null): void
-    {
+    public function guard(
+        ValidationExceptionFactoryInterface | ValidationExceptionInterface | string | null  $validationException = null
+    ): void {
         $this->guardResult($this, $validationException);
     }
 }

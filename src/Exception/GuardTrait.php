@@ -15,7 +15,7 @@ trait GuardTrait
         Rule $rule,
         mixed $input,
         array $context = [],
-        ValidationExceptionInterface | string | null $validationException = null
+        ValidationExceptionFactoryInterface | ValidationExceptionInterface | string | null $validationException = null
     ): void {
         $result = $rule->validate($input, $context);
         $this->guardResult($result, $validationException);
@@ -26,13 +26,17 @@ trait GuardTrait
      */
     protected function guardResult(
         Result $result,
-        ValidationExceptionInterface | string | null $validationException = null
+        ValidationExceptionFactoryInterface | ValidationExceptionInterface | string | null $validationException = null
     ): void {
         if ($result->isOk()) {
             return;
         }
 
-        $exceptionFactory = new ValidationExceptionFactory($validationException);
+        $exceptionFactory =
+            $validationException instanceof ValidationExceptionFactoryInterface ?
+                $validationException :
+                new ValidationExceptionFactory($validationException);
+
         throw $exceptionFactory->create($result);
     }
 }

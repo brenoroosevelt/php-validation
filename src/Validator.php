@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
+use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -62,7 +63,7 @@ final class Validator
     /** @throws ValidationExceptionInterface */
     public function validateOrFail(
         array $data = [],
-        ValidationExceptionInterface | string | null  $validationException = null
+        ValidationExceptionFactoryInterface | ValidationExceptionInterface | string | null  $validationException = null
     ): void {
         $this->validate($data)->guard($validationException);
     }
