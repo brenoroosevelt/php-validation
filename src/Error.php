@@ -16,7 +16,7 @@ interface Error
     public function field(): ?string;
 
     /**
-     * @return Rule
+     * @return Rule|null
      */
-    public function rule(): Rule;
+    public function rule(): ?Rule;
 }

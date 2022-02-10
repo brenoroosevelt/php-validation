@@ -5,15 +5,16 @@ namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 
-abstract class AbstractRule implements Rule, BelongsToField
+abstract class AbstractRule implements Rule, BelongsToField, Stopable
 {
-    use ValidateOrFailTrait, BelongsToFieldTrait;
+    use ValidateOrFailTrait, BelongsToFieldTrait, StopableTrait;
 
     protected string $message;
 
-    public function __construct(?string $message = null)
+    public function __construct(?string $message = null, bool $stopOnFailure = false)
     {
         $this->message = $message ?? sprintf('Constraint violation: %s', $this->className());
+        $this->stopOnFailure = $stopOnFailure;
     }
 
     public function message(): string

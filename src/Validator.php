@@ -56,6 +56,10 @@ final class Validator
             $fieldRuleSet = $fieldRuleSet->setField($field);
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             $errorReporting = $errorReporting->add($result);
+
+            if ($fieldRuleSet instanceof Stopable && $fieldRuleSet->stopOnFailure() && !$result->isOk()) {
+                break;
+            }
         }
 
         return $errorReporting;

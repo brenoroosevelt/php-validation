@@ -9,9 +9,9 @@ use BrenoRoosevelt\Validation\Rules\AllowsNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 use BrenoRoosevelt\Validation\Rules\Required;
 
-class RuleSet implements Rule, BelongsToField
+class RuleSet implements Rule, BelongsToField, Stopable
 {
-    use RuleChainTrait, BelongsToFieldTrait, ValidateOrFailTrait;
+    use RuleChainTrait, BelongsToFieldTrait, StopableTrait, ValidateOrFailTrait;
 
     /** @var Rule[] */
     private array $rules = [];
@@ -60,7 +60,12 @@ class RuleSet implements Rule, BelongsToField
                 $rule = $rule->setField($this->getField());
             }
 
-            $errorReporting = $errorReporting->add($rule->validate($input, $context));
+            $result = $rule->validate($input, $context);
+            $errorReporting = $errorReporting->add($result);
+            if ($rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk()) {
+                $this->stopOnFailure = true;
+                break;
+            }
         }
 
         return $errorReporting;

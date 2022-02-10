@@ -5,7 +5,7 @@ namespace BrenoRoosevelt\Validation;
 
 final class ErrorMessage implements Error
 {
-    public function __construct(private string $message, private Rule $rule, private ?string $field = null)
+    public function __construct(private string $message, private ?string $field = null, private ?Rule $rule = null)
     {
     }
 
@@ -22,7 +22,7 @@ final class ErrorMessage implements Error
     }
 
     /** @inheritDoc */
-    public function rule(): Rule
+    public function rule(): ?Rule
     {
         return $this->rule;
     }
