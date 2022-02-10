@@ -33,17 +33,13 @@ class ErrorReporting implements Result
         return $this->add(new ErrorMessage($message, $field));
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function isOk(): bool
     {
         return empty($this->errors);
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function getErrors(): array
     {
         return $this->errors;

@@ -7,8 +7,7 @@ use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 
 abstract class AbstractRule implements Rule, BelongsToField
 {
-    use ValidateOrFailTrait,
-        BelongsToFieldTrait;
+    use ValidateOrFailTrait, BelongsToFieldTrait;
 
     protected string $message;
 
