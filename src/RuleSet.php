@@ -73,11 +73,11 @@ class RuleSet implements Rule, BelongsToField, Stopable
 
     private function shouldValidate(mixed $input, array $context): bool
     {
-        if (null === $input && $this->containsAllowNullRule()) {
+        if (null === $input && $this->containsRuleType(AllowNull::class)) {
             return false;
         }
 
-        if ((new IsEmpty)->isValid($input) && $this->containsAllowEmptyRule()) {
+        if ((new IsEmpty)->isValid($input) && $this->containsRuleType(AllowEmpty::class)) {
             return false;
         }
 
@@ -87,21 +87,6 @@ class RuleSet implements Rule, BelongsToField, Stopable
     private function shouldStop(Rule $rule, Result $result): bool
     {
         return $rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk();
-    }
-
-    public function containsRequiredRule(): bool
-    {
-        return $this->someRule(fn(Rule $rule) => $rule instanceof Required);
-    }
-
-    public function containsAllowNullRule(): bool
-    {
-        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowNull);
-    }
-
-    public function containsAllowEmptyRule(): bool
-    {
-        return $this->someRule(fn(Rule $rule) => $rule instanceof AllowEmpty);
     }
 
     public function isEmpty(): bool
@@ -115,10 +100,10 @@ class RuleSet implements Rule, BelongsToField, Stopable
         return $this->rules;
     }
 
-    private function someRule(callable $callback): bool
+    public function containsRuleType(string $ruleClassName): bool
     {
         foreach ($this->rules as $rule) {
-            if (true === call_user_func_array($callback, [$rule])) {
+            if (is_a($rule, $ruleClassName, true)) {
                 return true;
             }
         }

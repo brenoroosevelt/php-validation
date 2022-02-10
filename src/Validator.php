@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
+use BrenoRoosevelt\Validation\Rules\Required;
 use ReflectionClass;
 use ReflectionException;
 
@@ -69,7 +70,7 @@ final class Validator
         $field = $fieldRuleSet->getField();
         $fieldIsPresent = $field && array_key_exists($field, $data);
 
-        return !$fieldRuleSet->containsRequiredRule() && !$fieldIsPresent;
+        return !$fieldRuleSet->containsRuleType(Required::class) && !$fieldIsPresent;
     }
 
     private function shouldStop(RuleSet $fieldRuleSet, Result $result): bool
