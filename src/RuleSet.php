@@ -8,18 +8,15 @@ use BrenoRoosevelt\Validation\Rules\AllowEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 
-class RuleSet implements Rule, BelongsToField, Stopable
+class RuleSet implements Rule, BelongsToField
 {
     use RuleChainTrait, BelongsToFieldTrait, ValidateOrFailTrait;
 
     /** @var Rule[] */
     private array $rules = [];
 
-    private ErrorReporting $errorReporting;
-
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
-        $this->errorReporting = new ErrorReporting;
         $this->field = $field;
         foreach ($rules as $ruleOrRuleSet) {
             array_push(
@@ -50,44 +47,40 @@ class RuleSet implements Rule, BelongsToField, Stopable
     }
 
     /** @inheritDoc */
-    public function validate(mixed $input, array $context = []): Result
+    public function validate(mixed $input, array $context = []): ErrorReporting
     {
         if (!$this->shouldValidate($input)) {
             return ErrorReporting::success();
         }
 
-        $this->errorReporting = new ErrorReporting;
+        $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
             if ($rule instanceof BelongsToField) {
                 $rule = $rule->setField($this->getField());
             }
 
             $result = $rule->validate($input, $context);
-            $this->errorReporting = $this->errorReporting->add($result);
-            if ($this->shouldStop()) {
-                break;
+            $errorReporting = $errorReporting->add($result);
+            $stopSign = $this->stopSign($rule, $result);
+            if ($stopSign !== StopSign::DONT_STOP) {
+                return $errorReporting->withStopSign($stopSign);
             }
         }
 
-        return $this->errorReporting;
+        return $errorReporting;
     }
 
-    public function stopOnFailure(): int
+    private function stopSign(Rule $rule, Result $result): int
     {
-        $stopSignResult = StopSign::DONT_STOP;
-        foreach ($this->errorReporting->getErrors() as $error) {
-            $rule = $error->rule();
-            $stopSign = $rule instanceof Stopable ? $rule->stopOnFailure() : StopSign::DONT_STOP;
-            if ($stopSign === StopSign::ALL) {
-                return $stopSign;
-            }
-
-            if ($stopSign === StopSign::SAME_FIELD) {
-                $stopSignResult = StopSign::SAME_FIELD;
-            }
+        if (! $rule instanceof Stopable) {
+            return StopSign::DONT_STOP;
         }
 
-        return $stopSignResult;
+        if (!$result->isOk() && $rule->stopOnFailure() !== StopSign::DONT_STOP) {
+            return $rule->stopOnFailure();
+        }
+
+        return StopSign::DONT_STOP;
     }
 
     private function shouldValidate(mixed $input): bool
@@ -101,11 +94,6 @@ class RuleSet implements Rule, BelongsToField, Stopable
         }
 
         return true;
-    }
-
-    private function shouldStop(): bool
-    {
-        return $this->stopOnFailure() !== StopSign::DONT_STOP;
     }
 
     public function containsRuleType(string $ruleClassName): bool

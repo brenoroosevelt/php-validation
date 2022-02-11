@@ -57,7 +57,7 @@ final class Validator
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             $errorReporting = $errorReporting->add($result);
 
-            if ($this->shouldStop($fieldRuleSet, $result)) {
+            if ($this->shouldStop($result)) {
                 break;
             }
         }
@@ -73,9 +73,9 @@ final class Validator
         return !$fieldRuleSet->containsRuleType(Required::class) && !$fieldIsPresent;
     }
 
-    private function shouldStop(RuleSet $fieldRuleSet, Result $result): bool
+    private function shouldStop(ErrorReporting $result): bool
     {
-        return !$result->isOk() && $fieldRuleSet->stopOnFailure() !== StopSign::DONT_STOP;
+        return !$result->isOk() && $result->stopSign() !== StopSign::DONT_STOP;
     }
 
     /** @throws ValidationExceptionInterface */

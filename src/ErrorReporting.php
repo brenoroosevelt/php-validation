@@ -13,6 +13,7 @@ class ErrorReporting implements Result
 
     /** @var Error[] */
     private array $errors = [];
+    private int $stopSign = StopSign::DONT_STOP;
 
     final public function __construct(Error | Result ...$errors)
     {
@@ -27,6 +28,11 @@ class ErrorReporting implements Result
     public static function success(): self
     {
         return new self;
+    }
+
+    public function getStopSign(): int
+    {
+        return $this->stopSign;
     }
 
     public function add(Error | Result ...$errors): self
@@ -49,6 +55,18 @@ class ErrorReporting implements Result
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    public function stopSign(): int
+    {
+        return $this->stopSign;
+    }
+
+    public function withStopSign(int $stopSign): self
+    {
+        $instance = clone $this;
+        $instance->stopSign = $stopSign;
+        return $instance;
     }
 
     /** @throws ValidationExceptionInterface */
