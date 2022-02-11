@@ -75,7 +75,7 @@ final class Validator
 
     private function shouldStop(ErrorReporting $result): bool
     {
-        return !$result->isOk() && $result->stopSign() !== StopSign::DONT_STOP;
+        return !$result->isOk() && $result->stopSign() === StopSign::ALL;
     }
 
     /** @throws ValidationExceptionInterface */
