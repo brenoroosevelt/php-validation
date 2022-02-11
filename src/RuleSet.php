@@ -71,7 +71,7 @@ class RuleSet implements Rule, BelongsToField, Stopable
         return $errorReporting;
     }
 
-    private function shouldValidate(mixed $input, array $context): bool
+    private function shouldValidate(mixed $input): bool
     {
         if (null === $input && $this->containsRuleType(AllowNull::class)) {
             return false;
