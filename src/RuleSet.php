@@ -89,17 +89,6 @@ class RuleSet implements Rule, BelongsToField, Stopable
         return $rule instanceof Stopable && $rule->stopOnFailure() && !$result->isOk();
     }
 
-    public function isEmpty(): bool
-    {
-        return empty($this->rules);
-    }
-
-    /** @return Rule[] */
-    public function rules(): array
-    {
-        return $this->rules;
-    }
-
     public function containsRuleType(string $ruleClassName): bool
     {
         foreach ($this->rules as $rule) {
@@ -109,5 +98,16 @@ class RuleSet implements Rule, BelongsToField, Stopable
         }
 
         return false;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->rules);
+    }
+
+    /** @return Rule[] */
+    public function rules(): array
+    {
+        return $this->rules;
     }
 }
