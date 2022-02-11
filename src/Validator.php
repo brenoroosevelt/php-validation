@@ -75,7 +75,7 @@ final class Validator
 
     private function shouldStop(RuleSet $fieldRuleSet, Result $result): bool
     {
-        return $fieldRuleSet->stopOnFailure() && !$result->isOk();
+        return !$result->isOk() && $fieldRuleSet->stopOnFailure() !== StopSign::DONT_STOP;
     }
 
     /** @throws ValidationExceptionInterface */

@@ -5,5 +5,8 @@ namespace BrenoRoosevelt\Validation;
 
 interface Stopable extends Rule
 {
-    public function stopOnFailure(): bool;
+    /**
+     * @return int Accepted values: StopSign::DONT_STOP, StopSign::SAME_FIELD, StopSign::ALL
+     */
+    public function stopOnFailure(): int;
 }

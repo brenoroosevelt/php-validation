@@ -11,7 +11,7 @@ abstract class AbstractRule implements Rule, BelongsToField, Stopable
 
     protected string $message;
 
-    public function __construct(?string $message = null, bool $stopOnFailure = false)
+    public function __construct(?string $message = null, int $stopOnFailure = StopSign::DONT_STOP)
     {
         $this->message = $message ?? sprintf('Constraint violation: %s', $this->className());
         $this->stopOnFailure = $stopOnFailure;

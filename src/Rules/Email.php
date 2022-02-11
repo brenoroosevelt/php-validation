@@ -5,13 +5,14 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Email extends AbstractRule
 {
     const MESSAGE = 'Invalid e-mail';
 
-    public function __construct(?string $message = self::MESSAGE, bool $stopOnFailure = false)
+    public function __construct(?string $message = self::MESSAGE, int $stopOnFailure = StopSign::DONT_STOP)
     {
         parent::__construct($message, $stopOnFailure);
     }

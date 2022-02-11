@@ -5,16 +5,16 @@ namespace BrenoRoosevelt\Validation;
 
 trait StopableTrait
 {
-    private bool $stopOnFailure = false;
+    private int $stopOnFailure = StopSign::DONT_STOP;
 
-    public function setStopOnFailure(bool $stop): static
+    public function setStopOnFailure(int $stopSign): static
     {
         $instance = clone $this;
-        $instance->stopOnFailure = $stop;
+        $instance->stopOnFailure = $stopSign;
         return $instance;
     }
 
-    public function stopOnFailure(): bool
+    public function stopOnFailure(): int
     {
         return $this->stopOnFailure;
     }
