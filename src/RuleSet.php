@@ -72,11 +72,12 @@ class RuleSet implements Rule, BelongsToField
 
     private function stopSign(Rule $rule, Result $result): int
     {
-        if (! $rule instanceof Stopable) {
+        if (! $rule instanceof Stoppable) {
             return StopSign::DONT_STOP;
         }
 
-        if (!$result->isOk() && $rule->stopOnFailure() !== StopSign::DONT_STOP) {
+        $stopWhen = [StopSign::SAME_FIELD, StopSign::ALL];
+        if (!$result->isOk() && in_array($rule->stopOnFailure(), $stopWhen)) {
             return $rule->stopOnFailure();
         }
 

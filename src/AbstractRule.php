@@ -5,9 +5,9 @@ namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 
-abstract class AbstractRule implements Rule, BelongsToField, Stopable
+abstract class AbstractRule implements Rule, BelongsToField, Stoppable
 {
-    use ValidateOrFailTrait, BelongsToFieldTrait, StopableTrait;
+    use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait;
 
     protected string $message;
 
