@@ -50,7 +50,7 @@ class RuleSet implements Rule, BelongsToField, Stopable
     /** @inheritDoc */
     public function validate(mixed $input, array $context = []): Result
     {
-        if (!$this->shouldValidate($input, $context)) {
+        if (!$this->shouldValidate($input)) {
             return ErrorReporting::success();
         }
 
