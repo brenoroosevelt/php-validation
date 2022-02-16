@@ -7,6 +7,7 @@ use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 use BrenoRoosevelt\Validation\Rules\AllowEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
+use function BrenoRoosevelt\some;
 
 class RuleSet implements Rule, BelongsToField
 {
@@ -99,13 +100,7 @@ class RuleSet implements Rule, BelongsToField
 
     public function containsRuleType(string $ruleClassName): bool
     {
-        foreach ($this->rules as $rule) {
-            if (is_a($rule, $ruleClassName, true)) {
-                return true;
-            }
-        }
-
-        return false;
+        return some($this->rules(), fn($rule) => is_a($rule, $ruleClassName, true));
     }
 
     public function isEmpty(): bool
