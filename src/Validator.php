@@ -49,7 +49,7 @@ final class Validator
     {
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            if ($this->shouldValidate($fieldRuleSet, $data)) {
+            if (! $this->shouldValidate($fieldRuleSet, $data)) {
                 continue;
             }
 
