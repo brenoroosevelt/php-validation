@@ -53,7 +53,7 @@ final class Validator
             if (! $this->shouldValidate($fieldRuleSet, $data)) {
                 continue;
             }
-            
+
             $result = $fieldRuleSet->validate($data[$field] ?? null, $data);
             $errorReporting = $errorReporting->add($result);
 
