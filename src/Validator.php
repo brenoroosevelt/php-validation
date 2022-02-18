@@ -69,8 +69,9 @@ final class Validator
     {
         $field = $fieldRuleSet->getField();
         $fieldIsPresent = $field && array_key_exists($field, $data);
+        $fieldIsRequired = $fieldRuleSet->containsRuleType(Required::class);
 
-        return $fieldIsPresent || $fieldRuleSet->containsRuleType(Required::class);
+        return $fieldIsPresent || $fieldIsRequired;
     }
 
     private function shouldStop(ErrorReporting $result): bool
