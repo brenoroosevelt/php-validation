@@ -15,7 +15,8 @@
     ],
     "require": {
         "php": "^8",
-        "brenoroosevelt/array-functions": "^1"
+        "brenoroosevelt/array-functions": "^1",
+        "phpro/api-problem": "^1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
