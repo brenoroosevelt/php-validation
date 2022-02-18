@@ -6,11 +6,12 @@ namespace BrenoRoosevelt\Validation\Exception;
 use BrenoRoosevelt\Validation\Error;
 use Exception;
 use JsonSerializable;
-use Phpro\ApiProblem\Http\HttpApiProblem;
 use Throwable;
 
 class ValidationException extends Exception implements ValidationExceptionInterface, JsonSerializable
 {
+    use ParseErrorsTrait;
+
     private static ?ValidationExceptionFactoryInterface $userDefinedFactory = null;
 
     /** @var Error[] */
@@ -19,7 +20,8 @@ class ValidationException extends Exception implements ValidationExceptionInterf
     public function __construct(array $errors, ?string $message = "", int $code = 400, ?Throwable $previous = null)
     {
         $this->errors = array_filter($errors, fn($e) => $e instanceof Error);
-        parent::__construct($message ?? '', $code, $previous);
+        $message = $message ?? 'Input validation failed' . PHP_EOL . $this->errorsAsString();
+        parent::__construct($message, $code, $previous);
     }
 
     /** @inheritDoc */
@@ -43,43 +45,17 @@ class ValidationException extends Exception implements ValidationExceptionInterf
         return self::$userDefinedFactory;
     }
 
-    /**
-     * Convert to HttpApiProblem
-     *
-     * @return HttpApiProblem
-     */
-    public function toApiProblem(): HttpApiProblem
+    public function toArray(): array
     {
-        return new HttpApiProblem($this->getCode(), [
-            'type' => HttpApiProblem::TYPE_HTTP_RFC,
-            'title' => HttpApiProblem::getTitleForStatusCode($this->getCode()),
-            'detail' => $this->message ?? 'Input validation failed',
-            'violations' => $this->serializeViolations(),
-        ]);
+        return [
+            'message' => $this->message ?? 'Input validation failed',
+            'code' => $this->getCode(),
+            'violations' => $this->errorsAsArray(),
+        ];
     }
 
-    private function serializeViolations(): array
-    {
-        $violations = [];
-        foreach ($this->errors as $violation) {
-            $violationEntry = [
-                'propertyPath' => $violation->field(),
-                'title' => $violation->message(),
-            ];
-
-            $violations[] = $violationEntry;
-        }
-
-        return $violations;
-    }
-
-    /**
-     * Provides an RFC 7807 compliant response
-     *
-     * @return array
-     */
     public function jsonSerialize(): array
     {
-        return $this->toApiProblem()->toArray();
+        return $this->toArray();
     }
 }

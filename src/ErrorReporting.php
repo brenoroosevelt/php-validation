@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Exception\ParseErrorsTrait;
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
@@ -10,6 +11,10 @@ use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 class ErrorReporting implements Result
 {
     use GuardTrait;
+
+    use ParseErrorsTrait {
+        errorsAsArray as toArray;
+    }
 
     /** @var Error[] */
     private array $errors = [];
