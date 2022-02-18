@@ -20,8 +20,7 @@ class ValidationException extends Exception implements ValidationExceptionInterf
     public function __construct(array $errors, ?string $message = "", int $code = 400, ?Throwable $previous = null)
     {
         $this->errors = array_filter($errors, fn($e) => $e instanceof Error);
-        $message = $message ?? 'Input validation failed' . PHP_EOL . $this->errorsAsString();
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message ?? 'Input validation failed', $code, $previous);
     }
 
     /** @inheritDoc */
@@ -48,10 +47,20 @@ class ValidationException extends Exception implements ValidationExceptionInterf
     public function toArray(): array
     {
         return [
-            'message' => $this->message ?? 'Input validation failed',
+            'message' => $this->message,
             'code' => $this->getCode(),
             'violations' => $this->errorsAsArray(),
         ];
+    }
+
+    public function toString(): string
+    {
+        return $this->message . PHP_EOL . $this->errorsAsString();
+    }
+
+    public function __toString()
+    {
+        return $this->toString();
     }
 
     public function jsonSerialize(): array
