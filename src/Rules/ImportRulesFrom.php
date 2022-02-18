@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\Rule;
 use BrenoRoosevelt\Validation\RuleSetFactory;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CopyFrom implements Rule
+class ImportRulesFrom implements Rule
 {
     public function __construct(private object|string $objectOrClass, private string $property)
     {
