@@ -11,6 +11,7 @@ final class Required extends AbstractRule
 {
     public function isValid(mixed $input, array $context = []): bool
     {
-       return true;
+        $field = $this->getField();
+        return null !== $field && array_key_exists($field, $context);
     }
 }
