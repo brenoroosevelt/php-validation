@@ -12,9 +12,10 @@ class IsInstanceOf extends TypeRule
     public function __construct(
         private string $class,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP
+        int $stopOnFailure = StopSign::DONT_STOP,
+        int $priority = 0
     ) {
-        parent::__construct($message, $stopOnFailure);
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid($input, array $context = []): bool

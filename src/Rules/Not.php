@@ -14,9 +14,10 @@ final class Not extends AbstractRule
     public function __construct(
         private Rule $rule,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP
+        int $stopOnFailure = StopSign::DONT_STOP,
+        int $priority = 0
     ) {
-        parent::__construct($message, $stopOnFailure);
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid(mixed $input, array $context = []): bool

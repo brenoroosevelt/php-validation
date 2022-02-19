@@ -15,10 +15,11 @@ class IsInstanceOfAny extends AbstractRule
     public function __construct(
         private array $classes,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP
+        int $stopOnFailure = StopSign::DONT_STOP,
+        int $priority = 0
     ) {
         $message = $message ?? sprintf(self::MESSAGE, trim(implode(', ', $this->classes)));
-        parent::__construct($message, $stopOnFailure);
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid($input, array $context = []): bool
