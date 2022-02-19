@@ -6,17 +6,19 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
-abstract class AbstractRule implements Rule, BelongsToField, Stoppable
+abstract class AbstractRule implements Rule, BelongsToField, Stoppable, Priority
 {
     const MESSAGE = 'Constraint violation (%s)';
 
-    use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait;
+    use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait, PriorityTrait;
 
     public function __construct(
         protected ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP
+        int $stopOnFailure = StopSign::DONT_STOP,
+        int $priority = 0
     ) {
         $this->stopOnFailure = $stopOnFailure;
+        $this->priority = $priority;
     }
 
     public function message(): string

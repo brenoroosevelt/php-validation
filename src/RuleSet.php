@@ -8,7 +8,7 @@ use BrenoRoosevelt\Validation\Rules\AllowEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 
-class RuleSet implements Rule, BelongsToField
+class RuleSet implements Rule, BelongsToField, Priority
 {
     use RuleChainTrait, BelongsToFieldTrait, ValidateOrFailTrait;
 
@@ -53,6 +53,7 @@ class RuleSet implements Rule, BelongsToField
             return ErrorReporting::success();
         }
 
+        PriorityTrait::sortByPriority($this->rules);
         $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
             if ($rule instanceof BelongsToField) {
@@ -117,5 +118,17 @@ class RuleSet implements Rule, BelongsToField
     public function rules(): array
     {
         return $this->rules;
+    }
+
+    public function getPriority(): int
+    {
+        $priority = 0;
+        foreach ($this->rules as $rule) {
+            if ($rule instanceof Priority && $rule->getPriority() > $priority) {
+                $priority = $rule->getPriority();
+            }
+        }
+
+        return $priority;
     }
 }

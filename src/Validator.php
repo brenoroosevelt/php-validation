@@ -47,6 +47,7 @@ final class Validator
 
     public function validate(array $data = []): ErrorReporting
     {
+        PriorityTrait::sortByPriority($this->ruleSets);
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
             $fieldRuleSet = $fieldRuleSet->setField($field);
