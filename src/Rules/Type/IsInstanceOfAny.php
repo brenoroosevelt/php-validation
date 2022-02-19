@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation\Rules\Type;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\StopSign;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsInstanceOfAny extends AbstractRule
@@ -18,7 +19,6 @@ class IsInstanceOfAny extends AbstractRule
         int $stopOnFailure = StopSign::DONT_STOP,
         int $priority = 0
     ) {
-        $message = $message ?? sprintf(self::MESSAGE, trim(implode(', ', $this->classes)));
         parent::__construct($message, $stopOnFailure, $priority);
     }
 
@@ -31,5 +31,10 @@ class IsInstanceOfAny extends AbstractRule
         }
 
         return false;
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, trim(implode(', ', $this->classes)));
     }
 }
