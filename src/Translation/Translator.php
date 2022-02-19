@@ -5,15 +5,15 @@ namespace BrenoRoosevelt\Validation\Translation;
 
 final class Translator
 {
-    private static TranslatorInterface $translator;
+    private static TranslatorInterface $default;
 
     public static function setDefault(TranslatorInterface|callable $translator, bool $compose = true): void
     {
         if ($translator instanceof TranslatorInterface) {
-            self::$translator = $translator;
+            self::$default = $translator;
         } else {
             // inline callback translator
-            self::$translator = new class($translator) implements TranslatorInterface {
+            self::$default = new class($translator) implements TranslatorInterface {
                 private $callback;
 
                 public function __construct(callable $callback)
@@ -29,13 +29,13 @@ final class Translator
         }
 
         if ($compose) {
-            self::$translator = new CompositeTranslator(self::$translator, self::createDefault());
+            self::$default = new CompositeTranslator(self::$default, self::createDefault());
         }
     }
 
     public static function getDefault(): TranslatorInterface
     {
-        return self::$translator ?? self::$translator = self::createDefault();
+        return self::$default ?? self::$default = self::createDefault();
     }
 
     private static function createDefault(): TranslatorInterface
