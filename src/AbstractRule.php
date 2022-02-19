@@ -8,7 +8,7 @@ use BrenoRoosevelt\Validation\Translation\Translator;
 
 abstract class AbstractRule implements Rule, BelongsToField, Stoppable
 {
-    const MESSAGE = 'Contraint violation (%s)';
+    const MESSAGE = 'Constraint violation (%s)';
 
     use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait;
 
