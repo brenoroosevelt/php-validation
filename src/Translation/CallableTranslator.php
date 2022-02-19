@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Translation;
 
-/** @internal */
 class CallableTranslator implements TranslatorInterface
 {
     /** @var callable */
