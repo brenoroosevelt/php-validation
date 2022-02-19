@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class NotExactly extends AbstractRule
 {
-    const MESSAGE = 'The value should be different from `%s`';
+    const MESSAGE = 'The value must be different from `%s`';
 
     public function __construct(private mixed $value, ?string $message = null)
     {

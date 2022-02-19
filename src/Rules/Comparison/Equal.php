@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Equal extends AbstractRule
 {
-    const MESSAGE = 'The value should be equals to `%s`';
+    const MESSAGE = 'The value must be equals to `%s`';
 
     public function __construct(private mixed $value, ?string $message = null)
     {

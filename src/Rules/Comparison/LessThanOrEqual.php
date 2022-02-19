@@ -9,7 +9,7 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class LessThanOrEqual extends AbstractRule
 {
-    const MESSAGE = 'The value should be less than or equal to `%s`';
+    const MESSAGE = 'The value must be less than or equal to `%s`';
 
     public function __construct(private mixed $value, ?string $message = null)
     {
