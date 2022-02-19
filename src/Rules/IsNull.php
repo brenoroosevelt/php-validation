@@ -5,19 +5,11 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
 class IsNull extends AbstractRule
 {
-    const MESSAGE = 'This value must be null';
-
-    public function __construct(
-        ?string $message = self::MESSAGE,
-        int $stopOnFailure = StopSign::DONT_STOP
-    ) {
-        parent::__construct($message, $stopOnFailure);
-    }
+    const MESSAGE = 'Value should be null';
 
     public function isValid($input, array $context = []): bool
     {

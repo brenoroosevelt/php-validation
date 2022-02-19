@@ -10,7 +10,7 @@ use BrenoRoosevelt\Validation\StopSign;
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
 class EmptyString extends AbstractRule
 {
-    const MESSAGE = 'This value must be blank';
+    const MESSAGE = 'Value should be blank';
 
     public function __construct(
         ?string $message = self::MESSAGE,

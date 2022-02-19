@@ -9,18 +9,6 @@ use PHPUnit\Framework\TestCase;
 class AbstractValidationTest extends TestCase
 {
     /** @test */
-    public function shouldProvideDefaultMessage(): void
-    {
-        $validation = new class extends AbstractRule {
-            public function isValid($input, array $context = []): bool {
-                return false;
-            }
-        };
-
-        $this->assertStringContainsString('Constraint violation', $validation->message());
-    }
-
-    /** @test */
     public function shouldValidateAccordingAbstractMethod_TRUE(): void
     {
         $validation = new class extends AbstractRule {

@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\StopSign;
+use BrenoRoosevelt\Validation\Translation\Translator;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -18,7 +19,6 @@ class Regex extends AbstractRule
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
-        $message = $message ?? sprintf(self::MESSAGE, $this->pattern);
         parent::__construct($message, $stopOnFailure);
     }
 
@@ -27,8 +27,13 @@ class Regex extends AbstractRule
         try {
             $subject = (string) $input;
             return preg_match($this->pattern, $subject) === 1;
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             return false;
         }
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, $this->pattern);
     }
 }

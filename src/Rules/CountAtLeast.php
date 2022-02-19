@@ -6,7 +6,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\StopSign;
-use Traversable;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class CountAtLeast extends AbstractRule
@@ -18,7 +18,6 @@ class CountAtLeast extends AbstractRule
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
-        $message = $message ?? sprintf(self::MESSAGE, $this->size);
         parent::__construct($message, $stopOnFailure);
     }
 
@@ -41,5 +40,10 @@ class CountAtLeast extends AbstractRule
         }
 
         return false;
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, (string) $this->size);
     }
 }

@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\StopSign;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Choice extends AbstractRule
@@ -18,12 +19,16 @@ class Choice extends AbstractRule
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
-        $message = $message ?? sprintf(self::MESSAGE, implode(', ', $this->list));
         parent::__construct($message, $stopOnFailure);
     }
 
     public function isValid($input, array $context = []): bool
     {
         return in_array($input, $this->list, $this->strict);
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, trim(implode(', ', $this->list)));
     }
 }

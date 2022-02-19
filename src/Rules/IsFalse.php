@@ -10,7 +10,7 @@ use BrenoRoosevelt\Validation\StopSign;
 #[Attribute(Attribute::TARGET_PROPERTY|Attribute::TARGET_METHOD)]
 class IsFalse extends AbstractRule
 {
-    const MESSAGE = 'This value must be false';
+    const MESSAGE = 'Value should be false';
 
     public function __construct(
         ?string $message = self::MESSAGE,

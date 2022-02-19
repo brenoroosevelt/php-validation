@@ -7,6 +7,7 @@ use ArrayAccess;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 use BrenoRoosevelt\Validation\StopSign;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class HasKey extends AbstractRule
@@ -18,7 +19,6 @@ class HasKey extends AbstractRule
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
-        $message = $message ?? sprintf(self::MESSAGE, $this->key);
         parent::__construct($message, $stopOnFailure);
     }
 
@@ -41,5 +41,10 @@ class HasKey extends AbstractRule
         }
 
         return false;
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, $this->key);
     }
 }

@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 abstract class AbstractRule implements Rule, BelongsToField, Stoppable
 {
-    const DEFAULT_MESSAGE = 'Constraint violation: %s';
+    const MESSAGE = 'Contraint violation (%s)';
 
     use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait;
 
@@ -15,13 +16,17 @@ abstract class AbstractRule implements Rule, BelongsToField, Stoppable
         protected ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
-        $this->message = $message ?? sprintf(self::DEFAULT_MESSAGE, $this->className());
         $this->stopOnFailure = $stopOnFailure;
     }
 
     public function message(): string
     {
-        return $this->message;
+        return $this->message ?? $this->translatedMessage();
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(static::MESSAGE, $this->className());
     }
 
     /** @inheritDoc */
@@ -30,7 +35,7 @@ abstract class AbstractRule implements Rule, BelongsToField, Stoppable
         return
             $this->isValid($input, $context) ?
                 ErrorReporting::success() :
-                (new ErrorReporting)->addError($this->message, $this->getField(), $this);
+                (new ErrorReporting)->addError($this->message(), $this->getField(), $this);
     }
 
     protected function className(): string

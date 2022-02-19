@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
-use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
-use BrenoRoosevelt\Validation\Rules\AllowEmpty;
-use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\Email;
-use BrenoRoosevelt\Validation\Rules\Required;
-use BrenoRoosevelt\Validation\RuleSet;
+use BrenoRoosevelt\Validation\Rules\IsNull;
+use BrenoRoosevelt\Validation\Rules\Not;
+use BrenoRoosevelt\Validation\Rules\NotNull;
 use BrenoRoosevelt\Validation\Validator;
-use Hoa\Compiler\Llk\Rule\Rule;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
@@ -26,6 +23,9 @@ class ValidatorTest extends TestCase
     /** @test */
     public function validatesNotRequired(): void
     {
+
+        $r = (new NotNull())->validate(null);
+        var_dump($r->getErrors());
         $this->assertFalse(false);
     }
 }
