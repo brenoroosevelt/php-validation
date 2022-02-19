@@ -12,13 +12,6 @@ class IsEmpty extends AbstractRule
 {
     const MESSAGE = 'Value should be empty';
 
-    public function __construct(
-        ?string $message = self::MESSAGE,
-        int $stopOnFailure = StopSign::DONT_STOP
-    ) {
-        parent::__construct($message, $stopOnFailure);
-    }
-
     public function isValid($input, array $context = []): bool
     {
         if (is_object($input)) {

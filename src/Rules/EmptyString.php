@@ -12,13 +12,6 @@ class EmptyString extends AbstractRule
 {
     const MESSAGE = 'Value should be blank';
 
-    public function __construct(
-        ?string $message = self::MESSAGE,
-        int $stopOnFailure = StopSign::DONT_STOP
-    ) {
-        parent::__construct($message, $stopOnFailure);
-    }
-
     public function isValid($input, array $context = []): bool
     {
         return (is_string($input) && mb_strlen(trim($input)) === 0);

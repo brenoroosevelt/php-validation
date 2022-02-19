@@ -17,7 +17,7 @@ class Generic extends AbstractRule
 
     public function __construct(
         callable $rule,
-        ?string $message = self::MESSAGE,
+        ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP
     ) {
         $this->rule = Closure::fromCallable($rule);
