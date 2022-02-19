@@ -12,6 +12,7 @@ final class Translator
         if ($translator instanceof TranslatorInterface) {
             self::$translator = $translator;
         } else {
+            // inline callback translator
             self::$translator = new class($translator) implements TranslatorInterface {
                 private $callback;
 
@@ -39,6 +40,7 @@ final class Translator
 
     private static function createDefault(): TranslatorInterface
     {
+        // inline default translator
         return new class implements TranslatorInterface {
             public function translate(string $message, ...$args): ?string
             {
