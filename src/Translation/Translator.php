@@ -12,20 +12,7 @@ final class Translator
         if ($translator instanceof TranslatorInterface) {
             self::$default = $translator;
         } else {
-            // inline callback translator
-            self::$default = new class($translator) implements TranslatorInterface {
-                private $callback;
-
-                public function __construct(callable $callback)
-                {
-                    $this->callback = $callback;
-                }
-
-                public function translate(string $message, ...$args): ?string
-                {
-                    return call_user_func_array($this->callback, [$message, ...$args]);
-                }
-            };
+            self::$default = new CallableTranslator($translator);
         }
 
         if ($compose) {
@@ -40,13 +27,7 @@ final class Translator
 
     private static function createDefault(): TranslatorInterface
     {
-        // inline default translator
-        return new class implements TranslatorInterface {
-            public function translate(string $message, ...$args): ?string
-            {
-                return sprintf($message, ...$args);
-            }
-        };
+        return new NaiveTranslator;
     }
 
     public static function translate(string $message, ...$args): string
