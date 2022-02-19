@@ -7,13 +7,15 @@ use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 
 abstract class AbstractRule implements Rule, BelongsToField, Stoppable
 {
+    const DEFAULT_MESSAGE = 'Constraint violation: %s';
+
     use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait;
 
-    protected string $message;
-
-    public function __construct(?string $message = null, int $stopOnFailure = StopSign::DONT_STOP)
-    {
-        $this->message = $message ?? sprintf('Constraint violation: %s', $this->className());
+    public function __construct(
+        protected ?string $message = null,
+        int $stopOnFailure = StopSign::DONT_STOP
+    ) {
+        $this->message = $message ?? sprintf(self::DEFAULT_MESSAGE, $this->className());
         $this->stopOnFailure = $stopOnFailure;
     }
 
@@ -31,7 +33,7 @@ abstract class AbstractRule implements Rule, BelongsToField, Stoppable
                 (new ErrorReporting)->addError($this->message, $this->getField(), $this);
     }
 
-    private function className(): string
+    protected function className(): string
     {
         return array_reverse(explode('\\', get_class($this)))[0];
     }

@@ -5,13 +5,20 @@ namespace BrenoRoosevelt\Validation\Rules\Type;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class IsInstanceOfAny extends AbstractRule
 {
-    public function __construct(private array $classes, ?string $message = null)
-    {
-        parent::__construct($message);
+    const MESSAGE = 'The value must be of one of the types: %s';
+
+    public function __construct(
+        private array $classes,
+        ?string $message = null,
+        int $stopOnFailure = StopSign::DONT_STOP
+    ) {
+        $message = $message ?? sprintf(self::MESSAGE, trim(implode(', ', $this->classes)));
+        parent::__construct($message, $stopOnFailure);
     }
 
     public function isValid($input, array $context = []): bool

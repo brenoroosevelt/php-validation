@@ -7,7 +7,7 @@ use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class IsBoolean extends AbstractRule
+class IsBoolean extends TypeRule
 {
     public function isValid($input, array $context = []): bool
     {

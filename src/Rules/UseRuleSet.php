@@ -11,8 +11,10 @@ use BrenoRoosevelt\Validation\RuleSetFactory;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class UseRuleSet implements Rule
 {
-    public function __construct(private object|string $objectOrClass, private string $property)
-    {
+    public function __construct(
+        private object|string $objectOrClass,
+        private string $property
+    ) {
     }
 
     public function validate(mixed $input, array $context = []): Result

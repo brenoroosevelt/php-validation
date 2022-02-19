@@ -17,7 +17,7 @@ class NumberBetween extends AbstractRule
         private $boundaries = true,
         ?string $message = null
     ) {
-        $this->message =
+        $message =
             $message ??
             sprintf(
                 self::MESSAGE,

@@ -12,8 +12,10 @@ class Email extends AbstractRule
 {
     const MESSAGE = 'Invalid e-mail';
 
-    public function __construct(?string $message = self::MESSAGE, int $stopOnFailure = StopSign::DONT_STOP)
-    {
+    public function __construct(
+        ?string $message = self::MESSAGE,
+        int $stopOnFailure = StopSign::DONT_STOP
+    ) {
         parent::__construct($message, $stopOnFailure);
     }
 

@@ -55,7 +55,7 @@ class ValidationException extends Exception implements ValidationExceptionInterf
 
     public function toString(): string
     {
-        return $this->message . PHP_EOL . $this->errorsAsString();
+        return sprintf('%s:%s%s', $this->message, PHP_EOL, $this->errorsAsString());
     }
 
     public function __toString()
