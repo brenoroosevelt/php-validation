@@ -5,5 +5,5 @@ namespace BrenoRoosevelt\Validation\Translation;
 
 interface TranslatorInterface
 {
-    public function translate(string $message, string ...$args): ?string;
+    public function translate(string $message, ...$args): ?string;
 }

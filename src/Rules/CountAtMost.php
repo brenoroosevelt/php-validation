@@ -44,6 +44,6 @@ class CountAtMost extends AbstractRule
 
     public function translatedMessage(): ?string
     {
-        return Translator::translate(self::MESSAGE, (string) $this->size);
+        return Translator::translate(self::MESSAGE, $this->size);
     }
 }

@@ -13,7 +13,7 @@ class CompositeTranslator implements TranslatorInterface
         $this->translators = $translators;
     }
 
-    public function translate(string $message, string ...$args): ?string
+    public function translate(string $message, ...$args): ?string
     {
         foreach ($this->translators as $translator) {
             $translated = $translator->translate($message, ...$args);
