@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class FoneSemDDD extends AbstractRule
@@ -28,8 +29,11 @@ class FoneSemDDD extends AbstractRule
         if (!is_string($input) || !is_numeric($input)) {
             return false;
         }
-
-        $pattern = $this->mask ? self::MASK : self::UNMASK;
-        return preg_match($pattern, $input) === 1;
+        try {
+            $pattern = $this->mask ? self::MASK : self::UNMASK;
+            return preg_match($pattern, $input) === 1;
+        } catch (Throwable) {
+            return false;
+        }
     }
 }

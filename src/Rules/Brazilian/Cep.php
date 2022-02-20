@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cep extends AbstractRule
@@ -25,11 +26,11 @@ class Cep extends AbstractRule
 
     public function isValid(mixed $input, array $context = []): bool
     {
-        if (!is_string($input) || !is_numeric($input)) {
+        try {
+            $pattern = $this->mask ? Cep::MASK : Cep::UNMASK;
+            return preg_match($pattern, (string) $input) === 1;
+        } catch (Throwable) {
             return false;
         }
-
-        $pattern = $this->mask ? Cep::MASK : Cep::UNMASK;
-        return preg_match($pattern, (string) $input) === 1;
     }
 }

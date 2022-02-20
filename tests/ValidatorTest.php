@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Tests;
 
+use BrenoRoosevelt\Validation\Rules\Comparison\Equal;
 use BrenoRoosevelt\Validation\Rules\Email;
 use BrenoRoosevelt\Validation\Rules\IsNull;
 use BrenoRoosevelt\Validation\Rules\Not;
@@ -32,8 +33,14 @@ class ValidatorTest extends TestCase
                 };
         });
 
-        $r = (new NotNull())->validate(null);
-        var_dump($r->getErrors());
+//        $r = (new NotNull())->validate(null);
+//        var_dump($r->getErrors());
         $this->assertFalse(false);
+    }
+
+    public function testA()
+    {
+        $r = (new Equal(2))->validate(1);
+        var_dump($r->getErrors());
     }
 }
