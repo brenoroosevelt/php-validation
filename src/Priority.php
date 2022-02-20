@@ -7,7 +7,7 @@ use BrenoRoosevelt\Validation\Contracts\Prioritable;
 
 trait Priority
 {
-    protected int $priority = 0;
+    protected int $priority = Prioritable::LOWEST_PRIORITY;
 
     public function getPriority(): int
     {

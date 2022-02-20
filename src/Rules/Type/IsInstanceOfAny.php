@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules\Type;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\StopSign;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
@@ -17,7 +18,7 @@ class IsInstanceOfAny extends AbstractRule
         private array $classes,
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = 0
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\StopSign;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
@@ -17,7 +18,7 @@ class CountExactly extends AbstractRule
         private int $size,
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = 0
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

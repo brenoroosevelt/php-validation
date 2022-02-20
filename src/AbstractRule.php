@@ -20,7 +20,7 @@ abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
     public function __construct(
         protected ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = 0
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         $this->stopOnFailure = $stopOnFailure;
         $this->priority = $priority;

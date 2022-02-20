@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\StopSign;
 
@@ -15,7 +16,7 @@ final class Not extends AbstractRule
         private Rule $rule,
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = 0
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

@@ -5,6 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\StopSign;
 use Closure;
 
@@ -19,7 +20,7 @@ class Generic extends AbstractRule
         callable $rule,
         ?string $message = null,
         int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = 0
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         $this->rule = Closure::fromCallable($rule);
         parent::__construct($message, $stopOnFailure, $priority);

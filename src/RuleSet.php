@@ -127,7 +127,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
 
     public function getPriority(): int
     {
-        $priority = 0;
+        $priority = Prioritable::LOWEST_PRIORITY;
         foreach ($this->rules as $rule) {
             if ($rule instanceof Prioritable && $rule->getPriority() > $priority) {
                 $priority = $rule->getPriority();
