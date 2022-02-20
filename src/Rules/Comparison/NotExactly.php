@@ -4,21 +4,31 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Comparison;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Operator;
+use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotExactly extends AbstractRule
+class NotExactly extends Compare
 {
-    const MESSAGE = 'The value must be different from `%s`';
+    const MESSAGE = 'Value should not be identical to `%s`';
 
-    public function __construct(private mixed $value, ?string $message = null)
-    {
-        $this->message = $message ?? sprintf(self::MESSAGE, $this->value);
-        parent::__construct($message);
+    public function __construct(
+        mixed $value,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct(
+            Operator::NOT_EXACTLY,
+            $value,
+            $message,
+            $stopOnFailure,
+            $priority
+        );
     }
 
-    public function isValid($input, array $context = []): bool
+    public function translatedMessage(): ?string
     {
-        return $input !== $this->value;
+        return Translator::translate(self::MESSAGE, $this->value);
     }
 }

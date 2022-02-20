@@ -11,7 +11,7 @@ final class Operator
     const GREATER_THAN_EQUAL = 'greater than or equal to';
     const LESS_THAN = 'less than';
     const LESS_THAN_EQUAL = 'less than or equal to';
-    const NOT_EQUAL = 'not equal to';
+    const NOT_EQUAL = 'different from';
     const NOT_EXACTLY = 'not exactly';
 
     /** @codeCoverageIgnore */

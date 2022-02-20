@@ -4,21 +4,23 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Comparison;
 
 use Attribute;
-use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Operator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Exactly extends AbstractRule
+class Exactly extends Compare
 {
-    const MESSAGE = 'The value must be exacly `%s`';
-
-    public function __construct(private mixed $value, ?string $message = null)
-    {
-        $this->message = $message ?? sprintf(self::MESSAGE, $this->value);
-        parent::__construct($message);
-    }
-
-    public function isValid($input, array $context = []): bool
-    {
-        return $input === $this->value;
+    public function __construct(
+        mixed $value,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct(
+            Operator::EXACTLY,
+            $value,
+            $message,
+            $stopOnFailure,
+            $priority
+        );
     }
 }
