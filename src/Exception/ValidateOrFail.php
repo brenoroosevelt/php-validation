@@ -5,9 +5,9 @@ namespace BrenoRoosevelt\Validation\Exception;
 
 use BrenoRoosevelt\Validation\Contracts\Rule;
 
-trait ValidateOrFailTrait
+trait ValidateOrFail
 {
-    use GuardTrait;
+    use Guard;
 
     /**
      * @throws ValidationExceptionInterface

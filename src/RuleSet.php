@@ -8,14 +8,14 @@ use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\Contracts\Stoppable;
-use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
+use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
 use BrenoRoosevelt\Validation\Rules\AllowEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 
 class RuleSet implements Rule, Fieldable, Prioritable
 {
-    use RuleChain, BelongsToField, ValidateOrFailTrait;
+    use RuleChain, BelongsToField, ValidateOrFail;
 
     /** @var Rule[] */
     private array $rules = [];

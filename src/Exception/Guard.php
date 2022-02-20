@@ -6,7 +6,7 @@ namespace BrenoRoosevelt\Validation\Exception;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 
-trait GuardTrait
+trait Guard
 {
     /**
      * @throws ValidationExceptionInterface

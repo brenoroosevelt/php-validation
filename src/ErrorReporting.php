@@ -6,16 +6,16 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Contracts\Error;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
-use BrenoRoosevelt\Validation\Exception\ParseErrorsTrait;
-use BrenoRoosevelt\Validation\Exception\GuardTrait;
+use BrenoRoosevelt\Validation\Exception\ParseErrors;
+use BrenoRoosevelt\Validation\Exception\Guard;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 
 class ErrorReporting implements Result
 {
-    use GuardTrait;
+    use Guard;
 
-    use ParseErrorsTrait {
+    use ParseErrors {
         errorsAsArray as toArray;
     }
 

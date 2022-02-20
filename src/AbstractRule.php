@@ -8,14 +8,14 @@ use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\Contracts\Stoppable;
-use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
+use BrenoRoosevelt\Validation\Exception\ValidateOrFail;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
 abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
 {
     const MESSAGE = 'Constraint violation (%s)';
 
-    use ValidateOrFailTrait, BelongsToField, Stop, Priority;
+    use ValidateOrFail, BelongsToField, Stop, Priority;
 
     public function __construct(
         protected ?string $message = null,

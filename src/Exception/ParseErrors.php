@@ -5,7 +5,7 @@ namespace BrenoRoosevelt\Validation\Exception;
 
 use BrenoRoosevelt\Validation\Contracts\Error;
 
-trait ParseErrorsTrait
+trait ParseErrors
 {
     /** @return Error[] */
     abstract public function getErrors(): array;

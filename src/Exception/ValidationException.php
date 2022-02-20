@@ -10,7 +10,7 @@ use Throwable;
 
 class ValidationException extends Exception implements ValidationExceptionInterface, JsonSerializable
 {
-    use ParseErrorsTrait;
+    use ParseErrors;
 
     private static ?ValidationExceptionFactoryInterface $userDefinedFactory = null;
 

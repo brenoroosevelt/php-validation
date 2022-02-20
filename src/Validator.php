@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Contracts\Rule;
-use BrenoRoosevelt\Validation\Exception\GuardTrait;
+use BrenoRoosevelt\Validation\Exception\Guard;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
 use BrenoRoosevelt\Validation\Rules\Required;
@@ -13,7 +13,7 @@ use ReflectionException;
 
 final class Validator
 {
-    use GuardTrait;
+    use Guard;
 
     /** @var RuleSet[] */
     private array $ruleSets;
