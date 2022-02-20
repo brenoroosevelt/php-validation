@@ -6,7 +6,7 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Contracts\Error;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 
-final class ErrorMessage implements Error
+final class AnError implements Error
 {
     public function __construct(
         private string $message,

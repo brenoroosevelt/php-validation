@@ -45,7 +45,7 @@ class ErrorReporting implements Result
 
     public function addError(string $message, ?string $field = null, ?Rule $rule = null): self
     {
-        return $this->add(new ErrorMessage($message, $field, $rule));
+        return $this->add(new AnError($message, $field, $rule));
     }
 
     /** @inheritDoc */
