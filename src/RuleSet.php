@@ -15,7 +15,10 @@ use BrenoRoosevelt\Validation\Rules\IsEmpty;
 
 class RuleSet implements Rule, Fieldable, Prioritable
 {
-    use RuleChain, BelongsToField, ValidateOrFail;
+    use RuleSetFactory,
+        RuleChain,
+        BelongsToField,
+        ValidateOrFail;
 
     /** @var Rule[] */
     private array $rules = [];
