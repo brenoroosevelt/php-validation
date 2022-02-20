@@ -32,12 +32,17 @@ abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
         return $this->message ?? $this->translatedMessage();
     }
 
+    private function hasOwnMessage(): bool
+    {
+        return static::MESSAGE !== self::MESSAGE;
+    }
+
     public function translatedMessage(): ?string
     {
         return
-            static::MESSAGE === self::MESSAGE ?
-                Translator::translate(static::MESSAGE, $this->className()) :
-                Translator::translate(static::MESSAGE);
+            $this->hasOwnMessage() ?
+                Translator::translate(static::MESSAGE) :
+                Translator::translate(static::MESSAGE, $this->className());
     }
 
     /** @inheritDoc */
