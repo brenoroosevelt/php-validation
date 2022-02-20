@@ -12,11 +12,16 @@ trait BelongsToField
         return $this->field;
     }
 
-    public function setField(?string $field = null): static
+    public function withField(?string $field = null): static
     {
         $instance = clone $this;
-        $instance->field = $field;
+        $instance->setField($field);
         return $instance;
+    }
+
+    protected function setField(?string $field): void
+    {
+        $this->field = $field;
     }
 
     public function belongsToField(): bool

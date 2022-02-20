@@ -7,18 +7,23 @@ use BrenoRoosevelt\Validation\Contracts\Prioritable;
 
 trait Priority
 {
-    protected int $priority = Prioritable::LOWEST_PRIORITY;
+    private int $priority;
 
     public function getPriority(): int
     {
         return $this->priority;
     }
 
-    public function setPriority(int $priority): static
+    public function withPriority(int $priority): static
     {
         $instance = clone $this;
-        $instance->priority = $priority;
+        $instance->setPriority($priority);
         return $instance;
+    }
+
+    protected function setPriority(int $priority): void
+    {
+        $this->priority = $priority;
     }
 
     public static function sortByPriority(array &$haystack): void

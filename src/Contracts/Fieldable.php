@@ -9,7 +9,7 @@ interface Fieldable extends Rule
      * @param string|null $field
      * @return $this
      */
-    public function setField(?string $field = null): static;
+    public function withField(?string $field = null): static;
 
     /**
      * @return string|null

@@ -5,9 +5,7 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\Contracts\Prioritable;
 use BrenoRoosevelt\Validation\Contracts\Rule;
-use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class Not extends AbstractRule
@@ -15,8 +13,8 @@ final class Not extends AbstractRule
     public function __construct(
         private Rule $rule,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        ?int $stopOnFailure = null,
+        ?int $priority = null
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

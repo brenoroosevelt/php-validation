@@ -3,22 +3,26 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-use BrenoRoosevelt\Validation\Rules\Choice;
 use InvalidArgumentException;
 
 trait StopOnFailure
 {
-    protected int $stopOnFailure = StopSign::DONT_STOP;
+    private int $stopOnFailure;
 
-    public function setStopOnFailure(int $stopSign): static
+    public function withStopSign(int $stopSign): static
+    {
+        $instance = clone $this;
+        $instance->setStopSign($stopSign);
+        return $instance;
+    }
+
+    protected function setStopSign(int $stopSign): void
     {
         if (! in_array($stopSign, StopSign::allowed())) {
             throw new InvalidArgumentException(sprintf('Invalid stop sign (%s)', $stopSign));
         }
 
-        $instance = clone $this;
-        $instance->stopOnFailure = $stopSign;
-        return $instance;
+        $this->stopOnFailure = $stopSign;
     }
 
     public function stopOnFailure(): int

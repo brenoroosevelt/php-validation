@@ -51,7 +51,7 @@ final class Validator
         Priority::sortByPriority($this->ruleSets);
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
-            $fieldRuleSet = $fieldRuleSet->setField($field);
+            $fieldRuleSet = $fieldRuleSet->withField($field);
             if (! $this->shouldValidate($fieldRuleSet, $data)) {
                 continue;
             }

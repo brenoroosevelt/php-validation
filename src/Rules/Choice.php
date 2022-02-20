@@ -5,8 +5,6 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\Contracts\Prioritable;
-use BrenoRoosevelt\Validation\StopSign;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -18,8 +16,8 @@ class Choice extends AbstractRule
         private array $list,
         private bool $strict = true,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        ?int $stopOnFailure = null,
+        ?int $priority = null
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

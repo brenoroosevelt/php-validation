@@ -6,8 +6,6 @@ namespace BrenoRoosevelt\Validation\Rules;
 use ArrayAccess;
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\Contracts\Prioritable;
-use BrenoRoosevelt\Validation\StopSign;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -18,8 +16,8 @@ class HasKey extends AbstractRule
     public function __construct(
         private string $key,
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        ?int $stopOnFailure = null,
+        ?int $priority = null
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

@@ -19,11 +19,12 @@ abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
 
     public function __construct(
         protected ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        ?int $stopOnFailure = null,
+        ?int $priority = null
     ) {
-        $this->stopOnFailure = $stopOnFailure;
-        $this->priority = $priority;
+        $this->setStopSign($stopOnFailure ?? StopSign::DONT_STOP);
+        $this->setPriority($priority ?? Prioritable::LOWEST_PRIORITY);
+        $this->setField(null);
     }
 
     public function message(): string

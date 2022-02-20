@@ -5,29 +5,27 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\Contracts\Prioritable;
-use BrenoRoosevelt\Validation\StopSign;
-use Closure;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Generic extends AbstractRule
 {
     const MESSAGE = 'Invalid input';
 
-    private Closure $rule;
+    /** @var callable */
+    private $callback;
 
     public function __construct(
-        callable $rule,
-        ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        callable $callback,
+        ?string  $message = null,
+        ?int     $stopOnFailure = null,
+        ?int     $priority = null
     ) {
-        $this->rule = Closure::fromCallable($rule);
+        $this->callback = $callback;
         parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid($input, array $context = []): bool
     {
-        return ($this->rule)($input, $context);
+        return call_user_func_array($this->callback, [$input, $context]);
     }
 }

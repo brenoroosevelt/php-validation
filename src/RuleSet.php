@@ -22,7 +22,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
 
     final public function __construct(?string $field = null, Rule | RuleSet ...$rules)
     {
-        $this->field = $field;
+        $this->setField($field);
         foreach ($rules as $ruleOrRuleSet) {
             array_push(
                 $this->rules,
@@ -62,7 +62,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
         $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
             if ($rule instanceof Fieldable) {
-                $rule = $rule->setField($this->getField());
+                $rule = $rule->withField($this->getField());
             }
 
             $result = $rule->validate($input, $context);

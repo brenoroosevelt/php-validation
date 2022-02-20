@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules\Type;
 
 use BrenoRoosevelt\Validation\AbstractRule;
-use BrenoRoosevelt\Validation\Contracts\Prioritable;
-use BrenoRoosevelt\Validation\StopSign;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
 abstract class TypeRule extends AbstractRule
@@ -15,8 +13,8 @@ abstract class TypeRule extends AbstractRule
 
     public function __construct(
         ?string $message = null,
-        int $stopOnFailure = StopSign::DONT_STOP,
-        int $priority = Prioritable::LOWEST_PRIORITY
+        ?int $stopOnFailure = null,
+        ?int $priority = null
     ) {
         parent::__construct($message, $stopOnFailure, $priority);
     }

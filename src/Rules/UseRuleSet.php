@@ -7,22 +7,28 @@ use Attribute;
 use BrenoRoosevelt\Validation\Contracts\Fieldable;
 use BrenoRoosevelt\Validation\BelongsToField;
 use BrenoRoosevelt\Validation\Contracts\Prioritable;
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Priority;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\RuleSetFactory;
+use BrenoRoosevelt\Validation\StopOnFailure;
+use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UseRuleSet implements Rule, Fieldable, Prioritable
+class UseRuleSet implements Rule, Fieldable, Stoppable, Prioritable
 {
-    use BelongsToField, Priority;
+    use BelongsToField, StopOnFailure, Priority;
 
     public function __construct(
         private object|string $objectOrClass,
         private string $property,
-        int $priority = 0
+        int $stopOnFailure = StopSign::DONT_STOP,
+        int $priority = Prioritable::LOWEST_PRIORITY
     ) {
-        $this->priority = $priority;
+        $this->setStopSign($stopOnFailure);
+        $this->setPriority($priority);
+        $this->setField(null);
     }
 
     public function validate(mixed $input, array $context = []): Result
