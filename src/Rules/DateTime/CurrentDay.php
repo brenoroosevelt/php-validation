@@ -11,12 +11,8 @@ use Throwable;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class CurrentDay extends AbstractRule
 {
+    const MESSAGE = 'The date/time should be today';
     const TODAY_FORMAT = 'Y-m-d';
-
-    public function __construct(?string $message = 'The date/time should be today')
-    {
-        parent::__construct($message);
-    }
 
     public function isValid($input, array $context = []): bool
     {

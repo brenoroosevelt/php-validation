@@ -5,18 +5,22 @@ namespace BrenoRoosevelt\Validation\Rules\DateTime;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
+use BrenoRoosevelt\Validation\Translation\Translator;
 use DateTime;
 use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Format extends AbstractRule
+class DateTimeFormat extends AbstractRule
 {
     const MESSAGE = 'Invalid date/time format, use %s';
 
-    public function __construct(private string $format, ?string $message = null)
-    {
-        $this->message = $message ?? sprintf(self::MESSAGE, $this->format);
-        parent::__construct($message);
+    public function __construct(
+        private string $format,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid($input, array $context = []): bool
@@ -28,5 +32,10 @@ class Format extends AbstractRule
         } catch (Throwable) {
             return false;
         }
+    }
+
+    public function translatedMessage(): ?string
+    {
+        return Translator::translate(self::MESSAGE, $this->format);
     }
 }

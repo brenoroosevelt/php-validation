@@ -13,7 +13,7 @@ class Stub
     #[Rules\Brazilian\Cpf]
     private ?int $int;
 
-    #[Rules\DateTime\Format(DATE_ISO8601)]
+    #[Rules\DateTime\DateTimeFormat(DATE_ISO8601)]
     #[Rules\Generic([self::class, 'x'])]
     private string $date = '';
 }
