@@ -3,8 +3,24 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-interface BelongsToField extends Rule
+trait BelongsToField
 {
-    public function setField(?string $field = null): static;
-    public function getField(): ?string;
+    private ?string $field = null;
+
+    public function getField(): ?string
+    {
+        return $this->field;
+    }
+
+    public function setField(?string $field = null): static
+    {
+        $instance = clone $this;
+        $instance->field = $field;
+        return $instance;
+    }
+
+    public function belongsToField(): bool
+    {
+        return $this->field !== null;
+    }
 }

@@ -3,14 +3,19 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Fieldable;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
+use BrenoRoosevelt\Validation\Contracts\Result;
+use BrenoRoosevelt\Validation\Contracts\Rule;
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 use BrenoRoosevelt\Validation\Translation\Translator;
 
-abstract class AbstractRule implements Rule, BelongsToField, Stoppable, Priority
+abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
 {
     const MESSAGE = 'Constraint violation (%s)';
 
-    use ValidateOrFailTrait, BelongsToFieldTrait, StoppableTrait, PriorityTrait;
+    use ValidateOrFailTrait, BelongsToField, Stop, Priority;
 
     public function __construct(
         protected ?string $message = null,

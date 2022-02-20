@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation\Rules;
 
 use BrenoRoosevelt\Validation\ErrorReporting;
-use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\Rule;
+use BrenoRoosevelt\Validation\Contracts\Result;
+use BrenoRoosevelt\Validation\Contracts\Rule;
 
 final class AlwaysOk implements Rule
 {

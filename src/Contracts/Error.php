@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BrenoRoosevelt\Validation;
+namespace BrenoRoosevelt\Validation\Contracts;
 
 interface Error
 {

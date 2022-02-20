@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Exception;
 
-use BrenoRoosevelt\Validation\Rule;
+use BrenoRoosevelt\Validation\Contracts\Rule;
 
 trait ValidateOrFailTrait
 {

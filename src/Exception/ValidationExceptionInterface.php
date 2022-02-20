@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Exception;
 
-use BrenoRoosevelt\Validation\Error;
+use BrenoRoosevelt\Validation\Contracts\Error;
 use Throwable;
 
 interface ValidationExceptionInterface extends Throwable

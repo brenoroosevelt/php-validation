@@ -5,8 +5,8 @@ namespace BrenoRoosevelt\Validation\Rules;
 
 use Attribute;
 use BrenoRoosevelt\Validation\ErrorReporting;
-use BrenoRoosevelt\Validation\Result;
-use BrenoRoosevelt\Validation\Rule;
+use BrenoRoosevelt\Validation\Contracts\Result;
+use BrenoRoosevelt\Validation\Contracts\Rule;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class AnyOf implements Rule

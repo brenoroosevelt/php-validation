@@ -2,13 +2,14 @@
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Rule;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 
-final class RuleSetFactory
+trait RuleSetFactory
 {
     /**
      * @param string|object $objectOrClass

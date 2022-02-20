@@ -3,14 +3,19 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Fieldable;
+use BrenoRoosevelt\Validation\Contracts\Prioritable;
+use BrenoRoosevelt\Validation\Contracts\Result;
+use BrenoRoosevelt\Validation\Contracts\Rule;
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Exception\ValidateOrFailTrait;
 use BrenoRoosevelt\Validation\Rules\AllowEmpty;
 use BrenoRoosevelt\Validation\Rules\AllowNull;
 use BrenoRoosevelt\Validation\Rules\IsEmpty;
 
-class RuleSet implements Rule, BelongsToField, Priority
+class RuleSet implements Rule, Fieldable, Prioritable
 {
-    use RuleChainTrait, BelongsToFieldTrait, ValidateOrFailTrait;
+    use RuleChain, BelongsToField, ValidateOrFailTrait;
 
     /** @var Rule[] */
     private array $rules = [];
@@ -49,14 +54,14 @@ class RuleSet implements Rule, BelongsToField, Priority
     /** @inheritDoc */
     public function validate(mixed $input, array $context = []): ErrorReporting
     {
-        if (!$this->shouldValidate($input)) {
+        if (! $this->shouldValidate($input)) {
             return ErrorReporting::success();
         }
 
-        PriorityTrait::sortByPriority($this->rules);
+        Priority::sortByPriority($this->rules);
         $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
-            if ($rule instanceof BelongsToField) {
+            if ($rule instanceof Fieldable) {
                 $rule = $rule->setField($this->getField());
             }
 
@@ -111,7 +116,7 @@ class RuleSet implements Rule, BelongsToField, Priority
 
     public function isEmpty(): bool
     {
-        return empty($this->rules);
+        return [] === $this->rules;
     }
 
     /** @return Rule[] */
@@ -124,7 +129,7 @@ class RuleSet implements Rule, BelongsToField, Priority
     {
         $priority = 0;
         foreach ($this->rules as $rule) {
-            if ($rule instanceof Priority && $rule->getPriority() > $priority) {
+            if ($rule instanceof Prioritable && $rule->getPriority() > $priority) {
                 $priority = $rule->getPriority();
             }
         }

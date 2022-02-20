@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Rule;
 use RuntimeException;
 
 /**
@@ -15,7 +16,7 @@ use RuntimeException;
  * @method self notNull(?string $message = null)
  * @method self email(?string $message = null)
  */
-trait RuleChainTrait
+trait RuleChain
 {
     abstract public function add(Rule|RuleSet ...$rules): static;
 

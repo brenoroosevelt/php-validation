@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
@@ -47,7 +48,7 @@ final class Validator
 
     public function validate(array $data = []): ErrorReporting
     {
-        PriorityTrait::sortByPriority($this->ruleSets);
+        Priority::sortByPriority($this->ruleSets);
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
             $fieldRuleSet = $fieldRuleSet->setField($field);

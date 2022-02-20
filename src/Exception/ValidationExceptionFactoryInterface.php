@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation\Exception;
 
-use BrenoRoosevelt\Validation\Result;
+use BrenoRoosevelt\Validation\Contracts\Result;
 
 interface ValidationExceptionFactoryInterface
 {

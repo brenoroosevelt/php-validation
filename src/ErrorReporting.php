@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Error;
+use BrenoRoosevelt\Validation\Contracts\Result;
+use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\Exception\ParseErrorsTrait;
 use BrenoRoosevelt\Validation\Exception\GuardTrait;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
@@ -33,11 +36,6 @@ class ErrorReporting implements Result
     public static function success(): self
     {
         return new self;
-    }
-
-    public function getStopSign(): int
-    {
-        return $this->stopSign;
     }
 
     public function add(Error | Result ...$errors): self
