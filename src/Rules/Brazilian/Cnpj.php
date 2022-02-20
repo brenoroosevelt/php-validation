@@ -9,12 +9,18 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cnpj extends AbstractRule
 {
+    const MESSAGE = 'CNPJ inválido';
+
     const MASK = '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/';
     const LENGTH = 14;
 
-    public function __construct(private bool $mask = true, ?string $message = 'CNPJ inválido')
-    {
-        parent::__construct($message);
+    public function __construct(
+        private bool $mask = true,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid(mixed $input, array $context = []): bool

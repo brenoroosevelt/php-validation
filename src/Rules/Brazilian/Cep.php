@@ -9,12 +9,18 @@ use BrenoRoosevelt\Validation\AbstractRule;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cep extends AbstractRule
 {
+    const MESSAGE = 'Cep inválido';
+
     const MASK = '/^[0-9]{5}\-[0-9]{3}$/';
     const UNMASK = '/^[0-9]{8}$/';
 
-    public function __construct(private bool $mask = true, ?string $message = 'CEP inválido')
-    {
-        parent::__construct($message);
+    public function __construct(
+        private bool $mask = true,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid(mixed $input, array $context = []): bool

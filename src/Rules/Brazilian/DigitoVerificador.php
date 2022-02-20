@@ -9,12 +9,18 @@ use Throwable;
 
 class DigitoVerificador extends AbstractRule
 {
+    const MESSAGE = 'Dígito verificador inválido';
+
     const MOD11 = 0;
     const MOD10 = 1;
 
-    public function __construct(private int $algorithm = self::MOD11, ?string $message = 'Dígito verificador inválido')
-    {
-        parent::__construct($message);
+    public function __construct(
+        private int $algorithm = self::MOD11,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid($input, array $context = []): bool

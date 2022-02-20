@@ -5,17 +5,22 @@ namespace BrenoRoosevelt\Validation\Rules\Brazilian;
 
 use Attribute;
 use BrenoRoosevelt\Validation\AbstractRule;
-use Throwable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Cpf extends AbstractRule
 {
+    const MESSAGE = 'CPF inválido';
+
     const MASK = '/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/';
     const LENGTH = 11;
 
-    public function __construct(private bool $mask = true, ?string $message = 'CPF inválido')
-    {
-        parent::__construct($message);
+    public function __construct(
+        private bool $mask = true,
+        ?string $message = null,
+        ?int $stopOnFailure = null,
+        ?int $priority = null
+    ) {
+        parent::__construct($message, $stopOnFailure, $priority);
     }
 
     public function isValid(mixed $input, array $context = []): bool
