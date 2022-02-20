@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
-trait Stop
+trait StopOnFailure
 {
     protected int $stopOnFailure = StopSign::DONT_STOP;
 

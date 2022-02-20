@@ -15,7 +15,7 @@ abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
 {
     const MESSAGE = 'Constraint violation (%s)';
 
-    use ValidateOrFail, BelongsToField, Stop, Priority;
+    use ValidateOrFail, BelongsToField, StopOnFailure, Priority;
 
     public function __construct(
         protected ?string $message = null,
