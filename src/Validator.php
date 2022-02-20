@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BrenoRoosevelt\Validation;
 
 use BrenoRoosevelt\Validation\Contracts\Rule;
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Exception\Guard;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionInterface;
@@ -78,7 +79,7 @@ final class Validator
 
     private function shouldStop(ErrorReporting $result): bool
     {
-        return !$result->isOk() && $result->stopSign() === StopSign::ALL;
+        return !$result->isOk() && $result->stopSign() === Stoppable::ALL;
     }
 
     /** @throws ValidationExceptionInterface */

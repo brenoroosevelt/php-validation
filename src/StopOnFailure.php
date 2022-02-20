@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrenoRoosevelt\Validation;
 
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use InvalidArgumentException;
 
 trait StopOnFailure
@@ -18,7 +19,7 @@ trait StopOnFailure
 
     protected function setStopSign(int $stopSign): void
     {
-        if (! in_array($stopSign, StopSign::allowed())) {
+        if (! in_array($stopSign, [Stoppable::DONT_STOP, Stoppable::ALL, Stoppable::SAME_FIELD])) {
             throw new InvalidArgumentException(sprintf('Invalid stop sign (%s)', $stopSign));
         }
 

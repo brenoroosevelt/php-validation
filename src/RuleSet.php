@@ -68,7 +68,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
             $result = $rule->validate($input, $context);
             $errorReporting = $errorReporting->add($result);
             $stopSign = $this->stopSign($rule, $result);
-            if ($stopSign !== StopSign::DONT_STOP) {
+            if ($stopSign !== Stoppable::DONT_STOP) {
                 return $errorReporting->withStopSign($stopSign);
             }
         }
@@ -79,15 +79,15 @@ class RuleSet implements Rule, Fieldable, Prioritable
     private function stopSign(Rule $rule, Result $result): int
     {
         if (! $rule instanceof Stoppable) {
-            return StopSign::DONT_STOP;
+            return Stoppable::DONT_STOP;
         }
 
-        $stopWhen = [StopSign::SAME_FIELD, StopSign::ALL];
+        $stopWhen = [Stoppable::SAME_FIELD, Stoppable::ALL];
         if (!$result->isOk() && in_array($rule->stopOnFailure(), $stopWhen)) {
             return $rule->stopOnFailure();
         }
 
-        return StopSign::DONT_STOP;
+        return Stoppable::DONT_STOP;
     }
 
     private function shouldValidate(mixed $input): bool

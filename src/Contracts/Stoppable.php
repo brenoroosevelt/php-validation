@@ -5,8 +5,12 @@ namespace BrenoRoosevelt\Validation\Contracts;
 
 interface Stoppable extends Rule
 {
+    const DONT_STOP = 0;
+    const SAME_FIELD = 1;
+    const ALL = 2;
+
     /**
-     * @return int Accepted values: StopSign::DONT_STOP, StopSign::SAME_FIELD, StopSign::ALL
+     * @return int A constant of this interface
      */
     public function stopOnFailure(): int;
 }

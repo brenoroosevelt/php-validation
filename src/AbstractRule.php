@@ -22,7 +22,7 @@ abstract class AbstractRule implements Rule, Fieldable, Stoppable, Prioritable
         ?int $stopOnFailure = null,
         ?int $priority = null
     ) {
-        $this->setStopSign($stopOnFailure ?? StopSign::DONT_STOP);
+        $this->setStopSign($stopOnFailure ?? Stoppable::DONT_STOP);
         $this->setPriority($priority ?? Prioritable::LOWEST_PRIORITY);
         $this->setField(null);
     }

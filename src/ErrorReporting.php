@@ -6,6 +6,7 @@ namespace BrenoRoosevelt\Validation;
 use BrenoRoosevelt\Validation\Contracts\Error;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
+use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Exception\ParseErrors;
 use BrenoRoosevelt\Validation\Exception\Guard;
 use BrenoRoosevelt\Validation\Exception\ValidationExceptionFactoryInterface;
@@ -21,7 +22,7 @@ class ErrorReporting implements Result
 
     /** @var Error[] */
     private array $errors = [];
-    private int $stopSign = StopSign::DONT_STOP;
+    private int $stopSign = Stoppable::DONT_STOP;
 
     final public function __construct(Error | Result ...$errors)
     {

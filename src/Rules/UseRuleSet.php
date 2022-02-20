@@ -13,7 +13,6 @@ use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
 use BrenoRoosevelt\Validation\RuleSetFactory;
 use BrenoRoosevelt\Validation\StopOnFailure;
-use BrenoRoosevelt\Validation\StopSign;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class UseRuleSet implements Rule, Fieldable, Stoppable, Prioritable
@@ -23,7 +22,7 @@ class UseRuleSet implements Rule, Fieldable, Stoppable, Prioritable
     public function __construct(
         private object|string $objectOrClass,
         private string $property,
-        int $stopOnFailure = StopSign::DONT_STOP,
+        int $stopOnFailure = Stoppable::DONT_STOP,
         int $priority = Prioritable::LOWEST_PRIORITY
     ) {
         $this->setStopSign($stopOnFailure);
