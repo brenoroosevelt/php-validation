@@ -33,6 +33,6 @@ class Compare extends AbstractRule
     public function translatedMessage(): ?string
     {
         $translatedOperator = Translator::translate($this->operator);
-        return Translator::translate(self::MESSAGE, $translatedOperator, $this->datetime);
+        return Translator::translate(self::MESSAGE, $translatedOperator, $this->value);
     }
 }
