@@ -21,6 +21,6 @@ trait BelongsToField
 
     public function belongsToField(): bool
     {
-        return $this->field !== null;
+        return null !== $this->field;
     }
 }
