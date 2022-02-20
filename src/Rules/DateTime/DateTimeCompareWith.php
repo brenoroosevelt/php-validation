@@ -38,7 +38,7 @@ class DateTimeCompareWith extends AbstractRule
                     new DateTimeImmutable($input);
 
             return array_key_exists($this->other, $context)
-                && $this->compare($datetime, $this->operator, $other);
+                && $this->compare($datetime, $this->operator, $other());
         } catch (Throwable) {
             return false;
         }
