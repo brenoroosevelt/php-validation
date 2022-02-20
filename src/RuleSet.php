@@ -119,7 +119,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
 
     public function isEmpty(): bool
     {
-        return [] === $this->rules;
+        return [] == $this->rules;
     }
 
     /** @return Rule[] */
