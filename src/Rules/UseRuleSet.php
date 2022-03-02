@@ -11,6 +11,7 @@ use BrenoRoosevelt\Validation\Contracts\Stoppable;
 use BrenoRoosevelt\Validation\Priority;
 use BrenoRoosevelt\Validation\Contracts\Result;
 use BrenoRoosevelt\Validation\Contracts\Rule;
+use BrenoRoosevelt\Validation\RuleSet;
 use BrenoRoosevelt\Validation\RuleSetFactory;
 use BrenoRoosevelt\Validation\StopOnFailure;
 
@@ -32,6 +33,6 @@ class UseRuleSet implements Rule, Fieldable, Stoppable, Prioritable
 
     public function validate(mixed $input, array $context = []): Result
     {
-        return RuleSetFactory::fromProperty($this->objectOrClass, $this->property)->validate($input, $context);
+        return RuleSet::fromProperty($this->objectOrClass, $this->property)->validate($input, $context);
     }
 }
