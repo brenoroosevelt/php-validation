@@ -121,7 +121,7 @@ final class Validator
     public static function fromProperties(string|object $objectOrClass, ?int $filter = null): self
     {
         $instance = new self;
-        $instance->ruleSets = RuleSetFactory::fromProperties($objectOrClass, $filter);
+        $instance->ruleSets = RuleSet::fromProperties($objectOrClass, $filter);
         return $instance;
     }
 }
