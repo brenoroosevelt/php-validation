@@ -14,7 +14,7 @@ use ReflectionException;
 
 final class Validator
 {
-    use Guard;
+    use Guard, SortByPriority;
 
     /** @var RuleSet[] */
     private array $ruleSets;
@@ -49,7 +49,7 @@ final class Validator
 
     public function validate(array $data = []): ErrorReporting
     {
-        Priority::sortByPriority($this->ruleSets);
+        self::sortByPriority($this->ruleSets);
         $errorReporting = new ErrorReporting;
         foreach ($this->ruleSets as $field => $fieldRuleSet) {
             $fieldRuleSet = $fieldRuleSet->withField($field);

@@ -17,6 +17,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
 {
     use RuleSetFactory,
         RuleChain,
+        SortByPriority,
         BelongsToField,
         ValidateOrFail;
 
@@ -61,7 +62,7 @@ class RuleSet implements Rule, Fieldable, Prioritable
             return ErrorReporting::success();
         }
 
-        Priority::sortByPriority($this->rules);
+        self::sortByPriority($this->rules);
         $errorReporting = new ErrorReporting;
         foreach ($this->rules as $rule) {
             if ($rule instanceof Fieldable) {
